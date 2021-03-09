@@ -1,0 +1,163 @@
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Data Kontak Supplier</h6>
+            <a (click)="openModalSupplier(1)" id="btn-core">Tambah Supplier</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table *ngIf="tableSupplier" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                    <th id="head-table">Nama</th>
+                    <th id="head-table">Kode</th>
+                    <th id="head-table">Email</th>
+                    <th id="head-table">Telepon</th>
+                    <th id="head-table"></th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let item of dataApiSupplier.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.code}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>
+                        <img src="../../../../../assets/img/form/list.svg" id="img-form" class="dropdown-toggle" data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu">
+                            <a class="dropdown-item" id="item-order" (click)="showByIdSupplier(2,item.id)">Edit</a>
+                            <a class="dropdown-item" id="item-order" (click)="showByIdSupplier(3,item.id)">Hapus</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApiSupplier"></app-pagination>
+    </div>
+</div>
+
+<!-- MODAL -->
+<ng-template #modalSupplier let-modal>
+
+    <div class="modal-body">
+        <br>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+            <img src="../../../../../assets/img/form/contact.png" width="25">
+            <h6 class="card-title" *ngIf="btnSupplierActive == 1">Tambah Supplier</h6>
+            <h6 class="card-title" *ngIf="btnSupplierActive == 2">Edit Supplier</h6>
+            <h6 class="card-title" *ngIf="btnSupplierActive == 3">Hapus Supplier</h6>
+        </div>
+
+        <br>
+        <div id="border">
+            <div class="nav" id="myTab" role="tablist">
+                <a class="nav-link active" id="public-tab" data-toggle="tab" href="#public" role="tab">
+                    <span class="link-collapse">Umum</span>
+                </a>
+                <a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab">
+                    <span class="link-collapse">Alamat</span>
+                </a>
+                <a class="nav-link" id="accountBank-tab" data-toggle="tab" href="#accountBank" role="tab">
+                    <span class="link-collapse">Rekening</span>
+                </a>
+            </div>
+        </div>
+        <br>
+        <div class="tab-content" id="myTabContent">
+            <div [formGroup]="formSupplier" class="tab-pane fade show active" id="public" role="tabpanel" aria-labelledby="public-tab">
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" class="form-control" formControlName="name" (change)="setCodeSupplier($event)" [ngClass]="{ 'is-invalid': formSupplier.get('name').invalid && formSupplier.get('name').touched }">
+                    <div *ngIf="formSupplier.get('name').invalid && formSupplier.get('name').touched" class="invalid-feedback">
+                        <div>Nama harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input *ngIf="btnSupplierActive > 1" type="email" class="form-control" formControlName="email" readonly>
+                    <input *ngIf="btnSupplierActive == 1" type="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': formSupplier.get('email').invalid && formSupplier.get('email').touched }">
+                    <div *ngIf="formSupplier.get('email').invalid && formSupplier.get('email').touched" class="invalid-feedback">
+                        <div>Email harus diisi/sesuai format email</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Telepon</label>
+                    <input type="number" class="form-control" formControlName="phone" [ngClass]="{ 'is-invalid': formSupplier.get('phone').invalid && formSupplier.get('phone').touched }">
+                    <div *ngIf="formSupplier.get('phone').invalid && formSupplier.get('phone').touched" class="invalid-feedback">
+                        <div>Telepon harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kode Kontak</label>
+                    <input *ngIf="btnSupplierActive == 1" type="text" class="form-control" formControlName="code" [ngClass]="{ 'is-invalid': formSupplier.get('code').invalid && formSupplier.get('code').touched }">
+                    <input *ngIf="btnSupplierActive > 1" type="text" class="form-control" formControlName="code" readonly>
+                    <div *ngIf="formSupplier.get('code').invalid && formSupplier.get('code').touched" class="invalid-feedback">
+                        <div>Code harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="is_active">
+                        <span class="slider round"></span>
+                    </label>
+                    <label id="label-switch">
+                        Aktif</label>
+                </div>
+            </div>
+            <div [formGroup]="formSupplier" class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                <div class="form-group">
+                    <label>Alamat Lengkap</label>
+                    <input type="text" class="form-control" formControlName="address" [ngClass]="{ 'is-invalid': formSupplier.get('address').invalid && formSupplier.get('address').touched }">
+                    <div *ngIf="formSupplier.get('address').invalid && formSupplier.get('address').touched" class="invalid-feedback">
+                        <div>Alamat harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kota/Kecamatan</label>
+                    <input type="text" class="form-control" formControlName="location" [ngClass]="{ 'is-invalid': formSupplier.get('location').invalid && formSupplier.get('location').touched }">
+                    <div *ngIf="formSupplier.get('location').invalid && formSupplier.get('location').touched" class="invalid-feedback">
+                        <div>Kota/Kecamatan harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kode Pos</label>
+                    <input type="number" class="form-control" formControlName="postalcode" [ngClass]="{ 'is-invalid': formSupplier.get('postalcode').invalid && formSupplier.get('postalcode').touched }">
+                    <div *ngIf="formSupplier.get('postalcode').invalid && formSupplier.get('postalcode').touched" class="invalid-feedback">
+                        <div>Kode Pos harus diisi</div>
+                    </div>
+                </div>
+            </div>
+            <div [formGroup]="formBank" class="tab-pane fade" id="accountBank" role="tabpanel" aria-labelledby="accountBank-tab">
+                <div class="form-group">
+                    <label>Nama Bank</label>
+                    <ng-select placeholder="Select item" [searchable]="true" [clearable]="true" formControlName="master_bank_id">
+                        <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataBank.data">
+                            {{item.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group">
+                    <label>Nomor Rekening</label>
+                    <input type="number" class="form-control" formControlName="accountno">
+                </div>
+                <div class="form-group">
+                    <label>Atas Nama</label>
+                    <input type="text" class="form-control" formControlName="accountname">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="btn-save" *ngIf="btnSupplierActive == 1" (click)="saveSupplier()">Save</button>
+        <button type="button" id="btn-save" *ngIf="btnSupplierActive == 2" (click)="updateSupplier()">Update</button>
+        <button type="button" id="btn-save" *ngIf="btnSupplierActive == 3" (click)="deleteSupplier()">Delete</button>
+        <button type="button" id="btn-cancel" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+</ng-template>

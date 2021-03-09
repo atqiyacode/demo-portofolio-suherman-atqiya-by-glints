@@ -1,0 +1,387 @@
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Data Kontak Customer</h6>
+            <a (click)="openModalCustomer(1)" id="btn-core">Tambah Customer</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table" id="table-module" *ngIf="tableCustomer">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg"
+                                alt="minus"></div>
+                    </th>
+                    <th id="head-table">Nama</th>
+                    <th id="head-table">Kode</th>
+                    <th id="head-table">Email</th>
+                    <th id="head-table">Telepon</th>
+                    <th id="head-table"></th>
+                </tr>
+            </thead>
+            <tbody id="tableApi">
+                <tr *ngFor="let item of dataApiCustomer.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check">
+                        </div>
+                    </td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.code}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>
+                        <img src="../../../../../assets/img/form/list.svg" id="img-form" class="dropdown-toggle"
+                            data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu">
+                            <a class="dropdown-item" id="item-order" (click)="showByIdCustomer(2,item.id)">Edit</a>
+                            <a class="dropdown-item" id="item-order" (click)="showByIdCustomer(3,item.id)">Hapus</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApiCustomer"></app-pagination>
+    </div>
+</div>
+
+<ng-template #modalCustomer let-modal>
+    <div class="modal-body">
+        <br>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar"
+            aria-label="Toolbar with button groups">
+            <img src="../../../../../assets/img/form/contact.png" width="25">
+            <h6 class="card-title" *ngIf="btnCustomerActive == 1">Tambah Kontak</h6>
+            <h6 class="card-title" *ngIf="btnCustomerActive == 2 || btnCustomerActive == 4">Edit Kontak</h6>
+            <h6 class="card-title" *ngIf="btnCustomerActive == 3">Hapus Kontak</h6>
+        </div>
+
+        <br>
+        <div id="border">
+            <div class="nav" id="myTab" role="tablist">
+                <a class="nav-link active" id="public-tab" data-toggle="tab" href="#public" role="tab">
+                    <span class="link-collapse">Umum</span>
+                </a>
+                <a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab">
+                    <span class="link-collapse">Alamat</span>
+                </a>
+                <a class="nav-link" id="accountBank-tab" data-toggle="tab" href="#accountBank" role="tab">
+                    <span class="link-collapse">Rekening</span>
+                </a>
+            </div>
+        </div>
+        <br>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="public" role="tabpanel" aria-labelledby="public-tab">
+                <form [formGroup]="formCreateCustomer">
+                    <div class="form-group">
+                        <label>Kode Kontak</label>
+                        <input *ngIf="btnCustomerActive == 1" type="text" class="form-control" formControlName="code"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('code').invalid && formCreateCustomer.get('code').touched }">
+                        <input *ngIf="btnCustomerActive > 1" type="text" class="form-control" formControlName="code"
+                            readonly>
+                        <div *ngIf="formCreateCustomer.get('code').invalid && formCreateCustomer.get('code').touched"
+                            class="invalid-feedback">
+                            <div>Code harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama PIC</label>
+                        <input type="text" class="form-control" formControlName="pic_name"
+                            (change)="setCodeCust($event)"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('pic_name').invalid && formCreateCustomer.get('pic_name').touched }">
+                        <div *ngIf="formCreateCustomer.get('pic_name').invalid && formCreateCustomer.get('pic_name').touched"
+                            class="invalid-feedback">
+                            <div>Nama pic harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kontak PIC</label>
+                        <input type="number" class="form-control" formControlName="pic_phone"
+                            (change)="setCodeCust($event)"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('pic_phone').invalid && formCreateCustomer.get('pic_phone').touched }">
+                        <div *ngIf="formCreateCustomer.get('pic_phone').invalid && formCreateCustomer.get('pic_phone').touched"
+                            class="invalid-feedback">
+                            <div>Kontak pic harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Toko</label>
+                        <input type="text" class="form-control" formControlName="name" (change)="setCodeCust($event)"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('name').invalid && formCreateCustomer.get('name').touched }">
+                        <div *ngIf="formCreateCustomer.get('name').invalid && formCreateCustomer.get('name').touched"
+                            class="invalid-feedback">
+                            <div>Nama toko harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Perusahaan</label>
+                        <input type="text" class="form-control" formControlName="company_name">
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Email Toko</label>
+                        <input type="email" class="form-control" formControlName="email"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('email').invalid && formCreateCustomer.get('email').touched }">
+                        <div *ngIf="formCreateCustomer.get('email').invalid && formCreateCustomer.get('email').touched"
+                            class="invalid-feedback">
+                            <div>Email harus diisi/sesuai format email</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>No Telepon Toko</label>
+                        <input type="number" class="form-control" formControlName="phone"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('phone').invalid && formCreateCustomer.get('phone').touched }">
+                        <div *ngIf="formCreateCustomer.get('phone').invalid && formCreateCustomer.get('phone').touched"
+                            class="invalid-feedback">
+                            <div>No telepon toko harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Perusahaan Memiliki NPWP?</label>
+                        <ng-select [items]="quosioner.data" bindLabel="name" bindValue="id" formControlName="has_npwp"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('has_npwp').invalid && formCreateCustomer.get('has_npwp').touched }">
+                        </ng-select>
+                        <div *ngIf="formCreateCustomer.get('has_npwp').invalid && formCreateCustomer.get('has_npwp').touched"
+                            class="invalid-feedback">
+                            <div>Harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>No NPWP</label>
+                        <input type="text" class="form-control" formControlName="npwp_no"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('npwp_no').invalid }">
+                        <div *ngIf="formCreateCustomer.get('npwp_no').invalid" class="invalid-feedback">
+                            No npwp harus diisi
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Tahun Berdiri Toko</label>
+                        <input type="number" class="form-control" formControlName="established"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('established').invalid && formCreateCustomer.get('established').touched }">
+                        <div *ngIf="formCreateCustomer.get('established').invalid && formCreateCustomer.get('established').touched"
+                            class="invalid-feedback">
+                            <div>Tahun Berdiri Toko harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Pernah Menjadi Customer GA Pratama Sebelumnya</label>
+                        <ng-select [items]="quosioner.data" bindLabel="name" bindValue="id"
+                            formControlName="is_customer"
+                            [ngClass]="{ 'is-invalid': formCreateCustomer.get('is_customer').invalid && formCreateCustomer.get('is_customer').touched }">
+                        </ng-select>
+                        <div *ngIf="formCreateCustomer.get('is_customer').invalid && formCreateCustomer.get('is_customer').touched"
+                            class="invalid-feedback">
+                            <div>Harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Default Salesman</label>
+                        <ng-select [searchable]="true" [clearable]="true" formControlName="master_sales_id">
+                            <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataSales.data">
+                                {{item.name}}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="is_active">
+                            <span class="slider round"></span>
+                        </label>
+                        <label id="label-switch">
+                            Aktif</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="cicilan_by_tenant">
+                            <span class="slider round"></span>
+                        </label>
+                        <label id="label-switch">
+                            Cicilan By Tenant</label>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                <form [formGroup]="formAddressCompany">
+                    <div class="form-group">
+                        <h6>Alamat Toko/Kantor</h6>
+                    </div><br>
+                    <div class="form-group">
+                        <label>Jalan</label>
+                        <input type="text" class="form-control" formControlName="street"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('street').invalid && formAddressCompany.get('street').touched }">
+                        <div *ngIf="formAddressCompany.get('street').invalid && formAddressCompany.get('street').touched"
+                            class="invalid-feedback">
+                            <div>Alamat harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Perumahan/Nama Tempat</label>
+                        <input type="text" class="form-control" formControlName="place_name"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('place_name').invalid && formAddressCompany.get('place_name').touched }">
+                        <div *ngIf="formAddressCompany.get('place_name').invalid && formAddressCompany.get('place_name').touched"
+                            class="invalid-feedback">
+                            <div>Nama perumahan/nama tempat harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>RT</label>
+                        <input type="text" class="form-control" formControlName="rt"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('rt').invalid && formAddressCompany.get('rt').touched }">
+                        <div *ngIf="formAddressCompany.get('rt').invalid && formAddressCompany.get('rt').touched"
+                            class="invalid-feedback">
+                            <div>RT harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>RW</label>
+                        <input type="text" class="form-control" formControlName="rw"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('rw').invalid && formAddressCompany.get('rw').touched }">
+                        <div *ngIf="formAddressCompany.get('rw').invalid && formAddressCompany.get('rw').touched"
+                            class="invalid-feedback">
+                            <div>RW harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kelurahan/Desa</label>
+                        <input type="text" class="form-control" formControlName="kelurahan"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('kelurahan').invalid && formAddressCompany.get('kelurahan').touched }">
+                        <div *ngIf="formAddressCompany.get('kelurahan').invalid && formAddressCompany.get('kelurahan').touched"
+                            class="invalid-feedback">
+                            <div>Kelurahan/Desa harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kecamatan</label>
+                        <input type="text" class="form-control" formControlName="kecamatan"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('kecamatan').invalid && formAddressCompany.get('kecamatan').touched }">
+                        <div *ngIf="formAddressCompany.get('kecamatan').invalid && formAddressCompany.get('kecamatan').touched"
+                            class="invalid-feedback">
+                            <div>Kecamatan harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kota/Kabupaten</label>
+                        <input type="text" class="form-control" formControlName="city"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('city').invalid && formAddressCompany.get('city').touched }">
+                        <div *ngIf="formAddressCompany.get('city').invalid && formAddressCompany.get('city').touched"
+                            class="invalid-feedback">
+                            <div>Kota/Kabupaten harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Provinsi</label>
+                        <input type="text" class="form-control" formControlName="province"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('province').invalid && formAddressCompany.get('province').touched }">
+                        <div *ngIf="formAddressCompany.get('province').invalid && formAddressCompany.get('province').touched"
+                            class="invalid-feedback">
+                            <div>Provinsi harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kode Pos</label>
+                        <input type="text" class="form-control" formControlName="postalcode"
+                            [ngClass]="{ 'is-invalid': formAddressCompany.get('postalcode').invalid && formAddressCompany.get('postalcode').touched }">
+                        <div *ngIf="formAddressCompany.get('postalcode').invalid && formAddressCompany.get('postalcode').touched"
+                            class="invalid-feedback">
+                            <div>Kode pos harus diisi</div>
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <div class="form-group">
+                    <h6>Alamat Pengirim</h6>
+                </div><br>
+                <form [formGroup]="formAddressDelivery">
+                    <div class="form-group">
+                        <label>Nama Penerima</label>
+                        <input type="text" class="form-control" formControlName="recipient_name"
+                            [ngClass]="{ 'is-invalid': formAddressDelivery.get('recipient_name').invalid && formAddressDelivery.get('recipient_name').touched }">
+                        <div *ngIf="formAddressDelivery.get('recipient_name').invalid && formAddressDelivery.get('recipient_name').touched"
+                            class="invalid-feedback">
+                            <div>Nama Penerima harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kontak Penerima</label>
+                        <input type="number" class="form-control" formControlName="phone"
+                            [ngClass]="{ 'is-invalid': formAddressDelivery.get('phone').invalid && formAddressDelivery.get('phone').touched }">
+                        <div *ngIf="formAddressDelivery.get('phone').invalid && formAddressDelivery.get('phone').touched"
+                            class="invalid-feedback">
+                            <div>Kontak Penerima harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Lengkap</label>
+                        <textarea formControlName="address" cols="10" rows="3" class="form-control"
+                            [ngClass]="{ 'is-invalid': formAddressDelivery.get('address').invalid && formAddressDelivery.get('address').touched }"></textarea>
+                        <div *ngIf="formAddressDelivery.get('address').invalid && formAddressDelivery.get('address').touched"
+                            class="invalid-feedback">
+                            <div>Alamat Pengirim harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kecamatan</label>
+                        <input type="text" class="form-control" (keyup)="searchLocation(2,$event)"
+                            formControlName="location"
+                            [ngClass]="{ 'is-invalid': formAddressDelivery.get('location').invalid && formAddressDelivery.get('location').touched }">
+                        <div id="form-select" *ngIf="dropdownSelect2">
+                            <div id="dropdown-search" class="dropdown-item"
+                                *ngFor="let item of dataSelectLocationDlv.data" (click)="setValLocationCustDlv(item)">
+                                {{item.label}}</div>
+                        </div>
+                        <div *ngIf="formAddressDelivery.get('location').invalid && formAddressDelivery.get('location').touched"
+                            class="invalid-feedback">
+                            <div>Kota/Kecamatan harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kode Pos</label>
+                        <input type="number" class="form-control" formControlName="postalcode"
+                            [ngClass]="{ 'is-invalid': formAddressDelivery.get('postalcode').invalid && formAddressDelivery.get('postalcode').touched }">
+                        <div *ngIf="formAddressDelivery.get('postalcode').invalid && formAddressDelivery.get('postalcode').touched"
+                            class="invalid-feedback">
+                            <div>Kode Pos harus diisi</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="accountBank" role="tabpanel" aria-labelledby="accountBank-tab">
+                <form [formGroup]="formBank">
+                    <div class="form-group">
+                        <label>Nama Bank</label>
+                        <ng-select placeholder="Select item" [searchable]="true" [clearable]="true"
+                            formControlName="master_bank_id">
+                            <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataBank.data">
+                                {{item.name}}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor Rekening</label>
+                        <input type="number" class="form-control" formControlName="accountno">
+                    </div>
+                    <div class="form-group">
+                        <label>Atas Nama</label>
+                        <input type="text" class="form-control" formControlName="accountname">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div id="btn-footer">
+            <button type="button" id="btn-save" *ngIf="btnCustomerActive == 1" (click)="saveCustomer()">Simpan</button>
+            <button type="button" id="btn-save" *ngIf="btnCustomerActive == 2"
+                (click)="updateCustomer()">Edit</button>
+            <button type="button" id="btn-save" *ngIf="btnCustomerActive == 3" (click)="deleteCustomer()">Hapus</button>
+            <button type="button" id="btn-save" *ngIf="btnCustomerActive == 4"
+                (click)="setStatusCustomer(1)">Approved</button>
+            <button type="button" id="btn-save" *ngIf="btnCustomerActive == 4"
+                (click)="setStatusCustomer(0)">Rejected</button>
+            <button type="submit" id="btn-cancel" *ngIf="btnCustomerActive != 4"
+                (click)="modal.close('Save click')">Batalkan</button>
+        </div>
+
+    </div>
+</ng-template>

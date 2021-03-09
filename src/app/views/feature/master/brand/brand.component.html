@@ -1,0 +1,100 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<div class="card" id="cardFormModule">
+    <div class="card-body" style="border-bottom: 1px solid #DBDBDB;">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Data Brand</h6>
+            <a (click)="openModal(0,1)" id="btn-core">Tambah Brand</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table *ngIf="table" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                    <th id="head-table">Kode</th>
+                    <th id="head-table">Nama Brand</th>
+                    <th id="head-table">Status</th>
+                    <th id="head-table">Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let item of dataApi.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>{{item.code}}</td>
+                    <td>{{item.name}}</td>
+                    <td>
+                        <p *ngIf="item.is_active == 1" id="approved">Aktif</p>
+                        <p *ngIf="item.is_active != 1" id="denied">Non Aktif</p>
+                    </td>
+                    <td>
+                        <img src="../../../../assets/img/form/ellipsis.svg" alt="icon" id="icon-testimonial" class="dropdown-toggle" data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu" aria-labelledby="icon-testimonial">
+                            <a class="dropdown-item" id="item-order" (click)="openModal(item.id,2)">Edit</a>
+                            <a class="dropdown-item" id="item-order" (click)="openModal(item.id,3)">Hapus</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApi"></app-pagination>
+    </div>
+</div>
+
+<ng-template #modal let-modal>
+    <div class="modal-body">
+
+        <form [formGroup]="formCreate">
+            <br>
+            <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+                <h6 class="card-title" *ngIf="btnActive == 1">Tambah Brand</h6>
+                <h6 class="card-title" *ngIf="btnActive == 2">Edit Brand</h6>
+                <h6 class="card-title" *ngIf="btnActive == 3">Hapus Brand</h6>
+            </div>
+            <br>
+            <div id="myTabContent">
+                <div class="form-row">
+                    <label>Nama Brand</label>
+                    <input type="text" class="form-control" formControlName="name" (click)="stopValid()">
+                </div><br>
+                <div class="form-row">
+                    <form *ngIf="dataImageBrand == null" id="file-upload-form" class="uploader">
+                        <input #fileLogo id="file-upload" type="file" accept="image/*" (change)="imageBrand(fileLogo.files)" (click)="stopValid()">
+                        <label for="file-upload" id="file-upload">
+                            <img src="../../../../assets/img/form/add-image.svg" alt="logo">
+                        </label>
+                    </form>
+                    <div *ngIf="dataImageBrand != null">
+                        <button *ngIf="btnActive != 3" id="btn-remove-banner" type="button" class="close" aria-label="Close" (click)="removeImageBrand()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <img [src]="dataImageBrand" id="imgUpload">
+                    </div>
+                </div>
+                <br>
+                <div class="form-group row col-sm-12">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="is_active">
+                        <span class="slider round"></span>
+                    </label>
+                    <label id="label-switch">
+                        Aktif</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p id="txt-valid-form" *ngIf="valid == 1">{{msgValid}}</p>
+    <div class="modal-footer">
+        <div id="btn-footer">
+            <button type="button" id="btn-save" *ngIf="btnActive == 1" (click)="submit()">Simpan</button>
+            <button type="button" id="btn-save" *ngIf="btnActive == 2" (click)="submit()">Edit</button>
+            <button type="button" id="btn-save" *ngIf="btnActive == 3" (click)="submit()">Hapus</button>
+            <button type="submit" id="btn-cancel" (click)="modal.dismiss('Cross click')">Batalkan</button>
+        </div>
+
+    </div>
+</ng-template>

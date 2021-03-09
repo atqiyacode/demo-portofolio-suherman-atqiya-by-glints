@@ -1,0 +1,317 @@
+a{
+    text-decoration: none;
+    color: #333;
+}
+
+a.sidebar-content-setting.active{
+    font-weight: bold;
+    color: #000;
+    border-right: 3px solid #FFC35B;
+}
+
+.nav-link.active{
+    font-weight: bold;
+    color: #333;
+}
+
+#txt-logo {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+  }
+  .uploader label {
+  /* float: left; */
+  /* clear: both; */
+    width: 186px;
+    height: 186px;
+    text-align: center;
+    background: #FBF8FF;
+    border-radius: 10px;
+    border: 1px solid #8F8FAC;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  .uploader input[type="file"] {
+  display: none;
+  }
+  #file-upload img {
+  margin-top: 65px;
+  margin-left: auto;
+  margin-right: auto;
+  }
+  
+  #file-banner0 img, #file-banner1 img, #file-banner2 img, #file-banner3 img, #file-banner4 img{
+    margin-top: 72px;
+  }
+  
+  #imgUpload {
+  display: block;
+  clear: both;
+  width: 186px;
+  height: 186px;
+  float: left;
+  border-radius: 10px;
+  box-sizing: border-box;
+  }
+
+/* made by atqiya */
+.square img {
+    width:100%;
+    height: 230px;
+}
+
+.text-main{
+    color: #FF785B;
+}
+
+.btn-main {
+    border: 1px solid #FF785B;
+    color: #ffffff;
+    border-radius: 10px;
+    float: left;
+}
+
+.btn-main-static {
+    background-color: #FF785B;
+    border: 1px solid #FF785B;
+    color: #ffffff;
+    border-radius: 10px;
+    float: left;
+}
+
+.btn-main:hover {
+    background-color: #ffffff;
+    border: 1px solid #FF785B;
+    color: #FF785B;
+    border-radius: 10px;
+    float: left;
+}
+
+.btn-main-danger {
+    background-color: #eea4a4;
+    border: 1px solid #fc0404;
+    color: #fc0404;
+    border-radius: 10px;
+    float: left;
+}
+
+.btn-second-main {
+    background-color: #FFFFFF;
+    border: 1px solid #333;
+    color: #333333;
+    border-radius: 10px;
+    float: left;
+}
+
+.btn-outline-main {
+    background-color: #ffffff;
+    border: 1px solid #FF785B;
+    color: #FF785B;
+    border-radius: 10px;
+}
+
+.btn-outline-second-main {
+    background-color: #FFFFFF;
+    border: 1px solid #333;
+    color: #333333;
+    border-radius: 10px;
+}
+
+.b-10{
+    border-radius: 10px;
+}
+
+.master-link-item{
+    color: #FF785B;
+}
+
+.new-pagination{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-pagination button.active{
+    background-color: #aec0b9;
+    color: #000000;
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
+
+.limit-word{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 1px;
+    bottom: 1px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #FF785B;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #FF785B;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(19px);
+    -ms-transform: translateX(19px);
+    transform: translateX(19px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.btn-pointer{
+    cursor: pointer;
+}
+
+.discount-tab {
+    padding: 2px;
+}
+
+.discount-tab.active {
+    border-bottom: 3px solid #FFC35B;
+}
+
+.btn-circle.btn-sm { 
+    width: 30px; 
+    height: 30px; 
+    padding: 6px 0px; 
+    border-radius: 15px; 
+    font-size: 12px; 
+} 
+.btn-circle.btn-md { 
+    width: 50px; 
+    height: 50px; 
+    padding: 7px 10px; 
+    border-radius: 25px; 
+    font-size: 10px; 
+} 
+.btn-circle.btn-xl { 
+    width: 70px; 
+    height: 70px; 
+    padding: 10px 16px; 
+    border-radius: 35px; 
+    font-size: 12px; 
+}
+
+/* The customcheck */
+.customcheck {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.customcheck input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 5px;
+}
+
+/* On mouse-over, add a grey background color */
+.customcheck:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.customcheck input:checked ~ .checkmark {
+    background-color: #FF785B;
+    border-radius: 5px;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.customcheck input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.customcheck .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.badge-main{
+    background-color: #FF785B;
+    color: #ffffff;
+}

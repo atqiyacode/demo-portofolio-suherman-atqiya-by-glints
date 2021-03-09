@@ -1,0 +1,14 @@
+<a [routerLink]="urlPage">   
+    <div class="flip" [style.background-color]="color">
+        <div class="front">
+            <div class="d-flex justify-content-center">
+                <img src="{{icon}}" alt="Avatar">
+            </div><br>
+            <p class="text-shadow">{{title}}</p>
+        </div>
+        <div class="back" [style.background-color]="color">
+           <h4>{{title}}</h4>
+           <p>{{desc}}</p>
+        </div>
+    </div>
+</a>

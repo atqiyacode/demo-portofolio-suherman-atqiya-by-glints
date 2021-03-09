@@ -1,0 +1,471 @@
+<!-- first form diskon -->
+<div *ngIf="formActive == 1" class="container-fluid">
+  <p>
+    <span class="btn-pointer" (click)="onCancel()">Discount Page</span>
+    <i class="fas fa-angle-right fa-sm fa-fw text-main"></i>
+    <span class="font-weight-bold">Buat Diskon Baru</span>
+  </p>
+  <div class="card">
+    <div class="card-header bg-white">
+      <div class="row">
+        <div class="col-md-4">
+          <p class="btn btn-main-static btn-circle btn-sm float-right">1</p>
+        </div>
+        <div class="col-md-4 text-center border-black">
+          <i class="fa fa-angle"></i>
+          <hr>
+        </div>
+        <div class="col-md-4">
+          <p class="btn btn-outline-main btn-circle btn-sm float-left">2</p>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <p class="font-weight-bold text-center">
+            Rincian Promosi
+          </p>
+        </div>
+
+        <div class="col-md-5">
+          <p class="text-muted text-center">
+            Pilih Produk
+          </p>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+
+    <div [formGroup]="formNewDiscount">
+      <div class="card-body">
+        <h6 class="font-weight-bold mb-3">Rincian Informasi</h6>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label class="small">Nama Promosi</label>
+            <input type="text" class="form-control b-10" placeholder="Nama Promosi" formControlName="name"
+              [ngClass]="{'is-invalid': formNewDiscount.get('name').errors && (formNewDiscount.get('name').touched || formNewDiscount.get('name').dirty)}">
+            <div class="invalid-feedback" *ngIf="formNewDiscount.get('name').errors">
+              Nama Promosi Wajib Diisi
+            </div>
+          </div>
+        </div>
+        <div formGroupName="period">
+          <div class="form-group row">
+
+            <div class="col-sm-12 font-weight-bold text-danger mb-2" *ngIf="alertValidDate">
+              <small>
+                {{messageValidDate}}
+              </small>
+            </div>
+
+            <div class="col-md-6">
+              <label class="small">Mulai Masa Promosi</label>
+              <input type="datetime-local" class="form-control b-10" placeholder="Tanggal Mulai Masa Promosi"
+                formControlName="from"
+                [ngClass]="{'is-invalid': formNewDiscount.get('period.from').errors && (formNewDiscount.get('period.from').touched || formNewDiscount.get('period.from').dirty)}">
+              <div class="invalid-feedback" *ngIf="formNewDiscount.get('period.from').errors">
+                Tanggal awal Promosi Wajib Diisi
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="small">Batas Akhir Promosi</label>
+              <input type="datetime-local" class="form-control b-10" placeholder="Batas Masa Promosi"
+                formControlName="to"
+                [ngClass]="{'is-invalid': formNewDiscount.get('period.to').errors && (formNewDiscount.get('period.to').touched || formNewDiscount.get('period.to').dirty)}">
+              <div class="invalid-feedback" *ngIf="formNewDiscount.get('period.to').errors">
+                Tanggal Akhir Promosi Wajib Diisi
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <p class="small mb-3">
+          <span class="font-weight-bold">Upload gambar banner diskon (untuk desktop & mobile).</span> Dimensi yang
+          disarankan : 379 px * 505 px
+        </p>
+
+        <div *ngIf="previewBanner == false">
+          <input #fileBanner id="input-banner-discount" type="file" accept="image/*" hidden
+            (change)="imageBanner(fileBanner.files)">
+          <label for="input-banner-discount" class="align-self-center">
+            <img src="../../../../assets/img/form/add-image.svg" width="190x" height="250px"
+              class="b-10 align-self-center img-thumbnail" for="input-banner-discount">
+          </label>
+        </div>
+
+        <div *ngIf="previewBanner == true">
+          <input #fileBanner id="input-banner-discount" type="file" accept="image/*" hidden
+            (change)="imageBanner(fileBanner.files)">
+          <label for="input-banner-discount" class="justify-content-center">
+            <div class="card shadow-md" max-hight="250px">
+              <img [src]="bannerImageView" height="250px" for="input-banner-discount">
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="card-footer bg-white">
+        <div class="row">
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-main-static my-2" (click)="nextForm()"
+              *ngIf="!alertValidDate && firstForm">
+              Simpan & Lanjutkan
+            </button>
+          </div>
+          <div class="col-sm-6">
+            <button class="btn btn-outline-main float-right my-2" (click)="onCancel()">
+              Batalkan Semua Proses
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="formActive == 0" class="container-fluid">
+  <p>
+    <span class="btn-pointer" (click)="onCancel()">Discount Page</span>
+    <i class="fas fa-angle-right fa-sm fa-fw text-main"></i>
+    <span class="font-weight-bold">Buat Diskon Baru</span>
+  </p>
+  <div class="card">
+    <div class="card-header bg-white">
+      <div class="row">
+        <div class="col-md-4">
+          <p class="btn btn-main-static btn-circle btn-sm float-right">1</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <hr>
+        </div>
+        <div class="col-md-4">
+          <p class="btn btn-main-static btn-circle btn-sm float-left">2</p>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <p class="font-weight-bold text-center">
+            Rincian Promosi
+          </p>
+        </div>
+
+        <div class="col-md-5">
+          <p class="font-weight-bold text-center">
+            Pilih Produk
+          </p>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+
+    </div>
+
+    <div class="card-body">
+      <h6 class="font-weight-bold mb-3">
+        {{discountTitle}}
+      </h6>
+      <div class="form-group row">
+        <div class="col-sm-2">
+          <label class="small">Nama Promosi</label>
+        </div>
+        <div class="col-sm-10">
+          <span class="font-weight-bold">
+            {{discountRangeDate}}
+          </span>
+        </div>
+      </div>
+      <ng-container *ngIf="productConfirmed.length > 0; else elseTemplate">
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label class="">Produk Pilihan</label>
+          </div>
+          <div class="col-sm-8 text-right">
+            <label>
+              <button class="btn btn-sm btn-second-main" (click)="searchProduct()">
+                <i class="fas fa-plus"></i> Tambah Produk
+              </button>
+            </label>
+          </div>
+          <div class="col-sm-12">
+            <table class="table table-borderless table-striped text-center">
+              <tbody>
+                <tr>
+                  <th colspan="2" class="text-left" width="40%">
+                    Nama Produk
+                  </th>
+                  <th class="align-middle" width="15%">Harga Awal</th>
+                  <th class="align-middle" width="15%">Harga Sale</th>
+                  <th class="align-middle" width="10%">Diskon</th>
+                  <th class="align-middle">Status</th>
+                  <th class="align-middle">Aksi</th>
+                </tr>
+                <tr *ngFor="let item of productConfirmed | paginate: productConfig; let i=index">
+                  <td>
+                    <img style="object-fit: contain; height: 100px;" src="{{item.image_url}}" alt="product-image">
+                  </td>
+                  <td class="small text-left">
+                    <b>{{item.sku}}</b>
+                    <br>
+                    {{item.product_name}}
+                  </td>
+                  <td class="align-middle">{{item.sell_price | currency:'Rp ':'symbol':'1.0'}}</td>
+                  <td class="align-middle">
+                    <input class="form-control b-10" currencyMask [options]="{ prefix: 'Rp. ', thousands: '.', decimal: ',', align: 'right', allowNegative: false,
+                    allowZero: true }" [(ngModel)]="item.disc_price" (keyup)="updatePrice(item)"
+                      name="price{{item.id}}">
+                  </td>
+                  <td class="align-middle">
+                    <input class="form-control b-10" currencyMask [options]="{ suffix: '' + '%', align: 'right', allowNegative: false,
+                  allowZero: true}" [(ngModel)]="item.discount" (keyup)="updateDisc(item.id)" name="disc{{i}}"
+                      aria-label="discount">
+                  </td>
+
+                  <td class="align-middle">
+                    <label class="switch">
+                      <input type="checkbox" [(ngModel)]="item.is_active" name="{{item.id}}">
+                      <span class="slider round"></span>
+                    </label>
+                  </td>
+                  <td class="align-middle">
+                    <a class="btn-pointer" (click)="deleteconfirmProduct(item,i)">
+                      <i class="fa fa-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 col-sm-3 d-flex">
+                  <div class="d-none d-sm-block">
+                    <small>Tampilkan per halaman</small>
+                  </div>
+                  <select (change)="onPageSizeChangeProduct($event)" [(ngModel)]="productConfig.itemsPerPage" class="form-control-sm b-10 mx-1">
+                    <option *ngFor="let discountPage of discountProductPageSizes">{{discountPage}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-8 col-sm-9">
+                  <pagination-template #p="paginationApi" [id]="productConfig.id" (pageChange)="onPageChangeProduct($event)">
+                    <div class="d-flex ">
+                      <span [class.disabled]="p.isFirstPage()" *ngIf="!p.isFirstPage()" (click)="p.previous()"
+                        class="px-3 mx-1 btn btn-sm btn-outline-secondary">
+                        Prev
+                      </span>
+                      <div *ngFor="let page of p.pages">
+                        <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value"
+                          class="mx-1 btn btn-sm btn-outline-secondary">
+                          {{ page.label }}
+                        </span>
+                        <div *ngIf="p.getCurrent() === page.value">
+                          <span class="mx-1 btn btn-sm btn-secondary font-weight-bold">
+                            {{ page.label }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="pagination-next" [class.disabled]="p.isLastPage()">
+                        <span class="px-3 mx-1 btn btn-sm btn-outline-secondary" *ngIf="!p.isLastPage()" (click)="p.next()"> Next
+                        </span>
+                      </div>
+                    </div>
+                  </pagination-template>
+                </div>
+              </div>
+            </div>
+
+            <div class="card card-body">
+              <h5 class="mb-3">Perubahan Massal</h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input currencyMask min="0" max="100" class="form-control b-10" placeholder="Besaran Diskon"
+                      aria-label="Besaran Diskon" aria-describedby="search-product-name" [(ngModel)]="setAllDisc">
+                    <div class="input-group-append">
+                      <span class="input-group-text bg-transparent b-10">% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8 text-right">
+                  <label>
+                    <button class="btn btn-outline-second-main mx-1" (click)="onChangeDisc()">
+                      Update Semua Produk
+                    </button>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label class="small">Produk Pilihan</label>
+          </div>
+          <div class="col-sm-12">
+            <div class="card card-body bg-white">
+              <div class="row justify-content-center">
+                <i class="fa fa-box fa-5x text-secondary my-3"></i>
+                <div class="col-sm-12 text-center">
+                  <button class="btn btn-outline-second-main b-10" (click)="searchProduct()">
+                    Tambah Produk
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="card-footer bg-white">
+      <div class="row">
+        <div class="col-sm-6">
+          <button class="btn btn-main-static my-2" (click)="onPushNewDiscount()"
+            *ngIf="productConfirmed.length > 0 && submitButton === true">
+            Simpan & Selesai
+          </button>
+        </div>
+        <div class="col-sm-6 text-right">
+          <label>
+            <button class="btn btn-sm btn-outline-secondary my-2 mx-1 b-10" (click)="prevForm()">
+              Kembali
+            </button>
+            <button class="btn btn-sm btn-outline-main my-2 mx-1" (click)="onCancel()">
+              Batalkan Promosi Ini
+            </button>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- add new product to diskon list -->
+<ng-template #modalSearchProduct let-modal>
+  <div class="card card-header">
+    <div class="row">
+      <div class="col-xl-6">
+        <span class="font-weight-bold">Pilih produk</span>
+      </div>
+      <div class="col-xl-6">
+        <button class="btn btn-main-static float-right b-10 ml-1" *ngIf="checkLength > 0"
+          (click)="confirmProduct(); modal.close('close modal')">
+          Konfirmasi
+        </button>
+        <button class="btn btn-outline-main ml-1 float-right b-10" (click)="modal.close('close modal')">
+          Batalkan
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <select [(ngModel)]="categoryFilter" (change)="filterProductList()" name="categoryFilter"
+            class="form-control b-10">
+            <option value="">Semua Kategori</option>
+            <option *ngFor="let item of dataCategories" value="{{item.id}}">{{item.name}}</option>
+          </select>
+        </div>
+        <div class="col-md-9">
+          <div class="input-group">
+            <input type="text" class="form-control b-10" [(ngModel)]="keyFilter" (change)="filterProductList()"
+              placeholder="Cari dengan nama produk" aria-label="Cari dengan nama produk"
+              aria-describedby="search-product-name" name="keyFilter">
+            <div class="input-group-append">
+              <button (click)="filterProductList()" class="btn btn-outline-main b-10" type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body b-10">
+      <ng-container *ngIf="secondaryProduct.length > 0;">
+        <table class="table table-borderless table-striped text-center" id="myTable">
+          <tbody>
+            <tr>
+              <th class="align-middle">
+                <div class="custom-control custom-checkbox" *ngIf="masterCheckbox">
+                  <input type="checkbox" class="custom-control-input" id="check-0" [(ngModel)]="isMasterSel"
+                    name="list_name" value="h1" (change)="checkUncheckAll()">
+                  <label class="custom-control-label" for="check-0"></label>
+                </div>
+              </th>
+              <th colspan="2" class="text-left" width="40%">
+                Nama Produk
+              </th>
+              <th class="align-middle">Penjualan</th>
+              <th class="align-middle">Harga</th>
+              <th class="align-middle">Stok</th>
+            </tr>
+
+            <tr *ngFor="let item of secondaryProduct | paginate: config">
+              <td class="align-middle">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="check-{{item.id}}" name="check-{{item.id}}"
+                    [(ngModel)]="item.isSelected" (change)="isAllSelected()" (click)="checkAddProduct(item.id)">
+                  <label class="custom-control-label" for="check-{{item.id}}"></label>
+                </div>
+              </td>
+              <td class="align-middle">
+                <img style="object-fit: contain; height: 100px;" src="{{item.image_url}}" alt="product-image">
+              </td>
+              <td class="small text-left">
+                <b>{{item.sku}}</b>
+                <br>
+                {{item.product_name}}
+              </td>
+              <td class="align-middle">{{item.stock_out | number}}</td>
+              <td class="align-middle">{{item.sell_price  | currency:'Rp ':'symbol':'1.0'}}</td>
+              <td class="align-middle">{{item.stock | number}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-md-4 col-sm-3 d-flex">
+              <div class="d-none d-sm-block">
+                <small>Tampilkan per halaman</small>
+              </div>
+              <select (change)="onPageSizeChange($event)" [(ngModel)]="config.itemsPerPage" class="form-control-sm b-10 mx-1">
+                <option *ngFor="let discountPage of discountPageSizes">{{discountPage}}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-8 col-sm-9">
+              <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="onPageChange($event)">
+                <div class="d-flex ">
+                  <span [class.disabled]="p.isFirstPage()" *ngIf="!p.isFirstPage()" (click)="p.previous()"
+                    class="px-3 mx-1 btn btn-sm btn-outline-secondary">
+                    Prev
+                  </span>
+                  <div *ngFor="let page of p.pages">
+                    <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value"
+                      class="mx-1 btn btn-sm btn-outline-secondary">
+                      {{ page.label }}
+                    </span>
+                    <div *ngIf="p.getCurrent() === page.value">
+                      <span class="mx-1 btn btn-sm btn-secondary font-weight-bold">
+                        {{ page.label }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="pagination-next" [class.disabled]="p.isLastPage()">
+                    <span class="px-3 mx-1 btn btn-sm btn-outline-secondary" *ngIf="!p.isLastPage()" (click)="p.next()"> Next
+                    </span>
+                  </div>
+                </div>
+              </pagination-template>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>

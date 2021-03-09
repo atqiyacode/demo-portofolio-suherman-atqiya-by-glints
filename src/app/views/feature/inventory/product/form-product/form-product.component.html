@@ -1,0 +1,643 @@
+<h5 id="title-product" *ngIf="btnShow == false">Tambah Produk</h5><br>
+<h5 id="title-product" *ngIf="btnShow == true">Edit Produk</h5><br>
+<!-- INFORMASI -->
+<div #divInformProduct class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Informasi Produk</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form-group row">
+            <p class="col-sm-3">Nama Produk</p>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" [formControl]="nameProduct" required (click)="stopValid()">
+                <p id="txt-valid-form"
+                    *ngIf="nameProduct.invalid && (nameProduct.dirty || nameProduct.touched) || divValidation == 1">Nama
+                    produk harus diisi</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <p class="col-sm-3">Kategori</p>
+            <div class="col-sm-5">
+                <ng-select placeholder="Select item" [searchable]="true" [clearable]="true" [formControl]="parentOld"
+                    (change)="changeSub1($event)" (change)="stopValid()">
+                    <ng-option [value]="item.id" [disabled]="item.disabled"
+                        *ngFor="let item of dataCategoryProduct.data">
+                        {{item.product_category_name}}
+                    </ng-option>
+                </ng-select>
+                <p id="txt-valid-form" *ngIf="parentOld.invalid && parentOld.touched || divValidation == 2">Kategori
+                    harus diisi</p>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="selectCategory >= 2">
+            <p class="col-sm-3"></p>
+            <div class="col-sm-5">
+                <ng-select placeholder="Select item" [searchable]="true" [clearable]="true" [formControl]="parentNew"
+                    (change)="changeSub2($event)" (change)="stopValid()">
+                    <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataSubCategory1">
+                        {{item.product_category_name}}
+                    </ng-option>
+                </ng-select>
+                <p id="txt-valid-form" *ngIf="parentNew.invalid && parentNew.touched || divValidation == 3">Sub kategori
+                    harus diisi</p>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="selectCategory >= 3">
+            <p class="col-sm-3"></p>
+            <div class="col-sm-5">
+                <ng-select placeholder="Select item" [searchable]="true" [clearable]="true"
+                    [formControl]="productCategoryId" (change)="stopValid()">
+                    <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataSubCategory2">
+                        {{item.product_category_name}}
+                    </ng-option>
+                </ng-select>
+                <p id="txt-valid-form"
+                    *ngIf="productCategoryId.invalid && productCategoryId.touched || divValidation == 4">Sub kategori
+                    harus diisi</p>
+            </div>
+        </div>
+    </div>
+</div><br>
+<!-- GAMBAR PRODUK -->
+<div #divImageProduct class="card" id="cardFormModule">
+    <div class="card-body">
+        <div>
+            <h6 class="card-title">Upload Gambar Produk</h6>
+            <p id="txt-valid-form" *ngIf="divValidation == 5">Gambar produk harus diisi</p>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form-group row">
+            <div class="col-3" *ngFor="let itemNew of dataImageMain;let i = index">
+                <div *ngIf="itemNew.image_url == null" id="file-upload-form" class="uploader">
+                    <input #fileBan type="file" id="file-banner{{i}}" name="banner{{i}}" accept="image/*" multiple=""
+                        (change)="imageProductNew(i,fileBan.files)">
+                    <label for="file-banner{{i}}" id="file-banner{{i}}">
+                        <img src="../../../../assets/img/form/add-image.svg" id="logo-img" alt="logo">
+                    </label>
+                </div>
+                <div *ngIf="itemNew.image_url != null" class="uploader">
+                    <button id="btn-remove-banner" type="button" class="close" aria-label="Close"
+                        (click)="removeImageProductNew(itemNew.id,i)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <img [src]="itemNew.image_url" id="imgUpload">
+                </div>
+            </div>
+        </div>
+    </div>
+</div><br>
+<!-- DESKRIPSI -->
+<div #divDescProduct class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Deskripsi Produk</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form-group row">
+            <p class="col-sm-3">Keterangan Produk</p>
+            <div class="col-sm-5">
+                <textarea class="form-control" [formControl]="descriptionProduct" required (click)="stopValid()"
+                    cols="20" rows="6"></textarea>
+                <p id="txt-valid-form"
+                    *ngIf="descriptionProduct.invalid && (descriptionProduct.dirty || descriptionProduct.touched) || divValidation == 6">
+                    Keterangan produk harus diisi</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <p class="col-sm-3">Brand</p>
+            <div class="col-sm-5">
+                <ng-select placeholder="Select item" [searchable]="true" [clearable]="true" [formControl]="brandProduct"
+                    (change)="stopValid()">
+                    <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataBrand.data">
+                        {{item.name}}
+                    </ng-option>
+                </ng-select>
+                <p id="txt-valid-form" *ngIf="brandProduct.invalid && brandProduct.touched || divValidation == 7">Brand
+                    harus diisi</p>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <p class="col-sm-3">Spesifikasi Produk</p>
+            <div class="col-md-5">
+                <button type="button" id="btn-product-new" (click)="openModalSpec()" (click)="stopValid()">
+                    <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                    Spesifikasi Produk
+                </button>
+                <p id="txt-valid-form" *ngIf="divValidation == 8">Minimal 1 spesifikasi</p>
+            </div>
+        </div>
+        <div *ngIf="tableSpesification">
+            <div *ngFor="let item of dummyDataSpesification; let i = index ">
+                <div class="form-group row">
+                    <p class="col-sm-3"></p>
+                    <div class="col-sm-5">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Nama Spesifikasi" name="name"
+                                [(ngModel)]="item.name" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-danger btn-xs" (click)="removeSpesification(i)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <p class="col-sm-3"></p>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="description" placeholder="Masukan Spesifikasi"
+                            [(ngModel)]="item.description">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- VARIANT -->
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="form-group row">
+            <p class="col-sm-3">Varian Produk</p>
+            <div class="col-md-5">
+                <button type="button" id="btn-product-new" data-toggle="modal" data-target=".modalVariant">
+                    <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                    Aktifkan Variant Produk
+                </button>
+            </div>
+        </div><br>
+        <table class="table" id="table-module" *ngIf="cardVariant">
+            <thead>
+                <tr>
+                    <th id="head-table" scope="col">{{name_variant1}}</th>
+                    <th id="head-table" scope="col">{{name_variant2}}</th>
+                    <th id="head-table" scope="col">Harga Jual</th>
+                    <th id="head-table" scope="col">Harga Beli</th>
+                    <th id="head-table" scope="col">Stok</th>
+                    <th id="head-table" scope="col">SKU</th>
+                    <th id="head-table" scope="col">Gambar</th>
+                    <th id="head-table" scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let variant of dataVariant; let i = index">
+                    <td>{{variant.value1}}</td>
+                    <td>{{variant.value2}}</td>
+                    <td>
+                        <input currencyMask [options]="{ prefix: 'Rp ' }" class="form-control" [(ngModel)]="variant.sell_price"
+                            name="sell_price_m{{i}}">
+                    </td>
+                    <td>
+                        <input currencyMask [options]="{ prefix: 'Rp ' }" class="form-control" [(ngModel)]="variant.base_price"
+                            name="base_price_m{{i}}">
+                    </td>
+                    <td>
+                        <input style="max-width: 120px;" currencyMask class="form-control"
+                            [(ngModel)]="variant.stock_begining" name="stok_m{{i}}" [disabled]="variant.disabled">
+                    </td>
+                    <td>
+                        <input style="max-width: 120px;" type="text" class="form-control" [(ngModel)]="variant.sku"
+                            name="sku_m{{i}}">
+                    </td>
+                    <td>
+                        <div *ngIf="variant.image_url == null" id="file-upload-form" class="uploaderVar">
+                            <input #fileVar type="file" id="file-var{{i}}" name="var{{i}}" accept="image/*" multiple=""
+                                (change)="previewImageVariant(fileVar.files,i)">
+                            <label for="file-var{{i}}" id="file-var{{i}}">
+                                <img src="../../../../assets/img/form/add-image.svg" id="img-variation" alt="logo">
+                            </label>
+                        </div>
+                        <div *ngIf="variant.image_url != null" class="uploaderVar">
+                            <button id="btn-remove-banner" type="button" class="close" aria-label="Close"
+                                (click)="removeImageVariation(i)">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <img [src]="variant.image_url" id="returnUploadVar">
+                        </div>
+
+                    </td>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" [checked]="variant.is_active" [(ngModel)]="variant.is_active"
+                                name="status_m{{i}}">
+                            <span class="slider round"></span>
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div><br>
+<!-- HARGA RETAIL -->
+<div #divPriceProduct class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Harga</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="formDisable">
+            <div class="form-group row">
+                <p class="col-sm-3">Minimal Pemesanan</p>
+                <div class="col-sm-5">
+                    <input currencyMask class="form-control" [formControl]="delivery_minimum" (click)="stopValid()">
+                    <p id="txt-valid-form" *ngIf="divValidation == 10">Minimal pemesanan harus diisi</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <p class="col-sm-3">Harga Satuan</p>
+                <div class="col-sm-5">
+                    <input *ngIf="cardVariant == false" currencyMask class="form-control" formControlName="unit_price"
+                        (click)="stopValid()">
+                    <input *ngIf="cardVariant == true" class="form-control" readonly>
+                    <p id="txt-valid-form" *ngIf="divValidation == 11">Harga satuan harus diisi</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <p class="col-sm-3">Harga Grosir</p>
+                <div class="col-md-7">
+                    <button *ngIf="btnWholesale" type="button" id="btn-product-new" (click)="openModalWholesale()"
+                        (click)="stopValid()">
+                        <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                        Aktifkan Harga Grosir
+                    </button>
+                    <p></p>
+                    <p id="txt-grosir">Harga grosir hanya tersedia jika semua varian produk yang memiliki harga yang
+                        sama</p>
+                    <p id="txt-valid-form" *ngIf="divValidation == 12">Harga grosir harus diisi</p>
+                </div>
+            </div>
+        </form>
+        <div class="form-group row" *ngIf="tableWholesale">
+            <p class="col-sm-3"></p>
+            <p class="col-sm-3">Min.</p>
+            <p class="col-sm-3">Max.</p>
+            <p class="col-sm-3">Harga Satuan</p>
+        </div>
+        <div *ngIf="tableWholesale">
+            <div class="form-group row" *ngFor="let item of dummyDataWholesale; let i = index ">
+                <p class="col-sm-3">Harga Grosir
+                    {{i+1}}</p>
+                <p class="col-sm-3">
+                    <input currencyMask class="form-control" name="min{{i}}" [(ngModel)]="item.qty_min"
+                        [disabled]="item.disabled">
+                </p>
+                <p class="col-sm-3">
+                    <input currencyMask class="form-control" name="max{{i}}" [(ngModel)]="item.qty_max">
+                </p>
+                <p class="col-sm-2">
+                    <input currencyMask [options]="{ prefix: 'Rp ' }" class="form-control" name="price{{i}}"
+                        [(ngModel)]="item.price" (keyup)="priceWholesale(i)">
+                </p>
+                <p class="col-sm-1">
+                    <img src="../../../../../../assets/img/form/icon-delete.svg" width="15" alt=""
+                        style="cursor: pointer;" (click)="removeWholesale(i,item.id)">
+                </p>
+            </div>
+        </div>
+
+
+    </div>
+</div><br>
+<!-- PENGELOLAAN -->
+<div #divManagementProduct class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Pengelolaan Product</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="formDisableProductManagement">
+            <div class="form-group row">
+                <p class="col-sm-3">Status Produk</p>
+                <div class="col-sm-5">
+                    <label class="switch">
+                        <input type="checkbox" [formControl]="is_active_product">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <p class="col-sm-3">Stok Produk Awal</p>
+                <div class="col-sm-5">
+                    <input *ngIf="btnShow == false" currencyMask class="form-control" formControlName="stock_product"
+                        (click)="stopValid()">
+                    <input *ngIf="btnShow == true" currencyMask class="form-control" formControlName="stock_product"
+                        (click)="stopValid()" readonly>
+                    <p id="txt-valid-form" *ngIf="divValidation == 13">Stok produk harus diisi</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <p class="col-sm-3">SKU (Stock Keeping Unit)</p>
+                <div class="col-sm-5">
+                    <input text class="form-control" formControlName="sku" (click)="stopValid()">
+                    <p id="txt-valid-form" *ngIf="divValidation == 14">SKU harus diisi</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div><br>
+<!-- INFORMASI LAINNYA -->
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Informasi Lainnya</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form-group row">
+            <p class="col-sm-3">Berat Produk</p>
+            <div class="col-sm-4">
+                <ng-select placeholder="Select item" [searchable]="true" [clearable]="true"
+                    [formControl]="weight_select" (change)="totalWeight()">
+                    <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of base_unit">
+                        {{item.name}}
+                    </ng-option>
+                </ng-select>
+            </div>
+            <div class="col-sm-5">
+                <input currencyMask class="form-control" placeholder="Masukan Berat" (keyup)="totalWeight()"
+                    [formControl]="weight_product">
+            </div>
+            <!-- <div class="input-group col-sm-3">
+                            <input currencyMask class="form-control" placeholder="Total" [formControl]="weight_total" disabled>
+                            <div class="input-group-append">
+                                <span class="input-group-text">Gram</span>
+                            </div>
+                        </div> -->
+        </div>
+        <div class="form-group row">
+            <p class="col-sm-3">Ukuran Produk</p>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" placeholder="Panjang" [formControl]="long_product">
+            </div>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" placeholder="Lebar" [formControl]="wide_product">
+            </div>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" placeholder="Tinggi" [formControl]="height_product">
+            </div>
+        </div>
+        <div class="form-group row">
+            <p class="col-sm-3">Stok Minimal</p>
+            <div class="col-sm-5">
+                <input currencyMask class="form-control" [formControl]="minimum_stock">
+            </div>
+        </div>
+        <div class="alert" *ngIf="alertError">
+            <p>{{errorMessage}}</p>
+        </div>
+    </div>
+</div>
+<br>
+<div id="button">
+    <button type="button" id="btn-save" (click)="mappingForm()" *ngIf="btnShow == false">Tambahkan</button>
+    <button type="button" id="btn-save" (click)="mappingForm()" *ngIf="btnShow == true">Edit</button>
+    <button type="button" id="btn-cancel" [routerLink]="['/dashboard-inventory/product-data']">Batalkan</button>
+</div>
+
+<!-- MODAL VARIANT -->
+<div class="modal fade modalVariant" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <p class="col-sm-2">Varian 1</p>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="Nama Variant"
+                                [formControl]="variation">
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngFor="let item of dummyDataVariantOne.controls; index as i">
+                        <p class="col-sm-2"></p>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <input type="text" (change)="setVariant()" class="form-control"
+                                    placeholder="Masukan Pilihan Variant"
+                                    [formControl]="dummyDataVariantOne.controls[i]">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                        (click)="deleteVariantOne(i)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <p class="col-sm-2"></p>
+                        <div class="col-sm-3">
+                            <button type="button" id="btn-add-variant" (click)="addVariantOne()">
+                                <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                                Tambah Varian
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <p class="col-sm-2">Varian 2</p>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="Nama Variant"
+                                [formControl]="variation2">
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngFor="let item of dummyDataVariantTwo.controls; let i = index">
+                        <p class="col-sm-2"></p>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <input type="text" (change)="setVariant()" class="form-control"
+                                    placeholder="Masukan Pilihan Variant"
+                                    [formControl]="dummyDataVariantTwo.controls[i]">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                        (click)="deleteVariantTwo(i)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <p class="col-sm-2"></p>
+                        <div class="col-sm-3">
+                            <button type="button" id="btn-add-variant" (click)="addVariantTwo()">
+                                <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                                Tambah Varian
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <p class="col-sm-2">Informasi Varian</p>
+                        <div class="form-group col-sm-7">
+                            <div class="input-group">
+                                <input currencyMask [options]="{ prefix: 'Rp ' }" class="form-control"
+                                    [formControl]="sell_price_var" placeholder="Harga Jual">
+                                <input currencyMask [options]="{ prefix: 'Rp ' }" class="form-control"
+                                    [formControl]="base_price_var" placeholder="Harga Beli">
+                                <input currencyMask class="form-control" [formControl]="stock_var" placeholder="Stok">
+                                <input type="text" class="form-control" [formControl]="sku_var" placeholder="SKU">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="button" id="btn-save" (click)="setInformVarAll()">Terapkan Ke Semua</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <p class="col-sm-2">Daftar Varian</p>
+                        <div class="form-group col-sm-10">
+                            <table class="table" id="table-module">
+                                <thead>
+                                    <tr>
+                                        <th id="head-table" scope="col">{{name_variant1}}</th>
+                                        <th id="head-table" scope="col">{{name_variant2}}</th>
+                                        <th id="head-table" scope="col">Harga Jual</th>
+                                        <th id="head-table" scope="col">Harga Beli</th>
+                                        <th id="head-table" scope="col">Stok</th>
+                                        <th id="head-table" scope="col">SKU</th>
+                                        <th id="head-table" scope="col">Gambar</th>
+                                        <th id="head-table" scope="col">Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let variant of dataVariant; let i = index">
+                                        <td>{{variant.value1}}</td>
+                                        <td>{{variant.value2}}</td>
+                                        <td>
+                                            <input currencyMask [options]="{ prefix: 'Rp ' }" class="form-control"
+                                                [(ngModel)]="variant.sell_price" name="sell_price_m{{i}}">
+                                        </td>
+                                        <td>
+                                            <input currencyMask [options]="{ prefix: 'Rp ' }" class="form-control"
+                                                [(ngModel)]="variant.base_price" name="base_price_m{{i}}">
+                                        </td>
+                                        <td>
+                                            <input style="max-width: 120px;" currencyMask class="form-control"
+                                                [(ngModel)]="variant.stock_begining" name="stok_m{{i}}"
+                                                [disabled]="variant.disabled">
+                                        </td>
+                                        <td>
+                                            <input style="max-width: 120px;" type="text" class="form-control"
+                                                [(ngModel)]="variant.sku" name="sku_m{{i}}">
+                                        </td>
+                                        <td>
+                                            <div *ngIf="variant.image_url == null" id="file-upload-form"
+                                                class="uploaderVar">
+                                                <input #fileVar type="file" id="file-var{{i}}" name="var{{i}}"
+                                                    accept="image/*" multiple=""
+                                                    (change)="previewImageVariant(fileVar.files,i)">
+                                                <label for="file-var{{i}}" id="file-var{{i}}">
+                                                    <img src="../../../../assets/img/form/add-image.svg"
+                                                        id="img-variation" alt="logo">
+                                                </label>
+                                            </div>
+                                            <div *ngIf="variant.image_url != null" class="uploaderVar">
+                                                <button id="btn-remove-banner" type="button" class="close"
+                                                    aria-label="Close" (click)="removeImageVariation(i)">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <img [src]="variant.image_url" id="returnUploadVar">
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <label class="switch">
+                                                <input type="checkbox" [checked]="variant.is_active"
+                                                    [(ngModel)]="variant.is_active" name="status_m{{i}}">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #modalSpesification let-modal>
+    <br>
+    <div class="modal-body">
+        <div *ngFor="let item of dummyDataSpesification; let i = index ">
+            <div class="form-group row">
+                <p class="col-sm-3" *ngIf="i == 0">Spesifikasi Produk</p>
+                <p class="col-sm-3" *ngIf="i != 0"></p>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Nama Spesifikasi" name="name"
+                            [(ngModel)]="item.name" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-danger btn-xs" (click)="removeSpesification(i)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <p class="col-sm-3"></p>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="description" placeholder="Masukan Spesifikasi"
+                        [(ngModel)]="item.description">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <p class="col-sm-3"></p>
+            <div class="col-sm-5">
+                <button type="button" id="btn-product-new" (click)="addSpesification()">
+                    <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                    Tambah
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #modalWholescale let-modal>
+    <div class="modal-body">
+        <br>
+        <div class="form-group row">
+            <p class="col-sm-2"></p>
+            <p class="col-sm-3">Min.</p>
+            <p class="col-sm-3">Max.</p>
+            <p class="col-sm-3">Harga Satuan</p>
+        </div>
+        <div class="form-group row" *ngFor="let item of dummyDataWholesale; let i = index ">
+            <p class="col-sm-2">Harga Grosir
+                {{i+1}}</p>
+            <p class="col-sm-3">
+                <input currencyMask class="form-control" name="min{{i}}" [(ngModel)]="item.qty_min"
+                    [disabled]="item.disabled">
+            </p>
+            <p class="col-sm-3">
+                <input currencyMask class="form-control" name="max{{i}}" [(ngModel)]="item.qty_max">
+            </p>
+            <p class="col-sm-3">
+                <input currencyMask [options]="{ prefix: 'Rp ' }" class="form-control" name="price{{i}}"
+                    [(ngModel)]="item.price" (keyup)="priceWholesale(i)">
+            </p>
+            <p class="col-sm-1">
+                <img src="../../../../../../assets/img/form/icon-delete.svg" width="15" alt="" style="cursor: pointer;"
+                    (click)="removeWholesale(i,item.id)">
+            </p>
+        </div>
+        <div class="form-group row">
+            <p class="col-sm-2"></p>
+            <div class="col-sm-5">
+                <button type="button" id="btn-product-new" (click)="addWholesale()">
+                    <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                    Tambah Harga Grosir
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,51 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<div class="alert" *ngIf="alertError">
+    <p>{{errorMessage}}</p>
+</div>
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <form [formGroup]="formLogistic">
+            <div class="form-group row">
+                <p class="col-sm-2">{{attributeProduct.master.name_courier}}</p>
+                <div class="col-sm-4">
+                    <ng-select
+                        placeholder="Select item"
+                        
+                        [searchable]="true" 
+                        [clearable]="true"
+                        formControlName="nama_kurir"
+                        (change)="changeCourier($event)"
+                        >
+                        <ng-option [value]="item.name" [disabled]="item.disabled" *ngFor="let item of dataCourier.data">
+                            {{item.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <p class="col-sm-2">{{attributeProduct.master.type_delivery}}</p>
+                <div class="col-sm-4">
+                    <ng-select
+                        placeholder="Select item"
+                        
+                        [searchable]="true" 
+                        [clearable]="true"
+                        [disabled]=true
+                        multiple="true"
+                        formControlName="jenis_pengiriman">
+                        <ng-option [value]="item.name" *ngFor="let item of dataDelivery.data">
+                            {{item.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <p class="col-sm-2"></p>
+                <div class="col-sm-8">
+                    <button type="button" id="btn-save" *ngIf="btnCreate" (click)="submitSave()">{{attributeProduct.titleCreate}}</button>
+                    <button type="button" id="btn-save" *ngIf="btnUpdate" (click)="submitUpdate()">{{attributeProduct.titleUpdate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

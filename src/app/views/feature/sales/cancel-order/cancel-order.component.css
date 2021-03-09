@@ -1,0 +1,35 @@
+.form-group {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+#btn-approved {
+    width: 180px;
+    height: 40px;
+    background-color: #FF785B;
+    border: 1px solid #FF785B;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+#btn-approved:hover {
+    background-color: #e55f2b;
+}
+#btn-deny {
+    margin-left: 20px;
+    width: 180px;
+    height: 40px;
+    background-color: #DDDDD9;
+    border: 1px solid #DDDDD9;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: #000000;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+#btn-deny:hover {
+    background-color: #CECECE;
+}

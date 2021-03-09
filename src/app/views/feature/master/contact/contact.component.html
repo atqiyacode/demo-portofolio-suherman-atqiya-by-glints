@@ -1,0 +1,14 @@
+<app-breadcrumb [data]="menuBreadcrumbContact"></app-breadcrumb>
+<!-- CONTENT -->
+<div class="nav" id="nav-tab" role="tablist">
+    <a class="nav-link" id="nav-customer-tab" data-toggle="tab" [routerLink]="urlCustomer" [routerLinkActive]="['active']">
+        <span class="link-collapse">Customer Data</span>
+    </a>
+    <a class="nav-link" id="nav-supplier-tab" data-toggle="tab" [routerLink]="urlSupplier" [routerLinkActive]="['active']">
+        <span class="link-collapse">Supplier Data</span>
+    </a>
+    <a class="nav-link" id="nav-sales-tab" data-toggle="tab" [routerLink]="urlSales" [routerLinkActive]="['active']">
+        <span class="link-collapse">Sales Data</span>
+    </a>
+</div>
+<router-outlet></router-outlet>

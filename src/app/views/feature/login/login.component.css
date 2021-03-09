@@ -1,0 +1,24 @@
+input {
+    margin-left: auto;
+    margin-right: auto;
+    height: 40px;
+    border: 1px solid #8F8FAC;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.btn-main {
+    background-color: #FF785B;
+    color: white;
+    border-radius: 10px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #F3F4F5;
+}

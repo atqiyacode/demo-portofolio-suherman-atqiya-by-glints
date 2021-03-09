@@ -1,0 +1,47 @@
+<div *ngIf="headerActive != 0" id="menu-header">
+    <div id="empty"></div>
+    <ul class="nav justify-content-center">
+        <a [routerLink]="['/home']">
+            <img src="../../../assets/img/header/logo-storepedia.svg" alt="logo">
+        </a>
+        <li id="logo-brand" *ngFor="let item of menu.header; let i = index">
+            <a [routerLink]="item.url" [routerLinkActive]="['active']">{{item.name}}</a>
+        </li>
+        <li id="profile">
+            <img id="user-profile" src="../../../assets/img/header/user.png" alt="User" data-toggle="dropdown">
+            <div id="dropdown-menu-order" class="dropdown-menu dropdown-menu-right">
+                <button id="item-order" class="dropdown-item" type="button">Akun Saya</button>
+                <button id="item-order" [routerLink]="['/dashboard-content-setting']" type="button" class="dropdown-item" (click)="setting()">Content Setting</button>
+                <button id="item-order" class="dropdown-item" type="button">Pengaturan</button>
+                <button id="item-order" class="dropdown-item" type="button" (click)="logout()">Keluar</button>
+            </div>
+        </li>
+    </ul>
+    <h1></h1>
+</div>
+
+<div *ngIf="headerActive == 0" class="menu-content-setting" id="menu-header">
+    <div id="empty"></div>
+    <ul class="nav justify-content-center">
+        <li id="logo-brand">
+            <a href="#">
+                <img src="../../../assets/img/header/logo-storepedia.svg" alt="logo">
+            </a>
+        </li>
+        <li id="logo-brand" *ngFor="let item of menu.header; let i = index">
+            <a style="color: #ffffff;" [routerLink]="item.url" [routerLinkActive]="['active']">{{item.name}}</a>
+        </li>
+        <li id="profile">
+            <img id="user-profile" src="../../../assets/img/header/user.png" alt="User" data-toggle="dropdown">
+            <div id="dropdown-menu-order" class="dropdown-menu dropdown-menu-right">
+                <button id="item-order" class="dropdown-item" type="button">Akun Saya</button>
+                <button id="item-order" [routerLink]="['/dashboard-content-setting']" type="button" class="dropdown-item" (click)="setting()">Content Setting</button>
+                <button id="item-order" class="dropdown-item" type="button">Pengaturan</button>
+                <button id="item-order" class="dropdown-item" type="button" (click)="logout()">Keluar</button>
+            </div>
+        </li>
+    </ul>
+    <h1></h1>
+    <br><br>
+    <p id="title-cs">Content Setting</p>
+</div>

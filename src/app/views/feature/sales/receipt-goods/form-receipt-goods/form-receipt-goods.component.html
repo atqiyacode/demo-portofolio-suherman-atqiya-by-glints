@@ -1,0 +1,156 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <form [formGroup]="formReceiptOrder">
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <img src="../../../../../../assets/img/form/profile-plus.svg" width="63" alt="">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Nama Pelanggan</label>
+                    <ng-select [readonly]="isReadonly" [items]="dataMember.data" formControlName="member_id" bindValue="id" bindLabel="name" placeholder="Select" (change)="changeOrder($event)" [ngClass]="{ 'is-invalid': formReceiptOrder.get('member_id').invalid && formReceiptOrder.get('member_id').touched }"></ng-select>
+                    <div *ngIf="formReceiptOrder.get('member_id').invalid && formReceiptOrder.get('member_id').touched" class="invalid-feedback">
+                        <div *ngIf="!!formReceiptOrder.get('member_id').hasError('required')">Nama pelanggan harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Pengembalian</label>
+                    <ng-select [readonly]="isReadonly" [items]="dataOrder.data" formControlName="order_id" bindValue="id" bindLabel="order_return_no" placeholder="Select item" (change)="showRetur($event)" [ngClass]="{ 'is-invalid': formReceiptOrder.get('order_id').invalid && formReceiptOrder.get('order_id').touched }"></ng-select>
+                    <div *ngIf="formReceiptOrder.get('order_id').invalid && formReceiptOrder.get('order_id').touched" class="invalid-feedback">
+                        <div>No pengembalian harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-5">
+                    <label></label>
+                    <label class="container">Barang Retur Diterima Tenan
+                        <input type="checkbox" [formControl]="checkedRadio" (change)="checkboxDelivery()">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Tanggal</label>
+                    <input class="form-control" formControlName="created_at" type="date" value="2020-11-14" id="example-date-input" [readonly]="isReadonly">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Resi</label>
+                    <input type="text" class="form-control" formControlName="noresi" [ngClass]="{ 'is-invalid': formReceiptOrder.get('noresi').invalid && formReceiptOrder.get('noresi').touched }">
+                    <div class="invalid-feedback">
+                        No resi harus diisi
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Dari Gudang</label>
+                    <ng-select [formControl]="master_warehouse_id" [readonly]="true" placeholder="Select" aria-required="required">
+                        <ng-option [value]="warehouse.id" [disabled]="warehouse.disabled" *ngFor="let warehouse of dataWarehouse.data">
+                            {{warehouse.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div><br>
+        </form>
+    </div>
+</div>
+<br>
+
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <table class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                    <th id="head-table">Produk</th>
+                    <th id="head-table">Varian 1</th>
+                    <th id="head-table">Varian 2</th>
+                    <th id="head-table">Jumlah</th>
+                    <th id="head-table">Harga Satuan</th>
+                    <th id="head-table">Total Pesanan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of dummyOrder; let i = index">
+                <tr>
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>
+                        <ng-select class="custom" [readonly]="true" name="name{{i}}" placeholder="Select item" appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.master_product_id">
+                            <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataProduct.data">
+                                {{item.product_name}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <ng-select [readonly]="true" name="variant{{i}}" placeholder="Select item" appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.value1">
+                            <ng-option [value]="item.value1" [disabled]="item.disabled" *ngFor="let item of item.select">
+                                {{item.value1}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <ng-select [readonly]="item.disabledVar2" name="variant2_{{i}}" placeholder="Select item" appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.value2">
+                            <ng-option [value]="item.value2" [disabled]="item.disabled" *ngFor="let item of item.select">
+                                {{item.value2}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <input currencyMask [readonly]="isReadonly" class="form-control" name="qty{{i}}" [(ngModel)]="item.qty" [disabled]="item.disabledQty" (keyup)="orderTotal(i,1)">
+                    </td>
+                    <td><input currencyMask  class="form-control" name="price{{i}}" [(ngModel)]="item.price" readonly></td>
+                    <td>{{item.totalDetail | currency:'Rp ':'symbol':'1.0'}}</td>
+                    <td><img *ngIf="isReadonly == false" src="../../../../../../assets/img/form/icon-delete.svg" width="15" alt="" style="cursor: pointer;" (click)="removeOrder(i)"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4">
+                        <p id="head-table">Alasan pengembalian</p>
+                        <textarea [readonly]="isReadonly" name="notes{{i}}" [(ngModel)]="item.notes" class="form-control"></textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <div id="cardSubTotal" class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label id="lab-form" class="col-sm-5 col-form-label">Sub Total Harga Produk</label>
+                        <div class="col-sm-6">
+                            <input currencyMask  class="form-control" [formControl]="price_product" readonly>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <label id="lab-total" class="col-sm-4 col-form-label">Total Pesanan</label>
+                        <div class="col-sm-6">
+                            <label id="lab-total" class="col-form-label">
+                            {{endTotal.value | currency:'Rp ':'symbol':'1.0'}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="alert" *ngIf="alertError">
+        <p>{{errorMessage}}</p>
+    </div>
+</div>
+
+<div class="card-footer">
+    <button *ngIf="loadingAction" id="btn-save" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span class="sr-only">Loading...</span>
+    </button>
+    <button type="button" *ngIf="loadingAction == false" id="btn-save" (click)="submitSave()">Simpan</button>
+    <button type="submit" [routerLink]="['/dashboard-sales/return-receipt-order']" id="btn-cancel">Batalkan</button>
+</div></div><br><br>

@@ -1,0 +1,72 @@
+<h5 class="font-weight-bold mb-3">Landing Page</h5>
+<div class="card">
+  <div class="card-header bg-white">
+    <h6 class="font-weight-bold">Upload gambar banner toko</h6>
+  </div>
+  <div class="card-body">
+    <div class="row no-gutters">
+      <div class="col-md-8 offset-md-2 my-3 shadow" *ngFor="let item of dataBanner">
+        <ng-container *ngIf="item.data != null; else elseTemplate">
+          <div class="img-wrap-banner text-center btn-pointer">
+            <span class="btn btn-sm btn-danger text-white delete m-2 b-10" (click)="deleteBanner(item)">
+              <i class="fa fa-trash-alt"></i>
+            </span>
+            <img class="img-fluid" src="{{item.data}}" alt="banner-toko" style="object-fit: cover; height: 200px;" (click)="openModalBanner(item.id,2)">
+          </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <div class="card card-body text-center btn-pointer" style="height: 200px;" (click)="openModalBanner(item.id,0)">
+            <img class="img-fluid" src="../../../../assets/img/form/add-image.svg" style="object-fit: cover; height: 100px;" alt="blank-banner" class="align-self-center">
+            <small class="text-secondary m-1">Tambah Banner</small>
+          </div>
+        </ng-template>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #modalBanner let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-banner">{{bannerTitle}}</h4>
+    <a class="close mb-2 text-decoration-none" style="cursor: pointer;" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+
+  <form [formGroup]="formBanner">
+    <div class="modal-body">
+      <div class="row ">
+        <div class="col-sm-12">
+          <p class="font-weight-bold">Dimensi yang disarankan: 1200px * 600px</p>
+          <div *ngIf="myImageBanner == false" class="card card-body">
+            <input #fileBanner id="input-banner" type="file" accept="image/*" (change)="imageBanner(fileBanner.files)"
+              hidden>
+            <label for="input-banner" class="align-self-center btn-pointer">
+              <img src="../../../../assets/img/form/add-image.svg" alt="logo" width="200px" class="align-self-center">
+            </label>
+          </div>
+
+          <div *ngIf="myImageBanner == true" class="card card-body">
+            <input #fileBanner id="input-banner" type="file" accept="image/*" (change)="imageBanner(fileBanner.files)"
+              hidden>
+            <label for="input-banner" class="align-self-center btn-pointer">
+              <img [src]="dataImageBannerView" class="img-fluid align-self-center" style="object-fit: contain; height: 200px;"  for="input-banner">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="container float-left">
+        <button type="button" class="btn btn-main px-5 mx-2" *ngIf="myImageBanner == true" (click)="onUploadBanner()">
+          Update
+        </button>
+        <button type="button" class="btn btn-outline-second-main rounded px-5 mx-2" (click)="modal.close('Save click')">
+          Batalkan
+        </button>
+      </div>
+    </div>
+  </form>
+</ng-template>

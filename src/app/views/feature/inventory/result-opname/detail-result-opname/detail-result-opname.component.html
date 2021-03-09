@@ -1,0 +1,61 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<div class="card" id="cardFormModule">
+	<div class="card-body">
+		<h6 class="card-title">Stock Opname Details</h6>
+	</div>
+	<div class="card-body" *ngFor="let item of dataApi;">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				No. Opname
+				<br>
+				<p class="no-references">{{ item.data.opname_code }}</p>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				Plan Code
+				<br>
+				<p class="inventory-name">{{ item.data.plan_code }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				Tanggal
+				<br>
+				<p class="adjustment-date">
+					{{ item.data.dateopname | date: 'dd-MMMM-yyyy' }}
+				</p>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-4">
+				Description
+				<br>
+				<p>{{ item.data.desc }}</p>
+			</div>
+		</div>
+
+		<table class="table" id="table-module">
+			<thead>
+				<th id="head-table">Kode Produk</th>
+				<th id="head-table">Nama Produk</th>
+				<th id="head-table">Varian 1</th>
+				<th id="head-table">Varian 2</th>
+				<th id="head-table">Tersedia di sistem</th>
+				<th id="head-table">Tersedia di gudang</th>
+				<th id="head-table">Selisih</th>
+			</thead>
+			<tbody id="tableApi">
+				<tr *ngFor="let product of item.data.detail">
+					<td>{{ product.sku }}</td>
+					<td>{{ product.product_name }}</td>
+					<td>{{ product.value1 }}</td>
+					<td>{{ product.value2 }}</td>
+					<td>{{ product.system_stock }}</td>
+					<td>{{ product.stock }}</td>
+					<td>{{ diffPrice(product.system_stock, product.stock) }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

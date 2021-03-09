@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-sm-8">
+        <app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+    </div>
+    <div class="col-sm-3" id="search-form">
+        <div class="input-group">
+            <input #searchInput id="input-search" type="text" class="form-control" placeholder="Cari" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1" style="background-color: #F6F6F6;">
+                    <img src="../../../../../assets/img/form/magnifier.svg" width="15" alt="">
+                </span>
+            </div>
+        </div>
+    </div>
+</div><br>
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Bill Of Material</h6>
+            <a routerLink="{{urlCreate}}" id="btn-core">Tambah</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="alert" *ngIf="alertError">
+            <p>{{errorMessage}}</p>
+        </div>
+        <!-- <table *ngIf="table" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let item of dataApi.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>{{item.quotation_date | date :'dd-MMM-yyyy'}}</td>
+                    <td>{{item.quotation_no}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.total | currency:'Rp ':'symbol':'1.0'}}</td>
+                    <td>
+                        <p *ngIf="item.is_approved == 0">Open</p>
+                        <p *ngIf="item.is_approved == 1" id="approved">Approved</p>
+                        <p *ngIf="item.is_approved == 2" id="denied">Denied</p>
+                    </td>
+                    <td>
+                        <img src="../../../../../assets/img/form/list.svg" id="img-form" class="dropdown-toggle" data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu">
+                            <a class="dropdown-item" id="item-order" *ngIf="item.is_approved == 0" (click)="formUpdate(item.id)">Ubah</a>
+                            <a class="dropdown-item" id="item-order" (click)="formDetail(item.id)">Detail</a>
+                            <a class="dropdown-item" id="item-order" (click)="openModal(item.id)">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApi"></app-pagination> -->
+    </div>
+</div>

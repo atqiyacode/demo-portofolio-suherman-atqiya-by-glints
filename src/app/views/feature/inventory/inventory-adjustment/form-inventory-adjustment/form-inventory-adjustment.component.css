@@ -1,0 +1,8 @@
+.display-error {
+	border: 1px solid #FF4F4F;
+	background: #FFF5F5;
+	border-radius: 10px;
+	color: #FF0000;
+	padding: 20px;
+	cursor: pointer;
+}

@@ -1,0 +1,62 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<div class="card" id="cardFormModule">
+	<div class="card-body">
+		<h6 class="card-title">Detail Perintah Stok Opname</h6>
+	</div>
+	<div class="card-body" *ngFor="let item of dataApi;">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				Tanggal Mulai
+				<br>
+				<p class="no-references">{{ item.data.started_at | date: 'dd-MMMM-yyyy' }}</p>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				Gudang
+				<br>
+				<p class="inventory-name">{{ item.data.warehouse_name }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				Penanggung Jawab
+				<br>
+				<p class="adjustment-date">
+					{{ item.data.person_in_charge }}
+				</p>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				Kategori
+				<br>
+				<p class="adjustment-date">{{ item.data.product_category_name }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				Dikerjakan Oleh
+				<br>
+				<p class="adjustment-date">
+					{{ item.data.created_by }}
+				</p>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				Pemasok
+				<br>
+				<p class="adjustment-date">{{ item.data.supplier_name }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-6">
+				Keterangan
+				<br>
+				<p>{{ item.data.description }}</p>
+			</div>
+		</div>
+	</div>
+</div>

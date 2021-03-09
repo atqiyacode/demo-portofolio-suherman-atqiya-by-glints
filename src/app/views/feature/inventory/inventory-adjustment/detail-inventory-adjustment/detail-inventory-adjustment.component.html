@@ -1,0 +1,65 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<div class="card" id="cardFormModule">
+	<div class="card-body">
+		<h6 class="card-title">Detail Penyesuaian Gudang</h6>
+	</div>
+	<div class="card-body" *ngFor="let item of dataApi;">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				No. Referensi
+				<br>
+				<p class="no-references">
+					{{ item.data.adjustment.adjustment_no }}
+				</p>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				Gudang
+				<br>
+				<p class="inventory-name">
+					{{ item.data.warehouse.name }}
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				Tanggal
+				<br>
+				<p class="adjustment-date">
+					{{ item.data.adjustment.created_at | date: 'dd-MMMM-yyyy' }}
+				</p>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-4">
+				Deskripsi
+				<br>
+				<p>{{ item.data.adjustment.notes }}</p>
+			</div>
+		</div>
+
+		<table class="table" id="table-module">
+			<thead>
+				<th id="head-table">Produk Kode</th>
+				<th id="head-table">Nama Produk</th>
+				<th id="head-table">Varian 1</th>
+				<th id="head-table">Varian 2</th>
+				<th id="head-table">Jumlah</th>
+				<th id="head-table">Harga Penjualan</th>
+				<th id="head-table">Total</th>
+			</thead>
+			<tbody id="tableApi">
+				<tr *ngFor="let product of item.data.detail">
+					<td>{{ checkEmptyVariant(product.products.variant, product.products)[0].sku }}</td>
+					<td>{{ product.products.product_name }}</td>
+					<td>{{ checkEmptyVariant(product.products.variant, product.products)[0].value1 }}</td>
+					<td>{{ checkEmptyVariant(product.products.variant, product.products)[0].value2 }}</td>
+					<td>{{ product.qty }}</td>
+					<td>{{ product.price_product | currency:'Rp ':'symbol':'1.0' }}</td>
+					<td>{{ product.total_price | currency:'Rp ':'symbol':'1.0' }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

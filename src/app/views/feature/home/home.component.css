@@ -1,0 +1,237 @@
+#div-one, #div-two {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+}
+#welcome {
+    width: 760px;
+}
+button {
+    min-width: 150px;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 10px;
+    cursor: pointer;
+}
+#btn-create {
+    background-color: #FF785B;
+    border: none;
+    color: white;
+}
+#btn-show{
+    color: #6B6B81;
+    border: 1px solid #6B6B81;
+    box-sizing: border-box;
+    background-color: white;
+}
+/*CIRCLE*/
+.ci-cash-1 {
+    height: 72px;
+    width: 72px;
+    background-color: #FBE2AC;
+    border-radius: 50%;
+    display: inline-block;
+}
+.ci-cash-2 {
+    margin-top: 16px;
+    height: 40px;
+    width: 40px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    border: 3px solid #F7B731;
+    display: inline-block;
+}
+/**/
+.ci-inv-1{
+    height: 54px;
+    width: 54px;
+    background-color: #F0DCFF;
+    border-radius: 50%;
+    display: inline-block;
+}
+/**/
+.ci-loss-1 {
+    height: 72px;
+    width: 72px;
+    background-color: #F0DCFF;
+    border-radius: 50%;
+    display: inline-block;
+}
+.ci-loss-2 {
+    margin-top: 16px;
+    height: 40px;
+    width: 40px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    border: 3px solid #8854D0;
+    display: inline-block;
+}
+/**/
+.ci-loss2-1 {
+    height: 54px;
+    width: 54px;
+    background-color: #FFEDDC;
+    border-radius: 50%;
+    display: inline-block;
+}
+.ci-loss2-2 {
+    margin-top: 13px;
+    height: 30px;
+    width: 30px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    border: 3px solid #FB954F;
+    display: inline-block;
+}
+/**/
+.ci-loss3-1 {
+    height: 54px;
+    width: 54px;
+    background-color: #E5FFDC;
+    border-radius: 50%;
+    display: inline-block;
+}
+.ci-loss3-2 {
+    margin-top: 13px;
+    height: 30px;
+    width: 30px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    border: 3px solid #20BF6B;
+    display: inline-block;
+}
+/**/
+.ci-cust-1{
+    height: 54px;
+    width: 54px;
+    background-color: #DCF1FF;
+    border-radius: 50%;
+    display: inline-block;
+}
+/*IMAGE ICON*/
+.img-cash{
+    margin-top: 11px;
+}
+.img-inv{
+    margin-top: 16px;
+    margin-left: 19px;
+}
+.img-loss-2{
+    margin-top: 10px;
+}
+/*CARD*/
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    width: 528px;
+    height: 271px;
+    border-radius: 5px;
+}  
+.card-group {
+    width: 528px;
+}
+.card-group .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    height: 320px;
+    border-radius: 5px;
+}
+#txt-card{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #5F5F5F;
+}
+#txt-cash-rp {
+    vertical-align: text-top;
+    font-size: 10px;
+    line-height: 12px;
+    color: #808080;
+}
+#txt-cash-nominal {
+    font-size: 21px;
+    line-height: 26px;
+    color: #000000;
+}
+#txt-cash-bank {
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 26px;
+    color: #F7B731;
+}
+#txt-cust {
+    font-size: 10px;
+    line-height: 12px;
+    color: #808080;
+}
+#txt-loss-spen {
+    font-size: 14px;
+    color: #FB954F;
+}
+#txt-loss-nominal {
+    font-size: 9px;
+    color: #000000;
+}
+#txt-loss-rec {
+    font-size: 14px;
+    line-height: 17px;
+    color: #20BF6B;
+}
+#txt-loss {
+    font-size: 12px;
+    line-height: 15px;
+    color: #A5A5A5;
+}
+#txt-loss-prof {
+    font-size: 15px;
+    line-height: 18px;
+    color: #8854D0;
+}
+
+.media-icon {
+    width: 54px;
+    height: 54px;
+    color: #fff;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+.media-body {
+    margin-left: 15px;
+    padding-top: 5px; 
+}
+.media-body h6 {
+    margin-bottom: 5px;
+    line-height: .7;
+    color: #000000;
+    font-size: 21px;
+    font-weight: bold;
+}
+.media-body span{
+    font-size: 10px;
+    line-height: 12px;
+    color: #808080;
+}
+#inv, #inv-cust {
+    color: #000000;
+}
+#inv-cust {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+}
+.inv-cust-etc {
+    text-align: right;
+    margin-right: 20px;
+}
+.media-body #inv {
+    margin-right: 2px;
+    text-align: right;
+}

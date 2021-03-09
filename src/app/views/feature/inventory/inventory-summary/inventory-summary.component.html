@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-sm-8">
+        <app-breadcrumb [data]="menuBreadCrumb"></app-breadcrumb>
+    </div>
+</div><br>
+<div class="row">
+	<div class="col-sm-3" style="margin-left: 66px;">
+		<ng-select
+			placeholder="Pilih Gudang" 
+			[searchable]="true" 
+			[clearable]="true" 
+			[formControl]="warehouse" 
+			(change)="changeWarehouse($event)">
+			<ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataWarehouse.data">
+				{{ item.name }}
+			</ng-option>
+		</ng-select>
+	</div>
+</div><br>
+<div class="card" id="cardFormModule">
+	<div class="card-body">
+		<h6 class="card-title text-center">{{ titleCardAccount }}</h6>
+	</div>
+	<div class="card-body">
+		<table *ngIf="table" class="table" id="table-module">
+			<thead>
+				<tr>
+					<th id="head-table" *ngFor="let item of dataColumnTable">{{ item }}</th>
+				</tr>
+			</thead>
+
+			<tbody id="tableApi">
+				<tr *ngFor="let product of dataApi.data.data; let i = index">
+					<td>{{ product.product_name }}</td>
+					<td>{{ product.sku }}</td>
+					<td >
+		                <p *ngFor="let item of product.variant1">{{ item }}</p>
+		            </td>
+		            <td>
+		            	<p *ngFor="let item of product.variant2">{{ item }}</p>
+		            </td>
+					<td>
+						<p *ngFor="let inventories of product.inventories">
+							{{ inventories.stock_begining }}
+						</p>
+					</td>
+					<td>
+						<p *ngFor="let inventories of product.inventories">
+							{{ inventories.stock_in }}
+						</p>
+					</td>
+					<td>
+						<p *ngFor="let inventories of product.inventories">
+							{{ inventories.stock_out }}
+						</p>
+					</td>
+					<td>
+						<p *ngFor="let inventories of product.inventories">
+							{{ inventories.stock_total }}
+						</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<app-pagination [dataApi]="dataApi"></app-pagination>
+	</div>
+</div>

@@ -1,0 +1,5 @@
+<div *ngFor="let item of data" id="breadcrumb">
+    <a [routerLink]="item.url" *ngIf="item.active" (click)="setMenu(item.id)" [style.color]="item.color">{{item.name}}</a>
+    <img *ngIf="item.img" src="../../../../assets/img/form/chevron-right.svg" alt="">
+</div>
+<br><br>

@@ -1,0 +1,63 @@
+.menu-content-setting {
+    height: 225px;
+    background-image: url("../../../assets/img/header/image.png");
+}
+#title-cs {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 34px;
+    text-align: center;
+    color: #FFFFFF;
+}
+#empty{
+    height: 18px;
+}
+img {
+    width: 150px;
+    margin-top: 8px;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 57px;
+}
+h1{
+    border-bottom: 1px solid #DBDBDB;
+}
+li {
+    text-align: center;   
+}
+#logo-brand {
+    float: left;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px 15px;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #828282;
+    min-height: 56px;
+}
+
+.active {
+    color: black;
+    border-bottom: 3px solid #FFC35B;
+}
+
+#profile {
+    margin-left: 150px;
+}
+#user-profile {
+    width: 50px;
+    cursor: pointer;
+}
+.dropdwon-menu {
+    width: 300px;
+}

@@ -1,0 +1,34 @@
+#dt-tenant {
+    margin-top: -10px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: right;
+    color: #000000;
+}
+#dt-address {
+    margin-top: -10px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: right;
+    color: #000000;
+}
+#address {
+    width: 304px;
+    height: 90px;
+    background: #F8F8FB;
+    border-radius: 10px;
+}
+#cardSubTotalDt {
+    margin-left: 420px;
+    width: 55%;
+}
+#qty-product {
+    width: 80px;
+}
+#total-price {
+    width: 100px;
+}

@@ -1,0 +1,65 @@
+#txt-header {
+    font-weight: 700;
+    font-size: 16px;
+}
+#txt-body #txt-body-no {
+    font-weight: 400;
+    font-size: 13px;
+}
+.body-address  {
+    width: 280px;
+}
+#txt-body-no {
+    width: 280px;
+}
+.body-no {
+    margin-left: 35px;
+}
+.body-order {
+    width: 250px;
+}
+
+
+#txt-subtotal {
+    font-size: 15px;
+    font-weight: 600;
+    width: 250px;
+}
+#txt-subtotal-nominal {
+    text-align: right;
+    width: 170px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#txt-etc {
+    font-size: 12px;
+    font-weight: 400;
+    width: 250px;
+}
+#txt-etc-nominal {
+    text-align: right;
+    width: 170px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+#txt-total {
+    font-size: 21px;
+    font-weight: 600;
+    width: 150px;
+}
+#txt-total-nominal {
+    text-align: right;
+    width: 270px;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+#bottom-salesman {
+    margin-left: 85px;
+}
+
+#td-product-name {
+    max-width: 250px;
+}

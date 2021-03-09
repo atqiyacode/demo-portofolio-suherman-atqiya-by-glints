@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-sm-8">
+        <app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+    </div>
+    <div class="col-sm-3" id="search-form">
+        <div class="input-group">
+            <input #searchInput id="input-search" type="text" class="form-control" placeholder="Cari" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1" style="background-color: #F6F6F6;">
+                    <img src="../../../../../assets/img/form/magnifier.svg" width="15" alt="">
+                </span>
+            </div>
+        </div>
+    </div>
+</div><br>
+<div class="row">
+    <div class="col-sm-3">
+        <ng-select placeholder="Pilih Gudang" [searchable]="true" [clearable]="true" [formControl]="warehouse" (change)="changeWarehouse($event)">
+            <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataWarehouse.data">
+                {{item.name}}
+            </ng-option>
+        </ng-select>
+    </div>
+</div><br>
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">{{titleCardAccount}}</h6>
+            <a routerLink="{{urlCreate}}" id="btn-core">Tambah Produk</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="alert" *ngIf="alertError">
+            <p>{{errorMessage}}</p>
+        </div>
+        <table *ngIf="table" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                    <th id="head-table" *ngFor="let item of dataColumnTable">{{item}}</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let product of dataApi.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>{{product.sku}}</td>
+                    <td>{{product.product_name}}</td>
+                    <td>{{product.product_category_name}}</td>
+                    <td>{{product.sell_price | currency:'Rp ':'symbol':'1.0'}}</td>
+                    <td>{{product.availability | currency:' ':'symbol':'1.0'}}</td>
+                    <td>
+                        <p *ngIf="product.is_active == 1" id="approved">Aktif</p>
+                        <p *ngIf="product.is_active != 1" id="denied">Non Aktif</p>
+                    </td>
+                    <td>
+                        <img id="img-edit" src="../../../../../assets/img/form/edit.svg" alt="edit" (click)="formUpdate(product.id)">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApi"></app-pagination>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header bg-danger">
+        <h4 class="modal-title" id="modal-basic-title">{{configAttribute.button.btnDelete}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h4>{{configAttribute.button.btnDelete}}
+            {{configAttribute.masterProduct.product_name}}</h4>
+        <h3>{{valDelete}}</h3>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="onDelete()">{{configAttribute.button.btnDelete}}</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>

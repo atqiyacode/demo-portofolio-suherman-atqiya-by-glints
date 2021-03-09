@@ -1,0 +1,233 @@
+<h5 class="mb-lg-3 font-weight-bold">Promo Toko</h5>
+<div class="card">
+  <div class="card-header bg-white">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <span class="h6 font-weight-bold">Daftar Banner Promo</span>
+      </div>
+      
+      <div class="col-md-6">
+        <button type="button" class="btn btn-sm btn-outline-main float-md-right" (click)="openModalPromo()">
+          Tambah promo baru
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card-body">
+    <div class="row">
+      <div *ngFor="let item of dataPromo | paginate: config" class="col-sm-12">
+        <div class="card mb-3">
+          <img src="{{item.banner}}" class="card-img-top img-fluid" style="object-fit: cover; height: 300px;" alt="image-banner">
+          <div class="card-body">
+            <h5 class="card-title">{{item.name}}</h5>
+            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+              <p class="card-text font-weight-bold {{item.promoStatus}} text-capitalize">
+                {{item.promoDate}}
+              </p>
+              <button type="button" class="btn btn-main btn-detail-promo px-2" (click)="clickDetailPromo(item)">
+                Lihat Rincian Promo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-md-4 col-sm-3 d-flex">
+        <div class="d-none d-sm-block">
+          <small>Tampilkan per halaman</small>
+        </div>
+        <select (change)="onPageSizeChange($event)" [(ngModel)]="config.itemsPerPage" class="form-control-sm b-10 mx-1">
+          <option *ngFor="let discountPage of pageSizes">{{discountPage}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-8 col-sm-9">
+        <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="onPageChange($event)">
+          <div class="d-flex justify-content-center">
+            <span [class.disabled]="p.isFirstPage()" *ngIf="!p.isFirstPage()" (click)="p.previous()"
+            class="px-3 mx-1 btn btn-sm btn-outline-secondary">
+            Prev
+          </span>
+          <div *ngFor="let page of p.pages">
+            <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value"
+            class="mx-1 btn btn-sm btn-outline-secondary">
+            {{ page.label }}
+          </span>
+          <div *ngIf="p.getCurrent() === page.value">
+            <span class="mx-1 btn btn-sm btn-secondary font-weight-bold">
+              {{ page.label }}
+            </span>
+          </div>
+        </div>
+        <div class="pagination-next" [class.disabled]="p.isLastPage()">
+          <span class="px-3 mx-1 btn btn-sm btn-outline-secondary" *ngIf="!p.isLastPage()" (click)="p.next()"> Next
+          </span>
+        </div>
+      </div>
+    </pagination-template>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- modal form promo -->
+<ng-template #modalPromo let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modalAddPromoLabel">
+    </h5>
+    <a class="close mb-2 text-decoration-none" style="cursor: pointer;" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+  <form [formGroup]="formPromo">
+    <div class="modal-body" style="max-height: calc(100vh - 250px); overflow-y: auto;">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <p><span class="font-weight-bold">Upload Gambar Promo.</span> Dimensi yang disarankan: 1200px * 600px</p>
+            <div class="card card-body bg-white text-center">
+              <div *ngIf="myImagePromo == false">
+                <input #filePromo id="input-promo-image" type="file" accept="image/*"
+                (change)="imagePromo(filePromo.files)" hidden>
+                <label for="input-promo-image" class="align-self-center">
+                  <img src="../../../../assets/img/form/add-image.svg" style="object-fit: contain; height: 300px;" alt="blank-promo" class="align-self-center">
+                </label>
+              </div>
+              
+              <div *ngIf="myImagePromo == true">
+                <input #filePromo id="input-promo-image" type="file" accept="image/*"
+                (change)="imagePromo(filePromo.files)" hidden>
+                <label for="input-promo-image" class="align-self-center">
+                  <img [src]="dataImagePromoView" class="img-fluid align-self-center" style="object-fit: contain; height: 300px;"  for="input-banner">
+                </label>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="col-sm-12 mt-3">
+          <div class="form-group row">
+            <label for="promoName" class="col-lg-3 col-form-label font-weight-bold">Nama Promo</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control b-10" placeholder="Nama Promo" formControlName="name"
+              [ngClass]="{'is-invalid': formPromo.get('name').errors && (formPromo.get('name').touched || formPromo.get('name').dirty)}">
+              <div class="invalid-feedback" *ngIf="formPromo.get('name').errors">
+                Nama Promo Wajib Diisi
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group row">
+            <div class="col-md-12 justify-content-center text-center font-weight-bold text-danger mb-2" *ngIf="alertValidDate">
+              <small>
+                {{messageValidDate}}
+              </small>
+            </div>
+            <label for="inputPromoDate" class="col-lg-3 col-form-label font-weight-bold my-2">Masa Aktif Promo</label>
+            <div class="col-sm-8">
+              <div class="row" *ngIf="promoActive == false">
+                <div class="col-sm-6">
+                  <input type="date" class="form-control b-10 my-2" formControlName="startdate" id="promoStart"
+                  placeholder="Mulai" [ngClass]="{'is-invalid': formPromo.get('startdate').errors && (formPromo.get('startdate').touched || formPromo.get('startdate').dirty)}">
+                  <div class="invalid-feedback" *ngIf="formPromo.get('startdate').errors">
+                    Tanggal Mulai Promo Wajib Diisi
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <input type="date" class="form-control b-10 my-2" id="promoEnd" formControlName="enddate"
+                  placeholder="Batas Akhir" [ngClass]="{'is-invalid': formPromo.get('enddate').errors && (formPromo.get('enddate').touched || formPromo.get('enddate').dirty)}">
+                  <div class="invalid-feedback" *ngIf="formPromo.get('enddate').errors">
+                    Tanggal Batas Akhir Promo Wajib Diisi
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="promoActive != false">
+                <div class="col-sm-6">
+                  <input type="date" class="form-control-plaintext b-10 my-2" formControlName="startdate"
+                  id="promoStart" placeholder="Mulai" readonly>
+                </div>
+                <div class="col-sm-6">
+                  <input type="date" class="form-control-plaintext b-10 my-2" formControlName="enddate" id="endStart"
+                  placeholder="Akhir" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group row">
+            <label for="promoDesc" class="col-lg-3 col-form-label font-weight-bold">Keterangan Promo</label>
+            <div class="col-lg-8">
+              <textarea class="form-control b-10" formControlName="desc" id="promoDesc" rows="5"
+              placeholder="Keterangan Promo" [ngClass]="{'is-invalid': formPromo.get('desc').errors && (formPromo.get('desc').touched || formPromo.get('desc').dirty)}"></textarea>
+              <div class="invalid-feedback" *ngIf="formPromo.get('desc').errors">
+                Keterangan Promo Wajib Diisi
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="container-fluid">
+        <button *ngIf="submitButton" type="button" class="float-left btn btn-main px-lg-5 m-2"
+        (click)="savePromo(formPromo.value['id'])">Simpan</button>
+        <button (click)="modal.close('close promo')" type="button"
+        class="float-left btn btn-outline-second-main px-lg-5 m-2" data-dismiss="modal">Batalkan</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<!-- modal detail promo -->
+<div class="modal fade" id="modalPromo" tabindex="-1" role="dialog" aria-labelledby="modalPromoLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-lg " role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modalPromoLabel">
+        
+      </h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row no-gutters">
+        <div class="col-sm-12 text-center">
+          <div class="label-promo-banner"></div>
+        </div>
+        <div class="container">
+          <div class="col-sm-12">
+            <div class="label-promo-name font-weight-bold my-3 h4"></div>
+          </div>
+          <div class="col-sm-12">
+            <div class="label-promo-date font-weight-normal text-muted my-3"></div>
+          </div>
+          <div class="col-sm-12">
+            <div class="label-promo-desc small text-justify"></div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="container-fluid">
+        <button type="button" class="float-left btn btn-main px-5 m-2" data-dismiss="modal">Kembali</button>
+        <button type="button" class="float-left btn btn-outline-second-main px-5 m-2 btn-edit-promo"
+        (click)="editPromo()">Ubah</button>
+        <input type="hidden" name="promo_id">
+        <button type="button" class="float-right btn btn-sm btn-main-danger px-5 m-2 btn-delete-promo"
+        (click)="deletePromo()">Hapus Promo Ini</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+</div>

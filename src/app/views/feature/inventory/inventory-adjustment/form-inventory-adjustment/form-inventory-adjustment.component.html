@@ -1,0 +1,160 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+
+<form [formGroup]="formAdjustment">
+	<div class="card" id="cardFormModule">
+		<div class="card-body">
+			<div class="form-row">
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-md-3">
+					<label for="" id="lab-form">Pilih Gudang</label>
+					<ng-select
+						formControlName="master_warehouse_id" 
+						placeholder="Select" 
+						aria-required="required" 
+						(change)="productSelect($event)">
+						<ng-option 
+							[value]="warehouse.id" 
+							[disabled]="warehouse.disabled" 
+							*ngFor="let warehouse of dataWarehouse.data">
+							{{ warehouse.name }}
+						</ng-option>
+					</ng-select>
+				</div>
+				<div class="form-group col-md-3"></div>
+				<div class="form-group col-md-3">
+					<label for="" id="labe-form">No. Penyesuaian Barang</label>
+					<input 
+						class="form-control" 
+						formControlName="adjustment_no"
+						readonly>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-sm-3">
+					<label id="lab-form">Tanggal</label>
+					<input type="date" class="form-control" formControlName="created_at" id="example-date-input">
+				</div>
+				<div class="form-group col-md-3"></div>
+				<div class="form-group col-sm-5">
+					<label id="labe-form">Deskripsi</label>
+					<textarea formControlName="notes" id="note" rows="3" class="form-control"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>	
+	<br>
+<div class="card" id="cardFormModule">
+	<div class="card-body">
+		<table class="table" id="table-module">
+			<thead>
+				<tr>
+					<th>
+						<div id="box">
+							<img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus">
+						</div>
+					</th>
+					<th id="head-table">Produk</th>
+					<th id="head-table">Varian 1</th>
+					<th id="head-table">Varian 2</th>
+					<th id="head-table">Jumlah</th>
+					<th id="head-table">Harga Pokok</th>
+					<th id="head-table">Total</th>
+					<th id="head-table"></th>
+				</tr>
+			</thead>
+			<tbody *ngIf="orderTable">
+				<tr *ngFor="let item of inventories; let i = index">
+					<td>
+						<div id="box">
+							<img 
+								src="../../../../../../assets/img/form/check.svg" 
+								alt="check" id="img-data">
+						</div>
+					</td>
+					<td>
+						<ng-select
+							class="custom"
+							name="name{{ i }}"
+							placeholder="Select Item" 
+							appendTo=".card" 
+							[searchable]="true"
+							[clearable]="true"
+							[(ngModel)]="item.master_product_id" 
+							(change)="selectProduct(i, $event, 1)">
+								<ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataProduct.data">
+									{{ item.product_name }}
+								</ng-option>
+						</ng-select>
+					</td>
+					<td>
+						<ng-select
+							name="variant{{i}}"
+							placeholder="Select Variant"
+							appendTo=".card"
+							[searchable]="true"
+							[clearable]="true"
+							[(ngModel)]="item.value1"
+							(change)="selectVariant(i, $event, 1)">
+								<ng-option [value]="variant1.value1" [disabled]="item.disabled" *ngFor="let variant1 of item.select_value1">
+									{{ variant1.value1 }}
+								</ng-option>
+						</ng-select>
+					</td>
+					<td>
+						<ng-select
+							name="variant2_{{i}}"
+							[readonly]="item.disabledVar2"
+							placeholder="Select Variant"
+							appendTo=".card"
+							[searchable]="true"
+							[(ngModel)]="item.value2"
+							(change)="selectVariant(i, $event, 2)">
+							<ng-option [value]="variant2.value2" [disabled]="item.disabled" *ngFor="let variant2 of item.new_value2">
+								{{ variant2.value2 }}
+							</ng-option>
+						</ng-select>
+					</td>
+					<td>
+						<input 
+							class="form-control" 
+							type="number" 
+							[(ngModel)]="item.qty" 
+							name="qty{{i}}"
+							(keyup)="orderTotal(i, 1)">
+					</td>
+					<td>
+						<input 
+							class="form-control" 
+							currencyMask name="price{{i}}" 
+							[disabled]="item.disabledQty" 
+							[(ngModel)]="item.price_product"
+							readonly>
+					</td>
+					<td>{{ item.total_price | currency:'Rp ':'symbol':'1.0' }}</td>
+					<td><img src="../../../../../../assets/img/form/icon-delete.svg" width="15" alt="" style="cursor: pointer;" (click)="removeOrder(i,item.id)"></td>
+				</tr>
+			</tbody>
+			<tfoot *ngIf="duplicateData">
+				<tr>
+					<td colspan="8" style="text-align: center;" (click)=removeDuplicate() title="klik untuk hilangkan">
+						<div class="display-error">Anda sudah menambahkan produk dengan varian yang sama</div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<div class="col-sm-12">
+			<button id="btn-product" type="button" (click)="addOrder()">
+				<img src="../../../../../../assets/img/form/plus.svg" width="17" alt=""> Tambah Produk
+			</button>
+		</div>
+	</div>
+	<div class="card-footer text-right">
+		<button id="btn-save" type="button" (click)="submitSave()">Proses</button>
+		<button 
+			type="submit" 
+			[routerLink]="['/dashboard-inventory/inventory-adjustment']" 
+			id="btn-cancel">Batalkan</button>
+	</div>
+</div>

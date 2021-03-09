@@ -1,0 +1,85 @@
+<ng-template #modalDelete let-modal>
+	<div class="modal-body">
+		<br>
+		<div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+			<h6>Hapus Penyesuaian Gudang</h6>
+		</div>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 id="txt-delete">{{ adjustmentNumber }}</h6>
+        </div>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 id="txt-delete">{{ inventoryName }}</h6>
+        </div><br>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-danger" (click)=deleteItem(adjustmentId)>Delete</button>
+		<button class="btn btn-secondary" (click)="modal.close('Save click')">Batalkan</button>
+	</div>
+</ng-template>
+<div class="row">
+	<div class="col-sm-6">
+		<app-breadcrumb [data]="menuBreadCrumb"></app-breadcrumb>
+	</div>
+	<div class="col-sm-6 text-right">
+		<a routerLink="{{urlCreate}}" id="btn-core" class="btn" style="margin-right: 15px;">{{ configAttribute.titleCreate }}</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-8">
+		<ng-select
+			placeholder="Pilih Gudang"
+			[searchable]="true" 
+			[clearable]="true" 
+			[formControl]="warehouse"
+			(change)=changeWarehouse($event) class="summary-select">
+			<ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataWarehouse.data">
+				{{ item.name }}
+			</ng-option>
+		</ng-select>
+	</div>
+    <div class="col-sm-3" id="search-form">
+        <div class="input-group">
+    		<p style="padding-top: 0.5em; margin-right: 0.5em;">Filter</p>
+			<input type="date" class="form-control" #searchInput id="example-date-input">
+        </div>
+    </div>
+</div>
+<div class="row">
+
+</div><br>
+<div class="card" id="cardFormModule">
+	<div class="card-body">
+		<h6 class="card-title text-center">{{ titleCardAccount }}</h6>
+	</div>
+	<div class="card-body">
+		<table *ngIf="table" class="table" id="table-module">
+			<thead>
+				<tr>
+					<th id="head-table" *ngFor="let item of dataColumnTable">{{ item }}</th>
+				</tr>
+			</thead>
+			<tbody id="tableApi">
+				<tr *ngFor="let invent_adj of dataApi.data.data; let i = index">
+					<td>{{ invent_adj.created_at | date :'dd-MMMM-yyyy' }}</td>
+					<td>{{ invent_adj.adjustment_no }}</td>
+					<td>{{ invent_adj.name }}</td>
+					<td>
+                        <img src="../../../../assets/img/form/ellipsis.svg" alt="icon" id="icon-testimonial" class="dropdown-toggle" data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu" aria-labelledby="icon-testimonial">
+                            <a class="dropdown-item" id="item-order" routerLink="{{urlDetail}}/{{invent_adj.id}}">Detail</a>
+                            <!-- <a class="dropdown-item" id="item-order" (click)="openDeleteModal(invent_adj.id, invent_adj.adjustment_no, invent_adj.name)">Hapus</a> -->
+                        </div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table *ngIf="table == false" class="table" id="table-module">
+			<tbody id="tableApi">
+				<tr>
+					<td class="display-no-data">Tidak ada data penyesuaian stock di gudang yang dipilih</td>
+				</tr>
+			</tbody>
+		</table>
+		<app-pagination [dataApi]="dataApi"></app-pagination>
+	</div>
+</div>

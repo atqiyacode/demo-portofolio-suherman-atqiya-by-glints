@@ -1,0 +1,59 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<ng-template #content let-modal>
+    <div class="modal-header bg-danger">
+        <h4  class="modal-title" id="modal-basic-title">{{configAttribute.button.btnDelete}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+    <div class="modal-body">
+        <h3>{{configAttribute.button.btnDelete}} {{configAttribute.master.name_courier}} {{valDelete}}</h3>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="onDelete()">{{configAttribute.button.btnDelete}}</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+<div class="card" id="cardFormModule">
+    <div class="card-body" style="border-bottom: 1px solid #DBDBDB;">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">{{titleCardAccount}}</h6>
+            <a routerLink="{{urlCreate}}" id="btn-core">{{configAttribute.titleCreate}}</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table *ngIf="table" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th><div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div></th>
+                    <th id="head-table" *ngFor="let item of dataColumnTable">{{item}}</th>
+                </tr>
+            </thead>
+        
+            <tbody id="tableApi">
+                <tr *ngFor="let logistic of dataApi.data.data; let i = index">
+                    <td>{{i+dataApi.data.from}}</td>
+                    <td>{{logistic.nama_kurir}}</td>
+                    <td style="font-size: 20px;">
+                        <span class="badge badge-info" *ngFor="let delivery of logistic.logistic_type">{{delivery.jenis_pengiriman}}</span>
+                    </td>
+                    <td>{{logistic.created_at}}</td>
+                    <td>{{logistic.updated_at}}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-warning" (click)="formUpdate(logistic.id)">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger" (click)="openModal(logistic.id)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApi"></app-pagination>
+    </div>
+</div>

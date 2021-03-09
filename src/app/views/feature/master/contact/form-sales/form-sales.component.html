@@ -1,0 +1,147 @@
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="card-title">Data Kontak Sales</div>
+            <a (click)="openModalSales(1)" id="btn-core">Tambah Sales</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table *ngIf="tableSales" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                    <th id="head-table">Nama</th>
+                    <th id="head-table">Kode</th>
+                    <th id="head-table">Email</th>
+                    <th id="head-table">Telepon</th>
+                    <th id="head-table"></th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let item of dataApiSales.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.code}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>
+                        <img src="../../../../../assets/img/form/list.svg" id="img-form" class="dropdown-toggle" data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu">
+                            <a class="dropdown-item" id="item-order" (click)="showByIdSales(2,item.id)">Edit</a>
+                            <a class="dropdown-item" id="item-order" (click)="showByIdSales(3,item.id)">Hapus</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApiSales"></app-pagination>
+    </div>
+</div>
+
+<!-- MODAL -->
+<ng-template #modalSales let-modal>
+    <div class="modal-body">
+        <br>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+            <img src="../../../../../assets/img/form/contact.png" width="25">
+            <h6 class="card-title" *ngIf="btnSalesActive == 1">Tambah Sales</h6>
+            <h6 class="card-title" *ngIf="btnSalesActive == 2">Edit Sales</h6>
+            <h6 class="card-title" *ngIf="btnSalesActive == 3">Hapus Sales</h6>
+        </div>
+        <br>
+        <div id="border">
+            <div class="nav" id="myTab" role="tablist">
+
+                <a class="nav-link" id="address-tab">
+                    <span class="link-collapse"></span>
+                </a>
+                <a class="nav-link active" id="public-tab" data-toggle="tab" href="#public" role="tab">
+                    <span class="link-collapse">Umum</span>
+                </a>
+                <a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab">
+                    <span class="link-collapse">Alamat</span>
+                </a>
+                <a></a>
+            </div>
+        </div>
+        <br>
+        <div class="tab-content" id="myTabContent">
+            <div [formGroup]="formSales" class="tab-pane fade show active" id="public" role="tabpanel" aria-labelledby="public-tab">
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" class="form-control" formControlName="name" (change)="setCodeSales($event)" [ngClass]="{ 'is-invalid': formSales.get('name').invalid && formSales.get('name').touched }">
+                    <div *ngIf="formSales.get('name').invalid && formSales.get('name').touched" class="invalid-feedback">
+                        <div>Nama harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': formSales.get('email').invalid && formSales.get('email').touched }">
+                    <div *ngIf="formSales.get('email').invalid && formSales.get('email').touched" class="invalid-feedback">
+                        <div>Email harus diisi/sesuai format email</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Telepon</label>
+                    <input type="number" class="form-control" formControlName="phone" [ngClass]="{ 'is-invalid': formSales.get('phone').invalid && formSales.get('phone').touched }">
+                    <div *ngIf="formSales.get('phone').invalid && formSales.get('phone').touched" class="invalid-feedback">
+                        <div>Telepon harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kode Kontak</label>
+                    <input *ngIf="btnSalesActive == 1" type="text" class="form-control" formControlName="code" [ngClass]="{ 'is-invalid': formSales.get('code').invalid && formSales.get('code').touched }">
+                    <input *ngIf="btnSalesActive > 1" type="text" class="form-control" formControlName="code" readonly>
+                    <div *ngIf="formSales.get('code').invalid && formSales.get('code').touched" class="invalid-feedback">
+                        <div>Code harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="is_active">
+                        <span class="slider round"></span>
+                    </label>
+                    <label id="label-switch">
+                        Aktif</label>
+                </div>
+            </div>
+            <div [formGroup]="formAddress" class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                <div class="form-group">
+                    <label>Alamat Lengkap</label>
+                    <input type="text" class="form-control" formControlName="address" [ngClass]="{ 'is-invalid': formAddress.get('address').invalid && formAddress.get('address').touched }">
+                    <div *ngIf="formAddress.get('address').invalid && formAddress.get('address').touched" class="invalid-feedback">
+                        <div>Alamat harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kota/Kecamatan</label>
+                    <input type="text" class="form-control" (keyup)="searchLocationSales($event)" formControlName="location" [ngClass]="{ 'is-invalid': formAddress.get('location').invalid && formAddress.get('location').touched }">
+                    <div id="form-select" *ngIf="dropdownSelectSales">
+                        <div id="dropdown-search" class="dropdown-item" *ngFor="let item of dataSelectLocationSales.data" (click)="setLocationSales(item)">{{item.label}}</div>
+                    </div>
+                    <div *ngIf="formAddress.get('location').invalid && formAddress.get('location').touched" class="invalid-feedback">
+                        <div>Kota/Kecamatan harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kode Pos</label>
+                    <input type="number" class="form-control" formControlName="postalcode" [ngClass]="{ 'is-invalid': formAddress.get('postalcode').invalid && formAddress.get('postalcode').touched }">
+                    <div *ngIf="formAddress.get('postalcode').invalid && formAddress.get('postalcode').touched" class="invalid-feedback">
+                        <div>Kode Pos harus diisi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="btn-save" *ngIf="btnSalesActive == 1" (click)="saveSales()">Save</button>
+        <button type="button" id="btn-save" *ngIf="btnSalesActive == 2" (click)="updateSales()">Update</button>
+        <button type="button" id="btn-save" *ngIf="btnSalesActive == 3" (click)="deleteSales()">Delete</button>
+        <button type="button" id="btn-cancel" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>

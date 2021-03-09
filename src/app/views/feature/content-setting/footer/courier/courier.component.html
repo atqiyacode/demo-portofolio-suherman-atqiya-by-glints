@@ -1,0 +1,38 @@
+<h5 class="mb-3 font-weight-bold">Pengiriman</h5>
+<div class="card">
+    <div class="card-header bg-white">
+        <span class="font-weight-bold h6">
+            Pilihan jasa ekspedisi pengiriman
+        </span>
+    </div>
+    <table class="table text-center table-borderless card-body m-0 shadow-none">
+        <tbody>
+            <tr class="border-bottom m-0" *ngFor="let item of dataCourier; let i=index">
+                <td class="text-center" width="20%">
+                    <img src="{{item.logo_url}}" alt="logo-courier" class="img-fluid my-2">
+                </td>
+                <td width="20%">
+                    <p class="h6 my-2">{{item.nama_kurir}}</p>
+                </td>
+                <td width="60%">
+                    <div class="form-group float-right d-flex">
+                        <ng-container *ngIf="item.is_active == 1; else elseTemplate">
+                            <p class="h6 m-2">Aktif</p>
+                            <label class="switch">
+                                <input type="checkbox" checked [(ngModel)]="item.is_active" (change)="onCourierChange(item)">
+                                <span class="slider round"></span>
+                            </label>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <p class="h6 m-2">Non-aktif</p>
+                            <label class="switch">
+                                <input type="checkbox" [(ngModel)]="item.is_active" (change)="onCourierChange(item)">
+                                <span class="slider round"></span>
+                            </label>
+                        </ng-template>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,17 @@
+<h6 class="mb-lg-4 font-weight-bold">Discount Page</h6>
+<div class="nav" id="nav-tab" role="tablist">
+  <a class="text-muted text-decoration-none mx-3 discount-tab all-discount"
+    data-toggle="tab" [routerLink]="['discount-setting/all-discount']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" role="tab" aria-controls="nav-disc-all" aria-selected="true">Semua
+    Data</a>
+  <a class="text-muted text-decoration-none mx-3 discount-tab active-discount" data-toggle="tab"
+    [routerLink]="['discount-setting/active-discount']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" role="tab" aria-controls="nav-disc-active" aria-selected="false">Sedang Berjalan</a>
+  <a class="text-muted text-decoration-none mx-3 discount-tab next-discount" data-toggle="tab"
+    [routerLink]="['discount-setting/next-discount']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" role="tab" aria-controls="nav-disc-next" aria-selected="false">Akan
+    Datang</a>
+  <a class="text-muted text-decoration-none mx-3 discount-tab passed-discount" data-toggle="tab"
+    [routerLink]="['discount-setting/passed-discount']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" role="tab" aria-controls="nav-disc-passed" aria-selected="false">Telah
+    Berakhir</a>
+</div>
+<div class="tab-content" id="nav-tabContent">
+  <router-outlet></router-outlet>
+</div>

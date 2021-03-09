@@ -1,0 +1,157 @@
+<div class="row">
+    <div class="col-sm-8">
+        <app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+    </div>
+    <div class="col-sm-3" id="search-form">
+        <div class="input-group">
+            <input #searchInput id="input-search" type="text" class="form-control" placeholder="Cari"
+                aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1" style="background-color: #F6F6F6;">
+                    <img src="../../../../../assets/img/form/magnifier.svg" width="15" alt="">
+                </span>
+            </div>
+        </div>
+    </div>
+</div><br>
+
+<div class="card" id="cardFormModule">
+    <div class="card-body" style="border-bottom: 1px solid #DBDBDB;">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Data Kategori</h6>
+            <button id="btn-core" (click)="openModal(1)">Tambah Kategori</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table *ngIf="table" class="table" id="table-module">
+                <thead>
+                    <tr>
+                        <th>
+                            <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg"
+                                    alt="minus"></div>
+                        </th>
+                        <th id="head-table">NAMA</th>
+                        <th id="head-table">SUB KATEGORI DARI</th>
+                        <th id="head-table">STATUS</th>
+                        <th id="head-table">ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tableApi">
+                    <tr *ngFor="let item of dummyData; let i = index">
+                        <td>
+                            <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg"
+                                    alt="check"></div>
+                        </td>
+                        <td>{{item.product_category_name}}</td>
+                        <td style="min-width: 50px;">
+                            {{item.sub_category.parent2}}
+                            <img *ngIf="item.sub_category.image == true"
+                                src="../../../../assets/img/form/chevron-right.svg" alt="">
+                            {{item.sub_category.parent1}}
+                        </td>
+                        <td>
+                            <span class="badge badge-success" *ngIf="item.is_active == 1">Aktif</span>
+                            <span class="badge badge-danger" *ngIf="item.is_active != 1">Tidak Aktif</span>
+                        </td>
+                        <td>
+                            <img src="../../../../assets/img/form/ellipsis.png" alt="icon" id="icon-testimonial"
+                                class="dropdown-toggle" data-toggle="dropdown">
+                            <div id="dropdown-menu-order" class="dropdown-menu" aria-labelledby="icon-testimonial">
+                                <a class="dropdown-item" id="item-order" (click)="showById(item.id,2)">Edit</a>
+                                <!-- <a class="dropdown-item" id="item-order" (click)="showById(item.id,3)">Hapus</a> -->
+                                <!-- <a class="dropdown-item" id="item-order" (click)="formUpdate(item.id)">Edit</a>
+                                <a class="dropdown-item" id="item-order" (click)="openModal(item.id)">Hapus</a>
+                                <a class="dropdown-item" id="item-order" (click)="openModal(item.id)">Detail</a>
+                                <a class="dropdown-item" id="item-order" (click)="openModal(item.id)">Go to Invoice</a> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- <app-pagination [dataApi]="dataApi"></app-pagination> -->
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-body">
+
+        <form [formGroup]="formCreate">
+            <br>
+            <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <h6 class="card-title" *ngIf="btnActive == 1">Tambah Kategori</h6>
+                <h6 class="card-title" *ngIf="btnActive == 2">Edit Kategori</h6>
+                <h6 class="card-title" *ngIf="btnActive == 3">Hapus Kategori</h6>
+            </div>
+            <br>
+            <div id="myTabContent">
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input *ngIf="btnActive != 3" type="text" class="form-control"
+                        formControlName="product_category_name">
+                    <input *ngIf="btnActive == 3" type="text" class="form-control"
+                        formControlName="product_category_name" readonly>
+                </div>
+                <div class="form-group" *ngIf="btnActive == 1">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="is_category" (change)="checkboxCategory()">
+                        <span class="slider round"></span>
+                    </label>
+                    <label id="label-switch"> Adalah turunan dari kategori</label>
+                </div>
+                <div class="form-group" *ngIf="subCategory != 0">
+                    <label>Sub kategori dari</label>
+                    <ng-select [items]="dataSubProduct.data" bindLabel="product_category_name" bindValue="id"
+                        formControlName="child" (change)="selectSubCategory($event)">
+                    </ng-select>
+                </div>
+                <div class="form-group" *ngIf="subCategory != 0">
+                    <label>{{subCategoryName}} sub kategori dari</label>
+                    <ng-select placeholder="Select item" [searchable]="true" [clearable]="true" formControlName="parent"
+                        *ngIf="valSub == 0">
+                        <ng-option>
+                        </ng-option>
+                    </ng-select>
+                    <ng-select placeholder="Select item" [searchable]="true" [clearable]="true" formControlName="parent"
+                        *ngIf="valSub != 0">
+                        <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataSelectChild">
+                            {{item.product_category_name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group" *ngIf="btnActive != 3">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="is_active">
+                        <span class="slider round"></span>
+                    </label>
+                    <label id="label-switch"> Aktif</label>
+                </div>
+                <div class="form-group" *ngIf="btnActive == 3">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="is_active" disabled>
+                        <span class="slider round"></span>
+                    </label>
+                    <label id="label-switch"> Aktif</label>
+                </div>
+            </div>
+            <br>
+
+        </form>
+    </div>
+    <div class="alert" *ngIf="alertError">
+        <p>{{errorMessage}}</p>
+    </div>
+    <div class="modal-footer">
+        <div id="btn-footer">
+            <button type="button" id="btn-save" *ngIf="btnActive == 1" (click)="submitSave(1)">Simpan</button>
+            <button type="button" id="btn-save" *ngIf="btnActive == 2" (click)="submitSave(2)">Edit</button>
+            <button type="button" id="btn-save" *ngIf="btnActive == 3" (click)="submitSave(3)">Hapus</button>
+            <button type="submit" id="btn-cancel" (click)="modal.dismiss('Cross click')">Batalkan</button>
+        </div>
+
+    </div>
+</ng-template>

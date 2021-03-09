@@ -1,0 +1,105 @@
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <br>
+        <div class="d-flex justify-content-between">
+            <p id="txt-header">SALES QUOTATION</p>
+            <p *ngIf="status == 0" id="txt-header">Open</p>
+            <p *ngIf="status == 1" id="txt-header">Approved</p>
+            <p *ngIf="status == 2" id="txt-header">Denied</p>
+            <p id="txt-company"></p>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-start">
+            <p id="txt-body">Ke :
+                {{name}}</p>
+        </div><br>
+        <div class="d-flex flex-row">
+            <p id="txt-body" class="body-addr">Alamat Pelanggan</p>
+            <p id="txt-body-no" class="body-no">No Pesanan :
+                {{noQuotation}}</p>
+            <p id="txt-body" class="body-no">Tanggal Penawaran :
+                {{date | date :'dd MMM yyyy'}}</p>
+        </div>
+        <div class="d-flex flex-row">
+            <p id="txt-body" class="body-address">{{addressDelivery}}
+            </p>
+        </div><br>
+
+        <table class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th id="head-table">Product Code</th>
+                    <th id="head-table">Nama Produk</th>
+                    <th id="head-table">Varian</th>
+                    <th id="head-table">Jumlah</th>
+                    <th id="head-table">Harga Satuan</th>
+                    <th id="head-table">Total</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let item of detailsQuotation; let i = index">
+                    <td *ngIf="item.products.variant?.length > 0 && item.products.sku == null">
+                        <p>{{item.products.variant[0].sku}}</p>
+                    </td>
+                    <td *ngIf="item.products.sku != null">{{item.products.sku}}</td>
+                    <td id="td-product-name">{{item.products.product_name}}</td>
+                    <td *ngIf="item.products.variant?.length > 0">
+                        {{item.products.variant[0].value1}}
+                        <br>
+                        {{item.products.variant[0].value2}}
+                    </td>
+                    <td *ngIf="item.products.variant?.length == 0"></td>
+                    <td>{{item.qty}}</td>
+                    <td>{{item.price | currency:'Rp ':'symbol':'1.0'}}</td>
+                    <td>{{item.total | currency:'Rp ':'symbol':'1.0'}}</td>
+                </tr>
+            </tbody>
+        </table><br>
+        <div class="d-flex justify-content-end">
+            <p id="txt-subtotal">Subtotal Harga Produk</p>
+            <p id="txt-subtotal-nominal">{{subTotal | currency:'Rp ':'symbol':'1.0'}}</p>
+        </div>
+        <div class="d-flex justify-content-end">
+            <div class="col-12 col-md-7"></div>
+            <div class="col-md-6 border-bottom"></div>
+        </div><br>
+
+        <!-- <div class="d-flex justify-content-end">
+                    <p id="txt-etc">Total Ongkos Kirim</p>
+                    <p id="txt-etc-nominal">{{priceLogistic | currency:'Rp ':'symbol':'1.0'}}</p>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <p id="txt-etc">Biaya Penanganan</p>
+                    <p id="txt-etc-nominal">{{serviceFee | currency:'Rp ':'symbol':'1.0'}}</p>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <p id="txt-etc">Total Pajak</p>
+                    <p id="txt-etc-nominal">{{tax | currency:'Rp ':'symbol':'1.0'}}</p>
+                </div><br> -->
+
+        <div class="d-flex justify-content-end">
+            <div class="col-12 col-md-7"></div>
+            <div class="col-md-6 border-bottom"></div>
+        </div><br>
+
+        <div class="d-flex justify-content-end">
+            <p id="txt-total">Total Pesanan</p>
+            <p id="txt-total-nominal">{{subTotal | currency:'Rp ':'symbol':'1.0'}}</p>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <div class="col-12 col-md-7"></div>
+            <div class="col-md-6 border-bottom"></div>
+        </div><br><br>
+
+        <div class="d-flex justify-content-start">
+            <div class="col-12 col-md-2"></div>
+            <div class="col-12 col-md-2">Salesman</div>
+        </div><br><br><br><br>
+
+        <div class="col-md-3 border-bottom" id="bottom-salesman"></div>
+        <br><br>
+    </div>
+</div>

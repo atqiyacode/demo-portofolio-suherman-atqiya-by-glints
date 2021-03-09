@@ -1,0 +1,164 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<div class="alert" *ngIf="alertError">
+    <p>{{errorMessage}}</p>
+</div>
+<div class="card" id="cardFormModule">
+    <div class="card-body" style="border-bottom: 1px solid #DBDBDB;">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Data Gudang</h6>
+            <a (click)="openModal()" (click)="setActive(1,0)" id="btn-core">Tambah Gudang</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table *ngIf="table" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg"
+                                alt="minus"></div>
+                    </th>
+                    <th id="head-table">Kode</th>
+                    <th id="head-table">Nama</th>
+                    <th id="head-table">Peran Gudang</th>
+                    <th id="head-table">Status</th>
+                    <th id="head-table">Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let item of dataApi.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check">
+                        </div>
+                    </td>
+                    <td>{{item.code}}</td>
+                    <td>{{item.name}}</td>
+                    <td>
+                        <h5 *ngIf="item.is_default == 1">
+                            <span class="badge badge-pill badge-success">Gudang Utama</span>
+                        </h5>
+                        <h5 *ngIf="item.is_default == 0">
+                            <span class="badge badge-pill badge-secondary">Gudang Pendukung</span>
+                        </h5>
+                    </td>
+                    <td>
+                        <p *ngIf="item.is_active == 1" id="approved">Aktif</p>
+                        <p *ngIf="item.is_active != 1" id="denied">Non Aktif</p>
+                    </td>
+                    <td>
+                        <img src="../../../../../assets/img/form/list.svg" id="img-form" class="dropdown-toggle"
+                            data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu">
+                            <a class="dropdown-item" id="item-order" (click)="setActive(2,item.id)"
+                                (click)="openModal()">Edit</a>
+                            <!-- <a class="dropdown-item" id="item-order" (click)="setActive(3,item.id)" (click)="openModal()">Hapus</a> -->
+                            <a class="dropdown-item text-wrap" *ngIf="item.is_default != 1 && item.is_active == 1"
+                                id="item-order" (click)="submitSettingWarehouse(item.id)">Jadikan Gudang Utama</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApi"></app-pagination>
+    </div>
+</div>
+
+<ng-template #modal let-modal>
+    <div class="modal-body">
+
+        <form [formGroup]="formCreate">
+            <br>
+            <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <h6 class="card-title" *ngIf="btnActive == 1">Tambah Gudang</h6>
+                <h6 class="card-title" *ngIf="btnActive == 2">Edit Gudang</h6>
+            </div>
+            <br>
+            <div id="myTabContent">
+                <div class="form-group">
+                    <label>Kode</label>
+                    <input type="text" *ngIf="btnActive == 1" class="form-control" formControlName="code"
+                        [ngClass]="{ 'is-invalid': formCreate.get('code').invalid && formCreate.get('code').touched }">
+                    <input type="text" *ngIf="btnActive > 1" class="form-control" formControlName="code" readonly>
+                    <div *ngIf="formCreate.get('code').invalid && formCreate.get('code').touched"
+                        class="invalid-feedback">
+                        <div>Code harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" class="form-control" formControlName="warehouse_name"
+                        [ngClass]="{ 'is-invalid': (submittedForm && formCreate.controls.warehouse_name.errors) ||
+                                                                        (!formCreate.controls.warehouse_name.pristine && formCreate.controls.warehouse_name.invalid) }">
+                    <div class="invalid-feedback"
+                        *ngIf="formCreate.controls.warehouse_name.invalid &&
+                                                                                (formCreate.controls.warehouse_name.dirty || formCreate.controls.warehouse_name.touched)">
+                        <div *ngIf="formCreate.controls.warehouse_name.errors.required">Nama harus diisi</div>
+                        <div *ngIf="formCreate.controls.warehouse_name.errors.minlength">Minimal 5 huruf</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <h6 class="card-title">Alamat Gudang</h6>
+            </div>
+            <br>
+            <div id="myTabContent">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea class="form-control" formControlName="address" id="textarea"
+                        [ngClass]="{ 'is-invalid': (submittedForm && formCreate.controls.address.errors) ||
+                                                                        (!formCreate.controls.address.pristine && formCreate.controls.address.invalid) }"></textarea>
+                    <div class="invalid-feedback"
+                        *ngIf="formCreate.controls.address.invalid &&
+                                                                                (formCreate.controls.address.dirty || formCreate.controls.address.touched)">
+                        <div *ngIf="formCreate.controls.address.errors.required">Alamat harus diisi</div>
+                        <div *ngIf="formCreate.controls.address.errors.minlength">Minimal 5 huruf</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kota/Kecamatan</label>
+                    <input type="text" class="form-control" (keyup)="searchLocation($event)"
+                        [formControl]="formLocation"
+                        [ngClass]="{ 'is-invalid': (submittedForm && formLocation.errors) ||
+                                                                        (!formLocation.pristine && formLocation.invalid) }">
+                    <div id="form-select" *ngIf="dropdownSelect">
+                        <div id="dropdown-search" class="dropdown-item" *ngFor="let item of dataSelectLocation.data"
+                            (click)="setValLocation(item)">{{item.label}}</div>
+                    </div>
+                    <div class="invalid-feedback"
+                        *ngIf="formLocation.invalid &&
+                                                                                (formLocation.dirty || formLocation.touched)">
+                        <div *ngIf="formLocation.errors.required">Kota/Kecamatan harus diisi</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kode Pos</label>
+                    <input type="text" class="form-control" formControlName="postal_code" readonly>
+                </div><br>
+                <div class="form-group">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="is_active">
+                        <span class="slider round"></span>
+                    </label>
+                    <label id="label-switch">
+                        Aktif</label>
+                </div>
+                <div class="alert" *ngIf="alertFormError">
+                    <p>{{errorMessage}}</p>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div id="btn-footer">
+            <button type="button" id="btn-save" *ngIf="btnActive == 1" (click)="submitCreate()">Simpan</button>
+            <button type="button" id="btn-save" *ngIf="btnActive == 2" (click)="submitUpdate()">Ubah</button>
+            <!-- <button type="button" id="btn-save" *ngIf="btnActive == 3" (click)="submitDelete()">Hapus</button> -->
+            <button type="submit" id="btn-cancel" (click)="modal.dismiss('Cross click')">Batalkan</button>
+        </div>
+
+    </div>
+</ng-template>

@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-sm-8">
+        <app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+    </div>
+    <div class="col-sm-3" id="search-form">
+        <div class="input-group">
+            <input #searchInput id="input-search" type="text" class="form-control" placeholder="Cari" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1" style="background-color: #F6F6F6;">
+                    <img src="../../../../../assets/img/form/magnifier.svg" width="15" alt="">
+                </span>
+            </div>
+        </div>
+    </div>
+</div><br>
+<div class="card" id="cardFormModule">
+    <div class="card-body" style="border-bottom: 1px solid #DBDBDB;">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Pembatalan Pesanan</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <table *ngIf="table" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                    <th id="head-table">Tanggal</th>
+                    <th id="head-table" class="wrap-text" style="width: 10em;">Tanggal Pengajuan Pembatalan</th>
+                    <th id="head-table" class="wrap-text">No. Pesanan</th>
+                    <th id="head-table">Nama/Toko Pelanggan</th>
+                    <th id="head-table">Total Pesanan</th>
+                    <th id="head-table">Status</th>
+                    <th id="head-table"></th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let item of dataApi.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>{{item.order_date | date :'dd-MMM-yyyy'}}</td>
+                    <td>{{item.created_at | date :'dd-MMM-yyyy'}}</td>
+                    <td>{{item.order_no}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.total_price | currency:'Rp ':'symbol':'1.0'}}</td>
+                    <td>
+                        <p *ngIf="item.status == 1">Open</p>
+                        <p *ngIf="item.status == 2" id="approved">Approved</p>
+                        <p *ngIf="item.status == -1" id="denied">Rejected</p>
+                    </td>
+                    <td>
+                        <img src="../../../../../assets/img/form/list.svg" id="img-form" class="dropdown-toggle" data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu">
+                            <a class="dropdown-item" *ngIf="item.status == 1" id="item-order" (click)="formStatusDetail(true)" (click)="showById(item.id)">Ubah</a>
+                            <a class="dropdown-item" id="item-order" (click)="formStatusDetail(false)" (click)="showById(item.id)">Detail</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApi"></app-pagination>
+    </div>
+</div>
+<ng-template #contentModal let-modal>
+    <div class="modal-body">
+        <br>
+        <div class="btn-toolbar justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
+            <h5>Form Pembatalan Pesanan</h5>
+        </div><br><br>
+        <form [formGroup]="formSubmitCancel">
+            <div class="form-group">
+                <label>Tanggal Pesanan</label>
+                <input type="text" class="form-control" formControlName="order_date" readonly>
+            </div>
+            <div class="form-group">
+                <label>No Pesanan</label>
+                <input type="text" class="form-control" formControlName="order_no" readonly>
+            </div>
+            <div class="form-group">
+                <label>Tanggal Pengajuan Pembatalan</label>
+                <input type="text" class="form-control" formControlName="created_at" readonly>
+            </div>
+            <div class="form-group">
+                <label>Nama Toko Pelanggan</label>
+                <input type="text" class="form-control" formControlName="name" readonly>
+            </div>
+            <div class="form-group">
+                <label>Total Pesanan</label>
+                <input currencyMask  class="form-control" formControlName="total_price" readonly>
+            </div>
+            <div class="form-group">
+                <label>Alasan Pembatalan</label>
+                <textarea cols="30" rows="4" class="form-control" formControlName="notes" readonly></textarea>
+            </div>
+            <div class="form-group" *ngIf="showDetail">
+                <button *ngIf="loading == false" type="button" id="btn-approved" (click)="settingStatus(2)">Approved</button>
+                <button *ngIf="loading" id="btn-approved" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="sr-only">Loading...</span>
+                </button>
+                <button type="button" id="btn-deny" (click)="settingStatus(-1)">Deny</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

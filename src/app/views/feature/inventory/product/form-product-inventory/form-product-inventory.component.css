@@ -1,0 +1,141 @@
+p{
+    font-size: 15px;
+}
+/*INVALID SELECT*/
+.invalid-form {
+    font-size: 12px;
+    color: red;
+}
+/*IMAGE MAIN*/
+.uploader label {
+	float: left;
+	clear: both;
+	width: 100%;
+	height: 200px;
+	padding: 2rem 1.5rem;
+	text-align: center;
+	background: #fff;
+	border-radius: 7px;
+	border: 3px solid #eee;
+	transition: all 0.2s ease;
+	user-select: none;
+}
+.uploader label:hover {
+	border-color: #454cad;
+}
+.uploader label.hover {
+	border: 3px solid #454cad;
+	box-shadow: inset 0 0 0 6px #eee;
+}
+.uploader label.hover{
+	transform: scale(0.8);
+	opacity: 0.3;
+}
+.uploader #file-image {
+	display: inline;
+	margin: 0 auto 0.5rem auto;
+    max-width: 180px;
+    display: none;
+}
+.uploader div {
+	margin: 0 0 0.5rem 0;
+	color: #5f6982;
+}
+#image-upload {
+    width: 90px;
+    margin-top: 25px;
+}
+#returnUpload {
+	display: block;
+	clear: both;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	max-width: 95%;
+	max-height: 130px;
+}
+/*BUTTON*/
+#btn-add {
+	border: 1px solid #FF785B;
+	box-sizing: border-box;
+	border-radius: 10px;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 22px;
+	color: #FF785B;
+	background-color: #fff;
+	width: 350px;
+	height: 40px;
+}
+#btn-nonactive {
+	border: 1px solid #FF785B;
+	box-sizing: border-box;
+	border-radius: 10px;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 22px;
+	color: white;
+	background-color: red;
+	min-width: 300px;
+	min-height: 40px;
+}
+
+/*IMAGE VARIANT*/
+.uploaderVar label {
+	float: left;
+	clear: both;
+	width: 100%;
+	height: 60px;
+	padding: 2rem 1.5rem;
+	text-align: center;
+	background: #fff;
+	border-radius: 7px;
+	border: 3px solid #eee;
+	transition: all 0.2s ease;
+	user-select: none;
+}
+.uploaderVar label:hover {
+	border-color: #454cad;
+}
+.uploaderVar label.hover {
+	border: 3px solid #454cad;
+	box-shadow: inset 0 0 0 6px #eee;
+}
+.uploaderVar label.hover{
+	transform: scale(0.8);
+	opacity: 0.3;
+}
+.uploaderVar #file-image {
+	display: inline;
+	margin: 0 auto 0.5rem auto;
+	max-width: 180px;
+}
+.uploaderVar div {
+	margin: 0 0 0.5rem 0;
+	color: #5f6982;
+}
+#img-variation {
+	width: 40px;
+}
+#returnUploadVar {
+	display: block;
+	clear: both;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	max-width: 95%;
+	max-height: 60px;
+}
+#txt-grosir {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 15px;
+	color: #4E4E4E;
+}
+/*MODAL VARIANT*/
+@media screen and (min-width: 800px) {
+	#modal-variant {
+	  min-width: 1200px; /* New width for default modal */
+	}
+}

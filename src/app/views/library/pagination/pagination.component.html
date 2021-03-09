@@ -1,0 +1,9 @@
+<div class="col-sm-10 col-md-7" *ngIf="pagination">
+    <p>Showing Row {{data.from}} to {{data.to}} of Total {{data.total}}</p>
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-info btn-sm" (click)="paginationType(1)" [disabled]="!data.first_page_url">First</button> 
+        <button type="button" class="btn btn-outline-info btn-sm" (click)="paginationType(2)" [disabled]="!data.prev_page_url" >Prev</button>
+        <button type="button" class="btn btn-outline-info btn-sm" (click)="paginationType(3)" [disabled]="!data.next_page_url">Next</button> 
+        <button type="button" class="btn btn-outline-info btn-sm" (click)="paginationType(4)" [disabled]="!data.last_page_url">Last</button> 
+    </div>
+</div>

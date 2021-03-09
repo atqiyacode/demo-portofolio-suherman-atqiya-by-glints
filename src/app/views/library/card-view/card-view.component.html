@@ -1,0 +1,25 @@
+<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group" role="group" aria-label="First group">
+      <button type="button" class="btn btn-success" (click)="refresh()">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="btn btn-primary" (click)="openModalCreate()">
+        <i class="{{iconBtnCreate}}" aria-hidden="true"></i> 
+      </button>
+      <!-- <a routerLink="{{urlCreate}}" type="button" class="btn btn-primary">
+        <i class="{{iconBtnCreate}}" aria-hidden="true"></i> 
+      </a> -->
+      <button type="button" class="btn btn-info" (click)="back()" >
+        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="input-group">
+      <input type="text" placeholder="Search ..." class="form-control">
+      <div class="input-group-append">
+          <span class="input-group-text">
+              <i class="la la-search search-icon"></i>
+          </span>
+      </div>
+    </div>
+  </div>
+  <br>

@@ -1,0 +1,47 @@
+<h5 class="mb-3 font-weight-bold">Halaman-halaman Footer</h5>
+<div class="card">
+  <form [formGroup]="formFooter">
+    <div class="card-header bg-white">
+      <h6 class="font-weight-bold">
+        {{footerTitle}}
+      </h6>
+    </div>
+    <div class="card-body">
+      <label for="footer-content" class="font-weight-bold">
+        Konten (Full Custom)
+      </label>
+      <textarea id="footer-content" formControlName="content" class="form-control summernote" rows="10"
+      placeholder="Tuliskan Content Disini"></textarea>
+      <p>
+        {{footerContent}}
+      </p>
+    </div>
+    <div class="card-footer">
+      <div class="row mt-2">
+        <div class="col-sm-8">
+          <button class="btn btn-main-static mx-1" (click)="submitFooter()">Simpan</button>
+          <button class="btn btn-outline-main mx-1" (click)="getFooter()">Batalkan</button>
+        </div>
+        
+        <div class="col-sm-4">
+          <div class="form-group float-right d-flex">
+            <ng-container *ngIf="footerStatus == 1; else elseTemplate">
+              <label class="switch">
+                <input type="checkbox" formControlName="is_active" checked (change)="onChangeFooterStatus(0)">
+                <span class="slider round"></span>
+              </label>
+              <p class="h6 p-2">Aktif</p>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <label class="switch">
+                <input type="checkbox" formControlName="is_active" (change)="onChangeFooterStatus(1)">
+                <span class="slider round"></span>
+              </label>
+              <p class="h6 p-2">Non-aktif</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

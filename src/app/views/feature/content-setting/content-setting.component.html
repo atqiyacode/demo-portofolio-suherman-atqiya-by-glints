@@ -1,0 +1,114 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-3 col-md-12 col-sm-12">
+      <div class="sidebar mb-3">
+        <div class="scrollbar-inner sidebar-wrapper">
+          <div class="card">
+            <a class="px-4 pt-4 pb-2 sidebar-content-setting {{activeLanding}}" id="landing-page" data-toggle="collapse"
+              href="#collapseExample" aria-expanded="true">
+              <span>Landing Page</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <div class="clearfix"></div>
+            <div class="collapse in" id="collapseExample" aria-expanded="true">
+              <ul class="nav list-group" id="nav-tab" role="tablist">
+                <li *ngFor="let item of landingPage" class="nav-item ml-3">
+                  <a (click)="setActiveCs(0)" [routerLink]="item.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link ml-4 small" id="landing-{{item.id}}" data-toggle="tab" role="tab">
+                    {{item.name}}
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <a (click)="setActiveCs(1)" [routerLink]="['dashboard-content-setting/promo-setting']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="px-4 py-2 sidebar-content-setting btn-pointer {{activePromo}}" id="promo-page" >
+              <span>Promo Page</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <div class="clearfix"></div>
+            <a class="px-4 py-2 sidebar-content-setting {{activeFooter}}" data-toggle="collapse" href="#collapseFooter"
+              aria-expanded="true" id="footer-page" >
+              <span>Footer Page</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <div class="clearfix"></div>
+            <div class="collapse in" id="collapseFooter" aria-expanded="true">
+              <ul class="nav list-group" id="nav-tab" role="tablist">
+                <li class="nav-item ml-3">
+                  <a class="nav-link ml-4 small">
+                    <span class="text-uppercase font-weight-bold master-link-item ">layanan customer</span>
+                  </a>
+                </li>
+
+                <li *ngFor="let item of customerService" class="nav-item ml-3">
+                  <a (click)="setActiveCs(2)" [routerLink]="item.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  class="nav-link ml-4 small btn-pointer">
+                    <span class="text-capitalize">{{item.name}}</span>
+                  </a>
+                </li>
+
+                <div class="dropdown-divider"></div>
+                <li class="nav-item ml-3">
+                  <a class="nav-link ml-4 small">
+                    <span class="text-uppercase font-weight-bold master-link-item ">tentang kami</span>
+                  </a>
+                </li>
+
+                <li *ngFor="let item of aboutUs" class="nav-item ml-3">
+                  <a (click)="setActiveCs(2)" [routerLink]="item.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  class="nav-link ml-4 small btn-pointer">
+                    <span class="text-capitalize">{{item.name}}</span>
+                  </a>
+                </li>
+
+                <div class="dropdown-divider"></div>
+                <li class="nav-item ml-3">
+                  <a class="nav-link ml-4 small">
+                    <span class="text-uppercase font-weight-bold master-link-item ">pembayaran</span>
+                  </a>
+                </li>
+
+                <li *ngFor="let item of payment" class="nav-item ml-3">
+                  <a (click)="setActiveCs(2)" [routerLink]="item.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  class="nav-link ml-4 small btn-pointer">
+                    <span class="text-capitalize">{{item.name}}</span>
+                  </a>
+                </li>
+
+                <div class="dropdown-divider"></div>
+                <li class="nav-item ml-3">
+                  <a class="nav-link ml-4 small">
+                    <span class="text-uppercase font-weight-bold master-link-item ">pengiriman</span>
+                  </a>
+                </li>
+
+                <li *ngFor="let item of courier" class="nav-item ml-3">
+                  <a (click)="setActiveCs(2)" [routerLink]="item.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  class="nav-link ml-4 small btn-pointer">
+                    <span class="text-capitalize">{{item.name}}</span>
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+            <ng-container *ngIf="activeDiscount; else elseTemplate">
+              <a class="px-4 py-2 sidebar-content-setting btn-pointer {{activeDiscount}}" id="discount-page">
+                <span>Discount Page</span>
+              </a>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <a (click)="setActiveCs(3)" [routerLink]="['discount-setting']" class="px-4 py-2 sidebar-content-setting btn-pointer {{activeDiscount}}" id="discount-page">
+                <span>Discount Page</span>
+              </a>
+            </ng-template>
+            
+            
+            <div class="dropdown-divider"></div>
+            <div class="clearfix"></div>
+            <a (click)="setActiveCs(4)" [routerLink]="['dashboard-content-setting/review-rating']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="px-4 py-2 sidebar-content-setting btn-pointer {{activeReview}}" id="review-page" >
+              <span>Review & rating Page</span>
+            </a>
+            <div class="dropdown-divider"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-9 col-md-12 col-sm-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

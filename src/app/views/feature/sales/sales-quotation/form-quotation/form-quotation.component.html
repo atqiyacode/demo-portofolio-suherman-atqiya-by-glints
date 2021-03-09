@@ -1,0 +1,193 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<!-- <div class="alert" *ngIf="alertError">
+    <p>{{errorMessage}}</p>
+</div> -->
+<form [formGroup]="formQuotation">
+    <div class="card" id="cardFormModule">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <img src="../../../../../../assets/img/form/profile-plus.svg" width="63" alt="">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Nama Pelanggan</label>
+                    <ng-select [items]="dataMember.data" formControlName="member_id" bindValue="id" bindLabel="name"
+                        placeholder="Select" required></ng-select>
+                </div>
+                <div class="form-group col-md-2" *ngIf="btnActive == 2">
+                    <label></label>
+                    <label class="container-checkbox">Approved
+                        <input type="radio" name="radio" (click)="setRadio(1)" [checked]="checkedRadio">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="form-group col-md-3" *ngIf="btnActive == 2">
+                    <label></label>
+                    <label class="container-checkbox">Denied
+                        <input type="radio" name="radio" (click)="setRadio(2)" [checked]="checkedFalse">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Tanggal</label>
+                    <input class="form-control" formControlName="quotation_date" type="date" value="2020-11-14"
+                        id="example-date-input">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Penawaran</label>
+                    <input type="text" class="form-control" formControlName="quotation_no" readonly>
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Dari Gudang</label>
+                    <ng-select formControlName="master_warehouse_id" placeholder="Select" aria-required="required"
+                        (change)="stockProduct($event)">
+                        <ng-option [value]="warehouse.id" [disabled]="warehouse.disabled"
+                            *ngFor="let warehouse of dataWarehouse.data">
+                            {{warehouse.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</form>
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <table class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg"
+                                alt="minus"></div>
+                    </th>
+                    <th id="head-table">Produk</th>
+                    <th id="head-table">Varian 1</th>
+                    <th id="head-table">Varian 2</th>
+                    <th id="head-table">Jumlah</th>
+                    <th id="head-table">Harga Satuan</th>
+                    <th id="head-table">Total Pesanan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="orderTable">
+                <tr *ngFor="let item of dummyOrder; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check">
+                        </div>
+                    </td>
+                    <td>
+                        <ng-select class="custom" id="custom-product" name="name{{i}}" placeholder="Select item"
+                            appendTo=".card" [searchable]="true" [(ngModel)]="item.master_product_id"
+                            (change)="selectProduct(i,$event,1)">
+                            <ng-option [value]="item.id" [disabled]="item.disabled"
+                                *ngFor="let item of dataProduct.data">
+                                {{item.product_name}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <ng-select class="custom" id="custom-variant" name="variant{{i}}" placeholder="Select item"
+                            appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.value1"
+                            (change)="selectVariant(i,$event,1)">
+                            <ng-option [value]="variant1.value1" [disabled]="variant1.disabled"
+                                *ngFor="let variant1 of item.select_value1">
+                                {{variant1.value1}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <ng-select class="custom" id="custom-variant" [readonly]="item.disabledVar2"
+                            name="variant2_{{i}}" placeholder="Select item" appendTo=".card" [searchable]="true"
+                            [clearable]="true" [(ngModel)]="item.value2" (change)="selectVariant(i,$event,2)">
+                            <ng-option [value]="variant2.value2" [disabled]="item.disabled"
+                                *ngFor="let variant2 of item.new_value2">
+                                {{variant2.value2}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <input currencyMask id="qty-product" class="form-control" name="qty{{i}}" [(ngModel)]="item.qty"
+                            [disabled]="item.disabledQty" (keyup)="orderTotal(i,1)" (keyup)="minQtyOrder(i)">
+                        <p id="txt-valid-form" *ngIf="item.minQty > item.qty">Minimal Pesanan
+                            {{item.minQty}}</p>
+                        <p id="txt-valid-form" *ngIf="item.qty > item.maxQty">Maksimal Pesanan
+                            {{item.maxQty}}</p>
+                    </td>
+                    <td>
+                        <div id="total-price">
+                            {{item.price | currency:'Rp ':'symbol':'1.0'}}
+                        </div>
+                        <!-- <textarea currencyMask [options]="{ prefix: 'Rp '}" rows="2" cols="20" class="form-control" wrap="hard" name="price{{i}}" [(ngModel)]="item.price" readonly>
+                        </textarea> -->
+                        <!-- <input currencyMask [options]="{ prefix: 'Rp '}" id="price-product" class="form-control" name="price{{i}}" [(ngModel)]="item.price" readonly> -->
+                    </td>
+                    <td>
+                        <div id="total-price">
+                            {{item.totalDetail | currency:'Rp ':'symbol':'1.0'}}
+                        </div>
+                    </td>
+                    <td><img src="../../../../../../assets/img/form/icon-delete.svg" width="15" alt=""
+                            style="cursor: pointer;" (click)="removeOrder(i,item.id)"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col-sm-12">
+            <button type="button" id="btn-product" (click)="addOrder()">
+                <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                Tambah Produk
+            </button>
+        </div>
+        <br><br>
+        <div id="cardSubTotal" class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label id="lab-form" class="col-sm-5 col-form-label">Sub Total Harga Produk</label>
+                        <div class="col-sm-6">
+                            <input currencyMask [options]="{ prefix: 'Rp '}" class="form-control"
+                                [formControl]="price_product" readonly>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                                            <label id="lab-form" class="col-sm-5 col-form-label">Total Ongkos Kirim</label>
+                                            <div class="col-sm-6">
+                                            <input currencyMask class="form-control" [formControl]="price_logistic" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label id="lab-form" class="col-sm-5 col-form-label">Biaya Penanganan</label>
+                                            <div class="col-sm-6">
+                                            <input currencyMask class="form-control" [formControl]="service_fee" (keyup)="serviceFeeKeyup()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label id="lab-form" class="col-sm-5 col-form-label">Total Pajak</label>
+                                            <div class="col-sm-6">
+                                            <input currencyMask class="form-control" [formControl]="tax" readonly>
+                                            </div>
+                                        </div> -->
+
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <label id="lab-total" class="col-sm-4 col-form-label">Total Pesanan</label>
+                        <div class="col-sm-6">
+                            <label id="lab-total" class="col-form-label">
+                                {{endTotal.value | currency:'Rp ':'symbol':'1.0'}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" *ngIf="btnActive == 1" id="btn-save" (click)="submitSave()">Simpan</button>
+        <button type="button" *ngIf="btnActive == 2" id="btn-save" (click)="submitSave()">Edit</button>
+        <button type="submit" [routerLink]="['/dashboard-sales/sales-quotation']" id="btn-cancel">Batalkan</button>
+    </div>
+</div><br><br>

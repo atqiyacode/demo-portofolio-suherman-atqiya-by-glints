@@ -1,0 +1,96 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+
+<form [formGroup]="formOpname">
+	<div class="card" id="cardFormModule">
+		<div class="card-body">
+			<div class="form-row">
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-md-4">
+					<label for="" id="label-form">Tanggal Mulai</label>
+					<input type="date" class="form-control" formControlName="started_at" id="example-date-input"[ngClass]="{ 'is-invalid': (submitForm && formOpname.controls.started_at.errors) || (!formOpname.controls.started_at.pristine && formOpname.controls.started_at.invalid)}">
+					<div class="invalid-feedback">Pilih Tanggal!!</div>
+				</div>
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-md-5">
+					<label for="" id="label-warehouse">Pilih Gudang</label>
+					<ng-select
+						formControlName="master_warehouse_id"
+						placeholder="Pilih Gudang"
+						aria-required="required">
+						<ng-option
+							[value]="warehouse.id"
+							[disabled]="warehouse.disabled"
+							*ngFor="let warehouse of dataWarehouse.data">
+								{{ warehouse.name }}
+							</ng-option>
+						</ng-select>
+						<div class="invalid-feedback">Pilih Gudang!!</div>
+				</div>
+				<div class="form-group col-md-1"></div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-md-4">
+					<label for="" id="label-form">Penanggung Jawab</label>
+					<input formControlName="person_in_charge" class="form-control" [ngClass]="{ 'is-invalid': (submitForm && formOpname.controls.person_in_charge.errors) || (!formOpname.controls.person_in_charge.pristine && formOpname.controls.person_in_charge.invalid)}">
+					<div class="invalid-feedback">harus Diisi!!</div>
+				</div>
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-md-5">
+					<label for="" id="label-category">Kategori</label>
+					<ng-select
+						formControlName="product_category_id"
+						placeholder="Pilih Kategori"
+						aria-required="required">
+							<ng-option
+								[value]="category.id"
+								*ngFor="let category of dataCategory.data">
+									{{ category.product_category_name }}
+								</ng-option>
+						</ng-select>
+						<div class="invalid-feedback">Pilih Kategori!!</div>
+				</div>
+				<div class="form-group col-md-1"></div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-md-4">
+					<label for="" id="created_at">Dikerjakan Oleh</label>
+					<input formControlName="created_by" class="form-control" [ngClass]="{ 'is-invalid': (submitForm && formOpname.controls.created_by.errors) || (!formOpname.controls.created_by.pristine && formOpname.controls.created_by.invalid)}">
+					<div class="invalid-feedback">harus Diisi!!</div>
+				</div>
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-md-5">
+					<label for="" id="label-supplier">Pemasok</label>
+					<ng-select
+						formControlName="master_supplier_id"
+						placeholder="Pilih Pemasok"
+						aria-required="required">
+							<ng-option
+								[value]="supplier.id"
+								*ngFor="let supplier of dataSupplier.data">
+									{{ supplier.name }}
+								</ng-option>
+					</ng-select>
+					<div class="invalid-feedback">Pilih Pemasok!!</div>
+				</div>
+				<div class="form-group col-md-1"></div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-1"></div>
+				<div class="form-group col-md-4">
+					<label for="" id="created_at">Keterangan</label>
+					<textarea formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': (submitForm && formOpname.controls.description.errors) || (!formOpname.controls.description.pristine && formOpname.controls.description.invalid)}" rows="5"></textarea>
+					<div class="invalid-feedback">Isi Keterangan!!</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer text-right">
+			<button id="btn-save" type="button" (click)="submitSave()">Simpan</button>
+			<button 
+				type="submit" 
+				[routerLink]="['/dashboard-inventory/plan-stock-opname']" 
+				id="btn-cancel">Batalkan</button>
+		</div>
+	</div>
+</form>

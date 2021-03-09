@@ -1,0 +1,372 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<!-- <div class="alert" *ngIf="alertError">
+    <p>{{errorMessage}}</p>
+</div> -->
+<form *ngIf="cardOrder == 1" [formGroup]="formOrder">
+    <div class="card" id="cardFormModule">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <img src="../../../../../../assets/img/form/profile-plus.svg" width="63" alt="">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Nama Pelanggan</label>
+                    <ng-select [items]="dataMember.data" formControlName="member_id" bindValue="id" bindLabel="name"
+                        placeholder="Select" (change)="showMember($event)" (change)="showQuotation($event)" required>
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Penawaran</label>
+                    <ng-select [items]="dataShowQuotation.data" [formControl]="noQuotation" bindValue="id"
+                        bindLabel="quotation_no" placeholder="Select item" (change)="selectByQuotation($event)">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-1">
+
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Tanggal</label>
+                    <input [readonly]="disabledQuotation" class="form-control" formControlName="created_at" type="date"
+                        value="2020-11-14" id="example-date-input">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Pesanan</label>
+                    <input type="text" class="form-control" formControlName="order_no">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Dari Gudang</label>
+                    <ng-select [readonly]="disabledQuotation" formControlName="master_warehouse_id" placeholder="Select"
+                        aria-required="required" (change)="stockProduct($event)" (change)="showWarehouse($event)">
+                        <ng-option [value]="warehouse.id" [disabled]="warehouse.disabled"
+                            *ngFor="let warehouse of dataWarehouse.data">
+                            {{warehouse.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</form>
+<div *ngIf="cardOrder == 1" class="card" id="cardFormModule">
+    <div class="card-body">
+        <table class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg"
+                                alt="minus"></div>
+                    </th>
+                    <th id="head-table">Produk</th>
+                    <th id="head-table">Varian 1</th>
+                    <th id="head-table">Varian 2</th>
+                    <th id="head-table">Jumlah</th>
+                    <th id="head-table">Harga Satuan</th>
+                    <th id="head-table">Total Pesanan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="orderTable">
+                <tr *ngFor="let item of dummyOrder; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check">
+                        </div>
+                    </td>
+                    <td>
+                        <ng-select class="custom" id="custom-product" [readonly]="disabledQuotation" name="name{{i}}" placeholder="Select item"
+                            appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.master_product_id"
+                            (change)="selectProduct(i,$event,1)">
+                            <ng-option [value]="item.id" [disabled]="item.disabled"
+                                *ngFor="let item of dataProduct.data">
+                                {{item.product_name}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <ng-select class="custom" id="custom-variant" [readonly]="disabledQuotation" name="variant{{i}}" placeholder="Select item"
+                            appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.value1"
+                            (change)="selectVariant(i,$event,1)">
+                            <ng-option [value]="variant1.value1" [disabled]="item.disabled"
+                                *ngFor="let variant1 of item.select_value1">
+                                {{variant1.value1}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <ng-select class="custom" id="custom-variant" [readonly]="item.disabledVar2" name="variant2_{{i}}" placeholder="Select item"
+                            appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.value2"
+                            (change)="selectVariant(i,$event,2)">
+                            <ng-option [value]="variant2.value2" [disabled]="variant2.disabled"
+                                *ngFor="let variant2 of item.new_value2">
+                                {{variant2.value2}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <input currencyMask id="qty-product" [readonly]="disabledQuotation" class="form-control" name="qty{{i}}"
+                            [(ngModel)]="item.qty" [disabled]="item.disabledQty" (keyup)="orderTotal(i,1)"
+                            (keyup)="minQtyOrder(i)">
+                        <p id="txt-valid-form" *ngIf="item.minQty > item.qty">Minimal Pesanan {{item.minQty}}</p>
+                        <p id="txt-valid-form" *ngIf="item.qty > item.maxQty">Maksimal Pesanan {{item.maxQty}}</p>
+                    </td>
+                    <td>
+                        <div id="total-price">
+                            {{item.price | currency:'Rp ':'symbol':'1.0'}}
+                        </div>
+                        <!-- <input currencyMask class="form-control" name="price{{i}}" [(ngModel)]="item.price" readonly> -->
+                    </td>
+                    <td>
+                        <div id="total-price">
+                            {{item.totalDetail | currency:'Rp ':'symbol':'1.0'}}
+                        </div>
+                    </td>
+                    <td><img *ngIf="disabledQuotation == false" src="../../../../../../assets/img/form/icon-delete.svg"
+                            width="15" alt="" style="cursor: pointer;" (click)="removeOrder(i,item.id)"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col-sm-12">
+            <button type="button" id="btn-product" (click)="addOrder()" *ngIf="disabledQuotation == false">
+                <img src="../../../../../../assets/img/form/plus.svg" width="17" alt=""> Tambah Produk
+            </button>
+        </div>
+        <br><br>
+        <div id="cardSubTotal" class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label id="lab-form" class="col-sm-5 col-form-label">Sub Total Harga Produk</label>
+                        <div class="col-sm-6">
+                            <input currencyMask [options]="{ prefix: 'Rp '}" class="form-control" [formControl]="price_product" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label id="lab-form" class="col-sm-5 col-form-label">Total Ongkos Kirim</label>
+                        <div class="col-sm-6">
+                            <input currencyMask [options]="{ prefix: 'Rp '}" class="form-control" [formControl]="price_logistic" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label id="lab-form" class="col-sm-5 col-form-label">Biaya Penanganan</label>
+                        <div class="col-sm-6">
+                            <input currencyMask [options]="{ prefix: 'Rp '}" class="form-control" [formControl]="service_fee"
+                                (keyup)="serviceFeeKeyup()" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <label id="lab-total" class="col-sm-4 col-form-label">Total Pesanan</label>
+                        <div class="col-sm-6">
+                            <label id="lab-total"
+                                class="col-form-label">{{endTotal.value | currency:'Rp ':'symbol':'1.0'}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer" *ngIf="btnActive">
+        <button *ngIf="loadingAction" id="btn-save" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="sr-only">Loading...</span>
+        </button>
+        <button type="button" *ngIf="loadingAction == false" id="btn-save" (click)="payment(1)">Bayar</button>
+        <button type="button" *ngIf="loadingAction == false" id="btn-cancel" (click)="openModal(1)">Pilih
+            ekspedisi</button>
+        <button type="submit" *ngIf="loadingAction == false" id="btn-draft" (click)="saveDraft()">{{nameDraft}} ke
+            draft</button>
+    </div>
+</div>
+<br><br>
+<div *ngIf="cardOrder != 1" class="card" id="cardFormModule">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <p></p>
+            <p id="title-end">Batas akhir pembayaran</p>
+            <button type="button" id="btn-core" class="btn-print" (click)="printPage()">Cetak</button>
+        </div>
+        <div class="row">
+            <p id="date-end">{{dateOrder}}</p>
+        </div><br>
+        <div class="box-row">
+            <br><br>
+            <div id="total-order" class="btn-toolbar justify-content-between" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <p class="txt-inv">{{dummyBankOrder.name}}</p>
+                <img id="img-courier" [src]="dummyBankOrder.logo" alt="">
+            </div><br><br>
+            <div id="total-order" class="btn-toolbar justify-content-between" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <p class="txt-inv">Total Pesanan</p>
+            </div>
+
+            <div class="col-sm-5">
+                <div id="total-order" class="btn-toolbar justify-content-between" role="toolbar"
+                    aria-label="Toolbar with button groups">
+                    <p id="no-order" style="margin-left: 9px;">{{noOrder}}</p>
+                    <button type="button" id="btn-core" class="btn-copy" (click)="copyText(noOrder)">Salin</button>
+                </div>
+            </div><br><br>
+            <div id="total-order" class="btn-toolbar justify-content-between" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <h6>Total Tagihan</h6>
+            </div>
+            <div id="total-order" class="btn-toolbar justify-content-between" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <p id="txt-total">{{totalOrder | currency:'Rp ':'symbol':'1.0'}}</p>
+            </div>
+        </div><br>
+        <div class="option-pay">
+            <p id="pay-title">Panduan Pembayaran</p><br>
+            <p id="bank-title">ATM </p>
+            <p id="bank-option">1. Masukkan Kartu ATM dan PIN</p>
+            <p id="bank-option">2. Pilih menu "Bayar/Beli"</p>
+            <p id="bank-option">3. Pilih menu "Lainnya", hingga menemukan menu "Multipayment"</p>
+            <p id="bank-option">4. Masukkan Kode Biller Tokopedia (88708), lalu pilih Benar</p>
+            <p id="bank-option">5. Masukkan "Nomor Virtual Account" Tokopedia, lalu pilih tombol Benar</p>
+            <p id="bank-option">6. Masukkan Angka "1" untuk memilih tagihan, lalu pilih tombol Ya</p>
+            <p id="bank-option">7. Akan muncul konfirmasi pembayaran, lalu pilih tombol Ya</p>
+            <p id="bank-option">8. Simpan struk sebagai bukti pembayaran Anda</p>
+            <br>
+            <p id="bank-title">{{dummyBankOrder.name}} Internet Banking / {{dummyBankOrder.name}} Oline </p>
+            <p id="bank-option">1. Login {{dummyBankOrder.name}} Online dengan memasukkan Username dan Password</p>
+            <p id="bank-option">2. Pilih menu "Pembayaran"</p>
+            <p id="bank-option">3. Pilih menu "Multipayment"</p>
+            <p id="bank-option">4. Pilih penyedia jasa "Tokopedia"</p>
+            <p id="bank-option">5. Masukkan "Nomor Virtual Account" dan "Nominal" yang akan dibayarkan, lalu pilih
+                Lanjut</p>
+            <p id="bank-option">6. Setelah muncul tagihan, pilih Konfirmasi</p>
+            <p id="bank-option">7. Masukkan PIN / Challenge Code Token</p>
+            <p id="bank-option">8. Transaksi selesai, simpan bukti bayar Anda</p>
+        </div>
+    </div>
+</div>
+<ng-template #contentModal let-modal>
+    <div *ngIf="modalLogistic == 1" class="modal-body">
+        <br>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar"
+            aria-label="Toolbar with button groups">
+            <h6 class="card-title">Pilihan Pengiriman</h6>
+        </div><br>
+        <form>
+            <div *ngFor="let item of dataLogisticOrder.data" id="courier" class="btn-toolbar justify-content-start"
+                role="toolbar" aria-label="Toolbar with button groups">
+                <input *ngIf="item.master_logistic_id != 99" type="radio" name="radio-button" id="radio-form" (click)="checkLogistic(item)" disabled>
+                <input *ngIf="item.master_logistic_id == 99" type="radio" name="radio-button" id="radio-form" (click)="checkLogistic(item)">
+                <img id="img-courier" [src]="item.logo_url" alt="">
+                <p id="txt-radio1"> {{item.nama_kurir}}</p>
+                <p id="txt-not-available" *ngIf="item.master_logistic_id != 99">Belum Tersedia</p>
+            </div>
+            <div class="alert" *ngIf="alert_logistic">
+                <p>{{error_logistic}}</p>
+            </div>
+            <div id="courier" class="btn-toolbar justify-content-start" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <button *ngIf="loadingLogistic == false" type="button" id="btn-save"
+                    (click)="submitLogistic()">Simpan</button>
+                <button *ngIf="loadingLogistic" id="btn-save" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="sr-only">Loading...</span>
+                </button>
+                <button type="button" id="btn-cancel" (click)="modal.close('Save click')"
+                    (click)="cancelLogistic()">Batalkan</button>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="modalLogistic == 2" class="modal-body">
+        <br>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar"
+            aria-label="Toolbar with button groups">
+            <h6 class="card-title">Ongkos Kirim By Tenant</h6>
+        </div><br>
+        <form>
+            <div id="postal-fee" class="form-group col-sm-11">
+                <p>Biaya Pengiriman</p>
+                <input currencyMask class="form-control" [formControl]="tenant_postal_fee">
+            </div>
+            <div id="postal-fee" class="btn-toolbar justify-content-end" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <button type="button" id="btn-save" (click)="submitLogistic()"
+                    (click)="modal.close('Save click')">Submit</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #contentPayment let-modal>
+    <div *ngIf="modalPayment == 1" class="modal-body">
+        <br>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar"
+            aria-label="Toolbar with button groups">
+            <h6 class="card-title">Pilih Metode Pembayaran</h6>
+        </div><br>
+        <form>
+            <div *ngFor="let item of dataBank.data" id="courier" class="btn-toolbar justify-content-start"
+                role="toolbar" aria-label="Toolbar with button groups">
+                <input type="radio" name="radio-button" id="radio-form" (click)="submitBank(item)">
+                <img id="img-courier" [src]="item.logo" alt="">
+                <p id="txt-radio1"> {{item.name}}</p>
+            </div>
+            <div id="courier" class="btn-toolbar justify-content-end" role="toolbar"
+                aria-label="Toolbar with button groups">
+                <button *ngIf="loadingPayment == false" type="button" id="btn-save"
+                    (click)="submitOrderModal()">Pilih</button>
+                <button *ngIf="loadingPayment" id="btn-save" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="sr-only">Loading...</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="modalPayment == 4" class="modal-body">
+        <br>
+        <h6>Total Tagihan</h6>
+        <p id="txt-total">{{endTotal.value | currency:'Rp ':'symbol':'1.0'}}</p>
+        <br>
+        <h6>Cicilan ke Tenant</h6>
+        <p class="txt-inv">Pilih Pembayaran</p>
+        <select class="form-control" id="selectTenant" (change)="selectPaymentTenant($event)">
+            <option value=1>Jatuh Tempo 1 bulan</option>
+            <!-- <option value=3>Jatuh Tempo 3 bulan</option>
+            <option value=6>Jatuh Tempo 6 bulan</option>
+            <option value=12>Jatuh Tempo 12 bulan</option> -->
+        </select><br>
+        <div class="btn-toolbar justify-content-end" role="toolbar" aria-label="Toolbar with button groups">
+            <button *ngIf="loadingPayment == false" type="button" id="btn-save"
+                (click)="submitOrderByTenant()">Bayar</button>
+            <button *ngIf="loadingPayment" id="btn-save" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span class="sr-only">Loading...</span>
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="modalPayment == 3" class="modal-body">
+        <br>
+        <h6>Total Tagihan</h6>
+        <p id="txt-total">{{totalOrder | currency:'Rp ':'symbol':'1.0'}}</p>
+        <br>
+        <div id="total-order" class="btn-toolbar justify-content-between" role="toolbar"
+            aria-label="Toolbar with button groups">
+            <p id="no-order">{{dummyBankOrder.name}}</p>
+            <img id="img-courier" [src]="dummyBankOrder.logo" alt="">
+        </div>
+        <br>
+        <p class="txt-inv" *ngIf="btnTenant == false">Total Pesanan</p>
+        <div *ngIf="btnTenant == false" id="total-order" class="btn-toolbar justify-content-between" role="toolbar"
+            aria-label="Toolbar with button groups">
+            <p id="no-order">{{noOrder}}</p>
+            <!-- <button type="button" id="btn-core" (click)="copyText(noOrder)">Cetak</button> -->
+        </div><br><br>
+        <div id="courier" class="btn-toolbar justify-content-end" role="toolbar"
+            aria-label="Toolbar with button groups">
+            <button *ngIf="btnTenant == false" type="button" id="btn-save" (click)="finishedOrder(2)">Selesai</button>
+            <button *ngIf="btnTenant == true" type="button" id="btn-save"
+                (click)="finishedOrderTenant()">Selesai</button>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="col-sm-8">
+        <app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+    </div>
+    <div class="col-sm-3" id="search-form">
+        <div class="input-group">
+            <input #searchInput id="input-search" type="text" class="form-control" placeholder="Cari" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1" style="background-color: #F6F6F6;">
+                    <img src="../../../../../assets/img/form/magnifier.svg" width="15" alt="">
+                </span>
+            </div>
+        </div>
+    </div>
+</div><br>
+<div class="card" id="cardFormModule">
+    <div class="card-body" style="border-bottom: 1px solid #DBDBDB;">
+        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Retur Penjualan</h6>
+            <a routerLink="{{urlCreate}}" id="btn-core">Tambah Retur</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table *ngIf="table" class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                    <th id="head-table">Tanggal</th>
+                    <th id="head-table">No. Pengembalian</th>
+                    <th id="head-table">Nama/Toko Pelanggan</th>
+                    <th id="head-table">Total Pesanan</th>
+                    <th id="head-table">Status</th>
+                    <th id="head-table"></th>
+                </tr>
+            </thead>
+
+            <tbody id="tableApi">
+                <tr *ngFor="let item of dataApi.data.data; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>{{item.created_at | date :'dd-MMM-yyyy'}}</td>
+                    <td>{{item.order_return_no}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.total | currency:'Rp ':'symbol':'1.0'}}</td>
+                    <td>
+                        <p *ngIf="item.status == 1">Open</p>
+                        <p *ngIf="item.status == 2" id="approved">Approved</p>
+                        <p *ngIf="item.status == -1" id="denied">Rejected</p>
+                        <p *ngIf="item.status == 3" id="approved">Accepted to Tenant</p>
+                        <p *ngIf="item.status == 4" id="approved">Returned to customer</p>
+                    </td>
+                    <td>
+                        <img src="../../../../../assets/img/form/list.svg" id="img-form" class="dropdown-toggle" data-toggle="dropdown">
+                        <div id="dropdown-menu-order" class="dropdown-menu">
+                            <a class="dropdown-item" id="item-order" *ngIf="item.status == 1" (click)="formUpdate(item.id)">Ubah</a>
+                            <a class="dropdown-item" id="item-order" (click)="formDetail(item.id)">Detail</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [dataApi]="dataApi"></app-pagination>
+    </div>
+</div>
+<ng-template #contentModal let-modal>
+    <div class="modal-body">
+        <br>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 class="card-title">Hapus No Pengiriman Barang</h6>
+        </div>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 id="txt-delete">{{noDelivery}}</h6>
+        </div>
+        <div id="title-create-cust" class="btn-toolbar justify-content-start" role="toolbar" aria-label="Toolbar with button groups">
+            <h6 id="txt-delete">{{name}}</h6>
+        </div><br>
+        <form>
+            <div class="alert" *ngIf="alertDelete">
+                <p>{{errorMessage}}</p>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="loadingDelete == false" type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+        <button *ngIf="loadingDelete" class="btn btn-danger" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="sr-only">Loading...</span>
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Batalkan</button>
+    </div>
+</ng-template>

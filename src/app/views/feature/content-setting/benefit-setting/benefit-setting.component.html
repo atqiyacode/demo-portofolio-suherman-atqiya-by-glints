@@ -1,0 +1,53 @@
+<h5 class="font-weight-bold mb-3">Landing Page</h5>
+<div class="card">
+  <div class="card-header bg-white">
+    <h6 class="font-weight-bold">Keuntungan berbelanja di melalui web kami</h6>
+  </div>
+  <div class="card-body">
+    <div class="row justify-content-center text-center">
+      <div class="col-sm-12">
+        <span *ngIf="benefitAlert == true" class="text-danger font-weight-bold">
+          Mohon Lengkapi Form Inputan Anda
+        </span>
+      </div>
+    </div>
+    <div *ngFor="let item of dataProvit; let i = index ">
+      <div class="card card-body my-2">
+        <div class="form-row">
+          <label class="col-xl-2 font-weight-bold">Keuntungan</label>
+          <div class="col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control b-10" [(ngModel)]="item.benefit" name="benefit{{i}}"
+                aria-describedby="inputGroup-sizing-default">
+            </div>
+          </div>
+          <div class="col-sm-1">
+            <span class="btn btn-sm btn-icon text-danger font-weight-bold" aria-label="Close"
+              (click)="removeBenefit(i,item.id)">
+              <i class="fas fa-trash-alt"></i>
+            </span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="col-xl-2 font-weight-bold">Deskripsi</label>
+          <div class="col-xl-9">
+            <textarea rows="3" class="form-control b-10" [(ngModel)]="item.desc" name="desc{{i}}"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-sm-12 my-2">
+        <span *ngIf="dataProvit.length < 3" type="button" class="btn btn-block btn-outline-main"
+          (click)="saveBenefit()">
+          <i class="fa fa-plus" aria-hidden="true"></i> Tambah Keuntungan
+        </span>
+        <span *ngIf="dataProvit.length == 3" type="button" class="btn btn-block btn-main-static shadow"
+          (click)="saveBenefit()">
+          <i class="fa fa-plus" aria-hidden="true"></i> Simpan Keuntungan
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

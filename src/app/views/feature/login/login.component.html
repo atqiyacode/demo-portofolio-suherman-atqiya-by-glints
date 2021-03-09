@@ -1,0 +1,59 @@
+<section class="section">
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12 col-sm-8 offset-sm-2 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="text-center my-5">
+                            <img src="assets/img/header/logo-storepedia.png" alt="Logo" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card shadow mb-5">
+                            <div class="card-body">
+                                <form [formGroup]="loginForm" >
+                                    <h3 class="text-center font-weight-bold mb-4">Masuk</h3>
+                                    <div *ngIf="alertError">
+                                        <div class="form-group">
+                                            <div class="alert alert-danger bg-danger text-white text-center alert-dismissible show fade">
+                                                <div class="alert-body">
+                                                    <button class="close" data-dismiss="alert">
+                                                        <span>&times;</span>
+                                                    </button>
+                                                    <small>{{errorMessage}}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Alamat Email" formControlName="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-sm" placeholder="Kata Sandi" formControlName="password" required>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6 offset-md-3">
+                                            <button type="submit" class="btn btn-block btn-main" (click)="loginAccounting()">
+                                                Masuk
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <a href="" class="text-decoration-none text-dark">
+                                        <p class="text-center small font-weight-bold my-4">Lupa Password?</p>
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<app-footer></app-footer>
+<!-- <div class="container-fluid">
+    <footer class="footer text-center">
+        <small class="text-muted mb-2">Copyright &copy; PT Storepedia. All rights reserved. Version 0.0.10.</small>
+    </footer>
+</div> -->

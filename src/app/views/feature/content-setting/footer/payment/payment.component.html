@@ -1,0 +1,36 @@
+<h5 class="mb-3 font-weight-bold">Pembayaran</h5>
+<div class="card">
+    <div class="card-header bg-white">
+        <span class="font-weight-bold h6">
+            Bank yang digunakan
+        </span>
+    </div>
+    <table class="table table-borderless card-body m-0 shadow-none">
+        <tr class="border-bottom m-0" *ngFor="let item of dataBank; let i=index">
+            <td class="text-center" width="30%">
+                <img src="{{item.logo}}" alt="logo-bank" class="img-fluid my-2">
+            </td>
+            <td width="30%">
+                <p class="h6 my-2">{{item.name}}</p>
+            </td>
+            <td width="40%">
+                <div class="form-group float-right d-flex">
+                    <ng-container *ngIf="item.is_active == 1; else elseTemplate">
+                        <p class="h6 m-2">Aktif</p>
+                        <label class="switch">
+                            <input type="checkbox" checked [(ngModel)]="item.is_active" (change)="onBankChange(item)">
+                            <span class="slider round"></span>
+                        </label>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <p class="h6 m-2">Non-aktif</p>
+                        <label class="switch">
+                            <input type="checkbox" [(ngModel)]="item.is_active" (change)="onBankChange(item)">
+                            <span class="slider round"></span>
+                        </label>
+                    </ng-template>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

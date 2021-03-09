@@ -1,0 +1,160 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <form [formGroup]="formDeliveryOrder">
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <img src="../../../../../../assets/img/form/profile-plus.svg" width="63" alt="">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Nama Pelanggan</label>
+                    <ng-select [readonly]="isReadonly" [items]="dataMember.data" formControlName="member_id" bindValue="id" bindLabel="name" placeholder="Select" (change)="changeOrder($event)" required></ng-select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Pesanan</label>
+                    <ng-select *ngIf="isReadonly == false" [items]="dataOrder.data" [formControl]="noOrder" bindValue="id" bindLabel="order_no" placeholder="Select item" (change)="showDelivery($event)"></ng-select>
+                    <input *ngIf="isReadonly" type="text" class="form-control" [formControl]="noOrder" readonly>
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Resi Pengiriman</label>
+                    <input type="text" class="form-control" formControlName="noresi">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Tanggal</label>
+                    <input class="form-control" formControlName="delivery_date" type="date" value="2020-11-14" id="example-date-input" [readonly]="isReadonly">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Pengiriman</label>
+                    <input type="text" class="form-control" formControlName="no_do" [readonly]="isReadonly">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Dari Gudang</label>
+                    <ng-select [formControl]="master_warehouse_id" [readonly]="true" placeholder="Select" aria-required="required">
+                        <ng-option [value]="warehouse.id" [disabled]="warehouse.disabled" *ngFor="let warehouse of dataWarehouse.data">
+                            {{warehouse.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div><br>
+        </form>
+        <div class="form-row">
+            <div class="form-group col-md-1"></div>
+            <div class="form-group col-md-5">
+                <label class="container">Pesanan telah sampai/diterima
+                    <input type="checkbox" [formControl]="checkedRadio" (change)="checkboxDelivery()">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div><br>
+    </div>
+</div>
+<br>
+
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <table class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box"><img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus"></div>
+                    </th>
+                    <th id="head-table">Produk</th>
+                    <th id="head-table">Varian 1</th>
+                    <th id="head-table">Varian 2</th>
+                    <th id="head-table">Jumlah</th>
+                    <th id="head-table">Harga Satuan</th>
+                    <th id="head-table">Total Pesanan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="orderTable">
+                <tr *ngFor="let item of dummyOrder; let i = index">
+                    <td>
+                        <div id="box"><img id="img-data" src="../../../../../../assets/img/form/check.svg" alt="check"></div>
+                    </td>
+                    <td>
+                        <ng-select class="custom" [readonly]="true" name="name{{i}}" placeholder="Select item" appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.master_product_id">
+                            <ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataProduct.data">
+                                {{item.product_name}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <ng-select [readonly]="true" name="variant{{i}}" placeholder="Select item" appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.value1">
+                            <ng-option [value]="item.value1" [disabled]="item.disabled" *ngFor="let item of item.select">
+                                {{item.value1}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <ng-select [readonly]="true" name="variant2_{{i}}" placeholder="Select item" appendTo=".card" [searchable]="true" [clearable]="true" [(ngModel)]="item.value2">
+                            <ng-option [value]="item.value2" [disabled]="item.disabled" *ngFor="let item of item.select">
+                                {{item.value2}}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td>
+                        <input currencyMask [readonly]="true" class="form-control" name="qty{{i}}" [(ngModel)]="item.qty" [disabled]="item.disabledQty" (keyup)="orderTotal(i,1)">
+                        <p id="txt-valid-form" *ngIf="item.qty > item.maxQty">Maksimal Jumlah
+                            {{item.maxQty}}</p>
+                    </td>
+                    <td><input currencyMask class="form-control" name="price{{i}}" [(ngModel)]="item.price" readonly></td>
+                    <td>{{item.totalDetail | currency:'Rp ':'symbol':'1.0'}}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <div id="cardSubTotal" class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label id="lab-form" class="col-sm-5 col-form-label">Sub Total Harga Produk</label>
+                        <div class="col-sm-6">
+                            <input currencyMask class="form-control" [formControl]="price_product" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label id="lab-form" class="col-sm-5 col-form-label">Total Ongkos Kirim</label>
+                        <div class="col-sm-6">
+                            <input currencyMask class="form-control" [formControl]="price_logistic" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label id="lab-form" class="col-sm-5 col-form-label">Biaya Penanganan</label>
+                        <div class="col-sm-6">
+                            <input currencyMask class="form-control" [formControl]="service_fee" readonly>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <label id="lab-total" class="col-sm-4 col-form-label">Total Pesanan</label>
+                        <div class="col-sm-6">
+                            <label id="lab-total" class="col-form-label">
+                            {{endTotal.value | currency:'Rp ':'symbol':'1.0'}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="alert" *ngIf="alertError">
+        <p>{{errorMessage}}</p>
+    </div>
+</div>
+
+<div class="card-footer">
+    <button *ngIf="loadingAction" id="btn-save" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span class="sr-only">Loading...</span>
+    </button>
+    <button type="button" *ngIf="loadingAction == false" id="btn-save" (click)="submitSave()">{{nameBtn}}</button>
+    <button type="submit" [routerLink]="['/dashboard-sales/delivery-order']" id="btn-cancel">Batalkan</button>
+</div></div><br><br>

@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-sm-6">
+        <app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+    </div>
+	<div class="col-sm-6 text-right">
+		<a routerLink="{{urlCreate}}" id="btn-core" class="btn" style="margin-right: 73px;">{{ configAttribute.titleCreate }}</a>
+	</div>
+</div><br>
+<div class="row">
+	<div class="col-sm-8">
+		<ng-select
+			placeholder="Pilih Gudang"
+			[searchable]="true" 
+			[clearable]="true" 
+			[formControl]="warehouse"
+			(change)=changeWarehouse($event) class="summary-select">
+			<ng-option [value]="item.id" [disabled]="item.disabled" *ngFor="let item of dataWarehouse.data">
+				{{ item.name }}
+			</ng-option>
+		</ng-select>
+	</div>
+    <div class="col-sm-3" id="search-form">
+        <div class="input-group">
+            <input #searchInput id="input-search" type="text" class="form-control" placeholder="Cari" aria-describedby="basic-addon2">
+            <div class="input-group-append" >
+                <span class="input-group-text" id="basic-addon1" style="background-color: #F6F6F6;">
+                    <img src="../../../../../assets/img/form/magnifier.svg" width="15" alt="">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+</div><br>
+<div class="card" id="cardFormModule">
+	<div class="card-body">
+		<h6 class="card-title text-center">{{ titleCard }}</h6>
+	</div>
+	<div class="card-body">
+		<table *ngIf="table" class="table" id="table-module">
+			<thead>
+				<tr>
+					<th id="head-table" *ngFor="let item of dataColumnTable">{{ item }}</th>
+				</tr>
+			</thead>
+			<tbody id="tableApi">
+				<tr *ngFor="let opname of dataApi.data.plan; let i = index">
+					<td>{{ opname.created_at | date: 'dd-MMMM-yyyy' }}</td>
+					<td>{{ opname.plan_code }}</td>
+					<td>{{ opname.started_at | date: 'dd-MMMM-yyyy' }}</td>
+					<td>{{ opname.name }}</td>
+					<td [ngStyle]="{ color: opname.status_color }">{{ opname.status }}</td>
+					<td>
+						<img src="../../../../assets/img/form/ellipsis.svg" alt="icon" id="icon-testimonial" class="dropdown-toggle" data-toggle="dropdown">
+						<div id="dropdown-menu-order" class="dropdown-menu" aria-labelledby="icon-testimonial">
+							<a class="dropdown-item" id="item-order" routerLink="{{urlDetail}}/{{opname.id}}">Detail</a>
+							<a *ngIf="opname.status == 'open'" class="dropdown-item" id="item-order" routerLink="{{urlEdit}}/{{opname.id}}">Edit</a>
+							<a *ngIf="opname.status == 'open'" class="dropdown-item" id="item-order" (click)="deleteOpnamePlan(opname.id)">Delete</a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

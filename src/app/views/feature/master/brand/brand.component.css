@@ -1,0 +1,31 @@
+.uploader label {
+	/* float: left; */
+	/* clear: both; */
+    width: 186px;
+    height: 186px;
+    text-align: center;
+    background: #FBF8FF;
+    border-radius: 10px;
+    border: 1px solid #8F8FAC;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.uploader input[type="file"] {
+	display: none;
+}
+#file-upload img {
+  margin-top: 65px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#imgUpload {
+	display: block;
+	clear: both;
+	max-width: 186px;
+    float: left;
+	border-radius: 10px;
+    box-sizing: border-box;
+}
+#txt-valid-form {
+    margin-left: 70px;
+}

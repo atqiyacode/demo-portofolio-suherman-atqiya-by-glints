@@ -1,0 +1,66 @@
+<h5 class="font-weight-bold mb-3">Landing Page</h5>
+<div class="card">
+  <div class="card-header bg-white">
+    <h6 class="font-weight-bold">Logo Company</h6>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <h6 class="font-italic small mt-2">Masukan Logo Perusahaan Anda, Dimensi yang disarankan setidaknya:
+          170px * 170px</h6>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div *ngIf="logo == false" id="file-upload-form" class="uploader">
+          <label for="file-upload" id="file-upload">
+            <img src="../../../../assets/img/form/add-image.svg" id="file-upload-form" class="uploader btn-pointer"
+              (click)="openModalLogo()">
+          </label>
+        </div>
+        <div *ngIf="logo == true" class="square">
+          <img [src]="companyLogo" class="img-fluid img-thumbnail b-10 btn-pointer" style="object-fit: contain;" (click)="openModalLogo()">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalLogo let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Company Logo
+    </h5>
+    <a class="close mb-2 text-decoration-none" style="cursor: pointer;" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+  <div class="modal-body">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="form-group">
+          <div *ngIf="previewLogo == false">
+            <input #fileLogo id="input-logo" type="file" accept="image/*" (change)="imageLogo(fileLogo.files)" hidden>
+            <label for="input-logo" class="align-self-center">
+              <img src="../../../../assets/img/form/add-image.svg" width="250px"
+                class="b-10 img-fluid align-self-center img-thumbnail" for="input-logo">
+            </label>
+          </div>
+
+          <div *ngIf="previewLogo == true">
+            <input #fileLogo id="input-logo" type="file" accept="image/*" (change)="imageLogo(fileLogo.files)" hidden>
+            <label for="input-logo" class="align-self-center">
+              <img [src]="dataImageView" class="img-fluid align-self-center img-thumbnail b-10" for="input-logo">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="container-fluid">
+      <button *ngIf="previewLogo != false" type="button" class="btn btn-sm btn-main-static mx-1"
+        (click)="onUploadLogo()">Simpan</button>
+      <button (click)="modal.close('close form logo')" type="button"
+        class="float-left btn btn-sm btn-outline-second-main mx-1" data-dismiss="modal">Batalkan</button>
+    </div>
+  </div>
+</ng-template>

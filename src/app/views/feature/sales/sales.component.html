@@ -1,0 +1,6 @@
+<div class="row" id="cardMenu">
+    <div *ngFor="let data_page of data.menuSales;">
+        <app-card-menu [title]="data_page.name" [urlPage]="data_page.url" [icon]="data_page.icon" 
+        [color]="data_page.color" [desc]="data_page.desc"></app-card-menu>
+    </div>
+</div>

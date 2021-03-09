@@ -1,0 +1,116 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+
+<form [formGroup]="formOpname">
+    <div class="card" id="cardFormModule">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-3">
+                    <label for="date" id="lab-form">Tanggal Opname</label>
+                    <input type="date" class="form-control" formControlName="dateopname" id="example-date-input">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="no_perintah_opname" id="lab-form">No. Perintah Opname</label>
+                    <ng-select
+                        formControlName="opname_plan_id"
+                        placeholder="Select"
+                        aria-required="required"
+                        (change)="getListProductByPlanId($event)">
+                        <ng-option
+                            [value]="opcode.id"
+                            *ngFor="let opcode of listOpnamePlan.data">
+                            {{ opcode.plan_code }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="no_stock_opname" id="lab-form">No. Stock Opname</label>
+                    <input type="text" class="form-control" formControlName="opname_code" readonly>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-5">
+                    <label id="labe-form">Deskripsi</label>
+                    <textarea formControlName="desc" id="desc" cols="30" rows="5" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<br>
+<div class="card" id="cardFormModule">
+    <div class="card-body">
+        <table class="table" id="table-module">
+            <thead>
+                <tr>
+                    <th>
+                        <div id="box">
+                            <img id="img-head" src="../../../../../../assets/img/form/chevron-down.svg" alt="minus">
+                        </div>
+                    </th>
+                    <th id="head-table">Kode Produk</th>
+                    <th id="head-table">Nama Produk</th>
+                    <th id="head-table">Varian 1</th>
+                    <th id="head-table">Varian 2</th>
+                    <th id="head-table">Tersedia (Buku)</th>
+                    <th id="head-table">Tersedia (Fisik)</th>
+                    <th id="head-table">Selisih</th>
+                    <!-- <th></th> -->
+                </tr>
+            </thead>
+            <tbody *ngIf="opnameTable">
+                <tr *ngFor="let item of arrayOfPostOpname; let i = index">
+					<td>
+						<div id="box">
+							<img 
+								src="../../../../../../assets/img/form/check.svg" 
+								alt="check" id="img-data">
+						</div>
+                    </td>
+                    <td>
+                        <input 
+                            type="text"
+                            class="form-control"
+                            value="{{ item.sku }}"
+                            readonly>
+                    </td>
+                    <td>
+                        <input 
+                            type="text" 
+                            class="form-control"
+                            [(ngModel)]="item.product_name"
+                            readonly>
+                    </td>
+                    <td>{{ item.value1 }}</td>
+                    <td>{{ item.value2 }}</td>
+                    <td>
+                        <input 
+                            type="number"
+                            class="form-control"
+                            [(ngModel)]="item.stock_total"
+                            readonly>
+                    </td>
+                    <td>
+                        <input 
+                            type="number"
+                            class="form-control"
+                            [(ngModel)]="arrayOfPostOpname[i].stock"
+                            (keyup)="getDiff(item.stock_total, i)">
+                    </td>
+                    <td>{{ arrayOfPostOpname[i].diff }}</td>
+                    <!-- <td>
+                        <img src="../../../../../../assets/img/form/icon-delete.svg" width="15" alt="" style="cursor: pointer;" (click)="removeItem(i)">
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-right">
+        <button id="btn-save" type="button" (click)="submitSave()">Proses</button>
+        <button 
+            type="submit" 
+            [routerLink]="['/dashboard-inventory/result-stock-opname']" 
+            id="btn-cancel">Batalkan</button>
+    </div>
+</div>

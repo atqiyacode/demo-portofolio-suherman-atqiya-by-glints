@@ -1,0 +1,499 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+#container-dashboard {
+    min-height: 340px;
+}
+.material-switch > input[type="checkbox"] {
+    display: none;   
+}
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative; 
+    width: 40px;  
+}
+
+.material-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+}
+.material-switch > label::after {
+    background: rgb(173, 172, 172);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: rgb(12, 148, 205);
+    opacity: 0.5;
+}
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: rgb(12, 148, 205);
+    left: 20px;
+}
+#cardView{
+    min-height: 480px;
+}
+.cross-validation-error input {
+    border-left: 5px solid red;
+}
+#cardFormModule {
+  margin-right: 20px;
+}
+/* #cardMenu {
+  margin-left: 55px;
+} */
+.card-body {
+  border-bottom: 1px solid #DBDBDB;
+}
+/*FORM AND COMPONENT*/
+.card, table {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 5px;
+}  
+#cardSubTotal {
+  margin-left: 430px;
+  width: 55%;
+}
+#btn-core{
+    min-width: 100px;
+    background-color: #ffffff;
+    border: 1px solid #FF785B;
+    box-sizing: border-box;
+    border-radius: 6px;
+    color: #FF785B;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+#btn-core:hover {
+    border: 1px solid #FF785B;
+    background-color: #FF785B;
+    color: #ffffff;
+}
+#btn-product {
+  margin-left: calc(50% - 960px/2 + 23px);
+  width: 900px;
+  height: 40px;
+  background: #F8F8FB;
+  border: 1px solid #B5B5D7;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #FF785B;
+}
+#btn-save{
+  min-width: 100px;
+  height: 40px;
+  margin-left: 5px;
+  background-color: #FF785B;
+  border: 1px solid #FF785B;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+#btn-cancel, #btn-draft {
+  background-color: #ffffff;
+}
+#btn-cancel{
+  min-width: 100px;
+  height: 40px;
+  margin-left: 5px;
+  border: 1px solid #6B6B81;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #6B6B81;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+#btn-edit{
+  min-width: 100px;
+  height: 40px;
+  margin-left: 5px;
+  background-color: yellow;
+  border: 1px solid yellow;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #000000;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+#btn-delete{
+  min-width: 100px;
+  height: 40px;
+  margin-left: 5px;
+  background-color: red;
+  border: 1px solid red;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+/*TABLE*/
+#table-module {
+  font-style: normal;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow:hidden
+}
+#table-module th {
+  background-color: #F8F8FB;
+  text-align: left;
+}
+#table-module tr {
+  border: 1px solid #DBDBDB;
+}
+
+#head-table {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+#box {
+  width: 25px;
+  border: 1px solid #BFBFBF;
+  border-radius: 5px;
+}
+#box #img-head {
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+#box #img-data {
+  margin-left: 3.5px;
+  margin-bottom: 4px;
+}
+#img-edit {
+  cursor: pointer;
+}
+#lab-form {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+#lab-total {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+}
+
+
+/*SWITCH BUTTON*/
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 22px;
+  }
+  
+  .switch input { 
+	opacity: 0;
+	width: 0;
+	height: 0;
+  }
+  
+  .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  .slider:before {
+	position: absolute;
+	content: "";
+	height: 14px;
+	width: 14px;
+	left: 4px;
+  bottom: 4px;
+  color: #B1B1B1;
+	background-color: #FAFAFA;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  input:checked + .slider {
+  background-color: #FF785B;
+  /* color: #FF785B; */
+  }
+  
+  input:focus + .slider {
+	box-shadow: 0 0 1px #FF785B;
+  }
+  
+  input:checked + .slider:before {
+	-webkit-transform: translateX(22px);
+	-ms-transform: translateX(22px);
+	transform: translateX(22px);
+  }
+  
+  #label-switch {
+    margin-left: 20px;
+  }
+  /* Rounded sliders */
+  .slider.round {
+	border-radius: 34px;
+  }
+  
+  .slider.round:before {
+	border-radius: 50%;
+  }
+
+/*CHECKBOX*/
+/* The container-checkbox */
+.container-checkbox {
+  display: block;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #515151;
+}
+
+/* Hide the browser's default radio button */
+.container-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container-checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container-checkbox input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container-checkbox .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.alert {
+  padding: 10px;
+  margin-left: 68px;
+  margin-right: 68px;
+  background-color: #f44336;
+  color: white;
+  border-radius: 10px;
+  min-height: 40px;
+}
+
+.alert p {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+/*ELLIPS*/
+#icon-testimonial{
+  /* margin-top: 20px; */
+  height: 15px;
+  cursor: pointer;
+  margin-left: 18px;
+}
+
+#dropdown-menu-order {
+  width: 100px;
+  min-height: 30px;
+  background: #FFFFFF;
+  border: 1px solid #EAEAEA;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  cursor: pointer;
+}
+#item-order:hover{
+  background: #FF785B;
+  border: 1px solid #EAEAEA;
+  box-sizing: border-box;
+  border-radius: 0px 0px 10px 10px;
+  color: #FFFFFF;
+}
+
+/*STATUS*/
+#approved {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #20BF6B;
+}
+#on-delivery {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #FF785B;
+}
+#denied {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #FF0000;
+}
+#accepted {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #9AFF33;
+}
+#reviewed {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #FFFE33;
+}
+
+/*FORM MODAL*/
+#title-create-cust {
+  margin-left: 40px;
+}
+#myTabContent {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+#textarea {
+  height: 60px;
+}
+#btn-footer {
+  margin-right: 215px;
+}
+.dropdown-item {
+  cursor: pointer;
+}
+#form-select{
+  width: 370px;
+  max-height: 320px;
+  overflow: scroll;
+  border: 1px solid #DBDBDB;
+  border-radius: 10px;
+}
+#dropdown-search {
+  max-height: 45px;
+  margin-top: 5px;
+  margin-right: 7px;
+}
+#txt-valid-form {
+	color: red;
+	font-style: normal;
+	font-size: 13px;
+}
+
+/*SEARCH*/
+#search-form {
+  margin-left: 80px;
+}
+#input-search {
+  width: 50px;
+}
+
+/*FORM ICON*/
+#img-form {
+  width: 22px;
+  cursor: pointer;
+}
+
+/* Border Color */
+.ng-select.ng-invalid.ng-touched .ng-select-container {
+  border-color: #dc3545;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8;
+}
+/* Arrow Color */
+.ng-select.ng-invalid.ng-touched .ng-arrow-wrapper .ng-arrow{
+  border-color: red transparent transparent
+}
+/* Placeholder Color */
+.ng-select.ng-invalid.ng-touched .ng-select-container .ng-placeholder{
+  color: red;
+} 
+.ng-select.custom .ng-select-container {            
+  height: auto;
+}
+.ng-select#custom-product .ng-select-container {            
+  width: 200px;
+}
+.ng-select#custom-variant .ng-select-container {            
+  width: 100px;
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  white-space: normal!important;
+}
+.ng-select.custom .ng-select-container .ng-value-container .ng-value .ng-value-label {
+  white-space: normal!important;
+  max-width: 90%;
+  word-wrap: break-word;
+}
+
+@media print {
+  #menu-header, #breadcrumb, .footer, .btn-print, .btn-copy {
+    visibility: hidden;
+  }
+}

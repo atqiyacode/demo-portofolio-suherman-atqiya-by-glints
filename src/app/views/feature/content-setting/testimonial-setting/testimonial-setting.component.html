@@ -1,0 +1,134 @@
+<h5 class="font-weight-bold mb-3">Landing Page</h5>
+<div class="card">
+  <div class="card-header bg-white">
+    <span class="h6 font-weight-bold">Testimonial</span>
+    <button type="button" class="btn btn-sm btn-outline-main float-right" (click)="newTestimonial()">Tambah
+      Testimoni Baru</button>
+  </div>
+  <div class="card-body">
+    <div *ngFor="let item of dataTestimonial | paginate: config; let i=index">
+      <div class="card card-body p-3 mb-3">
+        <div class="dropdown text-right mx-2 btn-pointer">
+          <img src="../../../../assets/img/form/ellipsis.png" alt="icon" class="dropdown-toggle" data-toggle="dropdown">
+          <div class="dropdown-menu" aria-labelledby="icon-testimonial">
+            <a class="nav-link" style="cursor: pointer;" (click)="detailTestimony(item.id)">
+              <i class="fa fa-edit"></i>
+              Edit
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="nav-link" style="cursor: pointer;" (click)="deleteTestimony(i,item)">
+              <i class="fa fa-trash"></i> Hapus
+            </a>
+          </div>
+        </div>
+        <span class="font-italic mx-2">
+          {{item.testimony}}
+        </span>
+        <p class="font-weight-bold m-2">{{item.name}}</p>
+        <p class="text-muted m-2">{{ item.created_at | date }} </p>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-md-4 col-sm-3 d-flex">
+        <div class="d-none d-sm-block">
+          <small>Tampilkan per halaman</small>
+        </div>
+        <select (change)="onPageSizeChange($event)" [(ngModel)]="config.itemsPerPage" class="form-control-sm b-10 mx-1">
+          <option *ngFor="let page of pageSizes">{{page}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-8 col-sm-9">
+        <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="onPageChange($event)">
+          <div class="d-flex ">
+            <span [class.disabled]="p.isFirstPage()" *ngIf="!p.isFirstPage()" (click)="p.previous()"
+              class="px-3 mx-1 btn btn-sm btn-outline-secondary">
+              Prev
+            </span>
+            <div *ngFor="let page of p.pages">
+              <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value"
+                class="mx-1 btn btn-sm btn-outline-secondary">
+                {{ page.label }}
+              </span>
+              <div *ngIf="p.getCurrent() === page.value">
+                <span class="mx-1 btn btn-sm btn-secondary font-weight-bold">
+                  {{ page.label }}
+                </span>
+              </div>
+            </div>
+            <div class="pagination-next" [class.disabled]="p.isLastPage()">
+              <span class="px-3 mx-1 btn btn-sm btn-outline-secondary" *ngIf="!p.isLastPage()" (click)="p.next()"> Next
+              </span>
+            </div>
+          </div>
+        </pagination-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{testimonyTitle}}</h4>
+    <a class="close mb-2 text-decoration-none" style="cursor: pointer;" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+  <form [formGroup]="formTestimonial">
+    <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Nama Lengkap</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control b-10" placeholder="Nama Lengkap" formControlName="name"
+              [ngClass]="{'is-invalid': formTestimonial.get('name').errors && (formTestimonial.get('name').touched || formTestimonial.get('name').dirty)}">
+            <div class="invalid-feedback" *ngIf="formTestimonial.get('name').errors">
+              Nama Lengkap Wajib Diisi
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Email</label>
+          <div class="col-sm-8">
+            <input type="email" class="form-control" formControlName="email" placeholder="Email" [email]="true" [ngClass]="{'is-invalid': formTestimonial.get('email').errors && (formTestimonial.get('email').touched || formTestimonial.get('email').dirty)}">
+            <div class="invalid-feedback" *ngIf="formTestimonial.get('email').errors?.required">
+              Email Wajib Diisi
+            </div>
+            <div class="invalid-feedback" *ngIf="formTestimonial.get('email').errors?.pattern">
+              Format Email Tidak valid
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Jabatan</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" formControlName="occupation" placeholder="Jabatan" [ngClass]="{'is-invalid': formTestimonial.get('occupation').errors && (formTestimonial.get('occupation').touched || formTestimonial.get('occupation').dirty)}">
+            <div class="invalid-feedback" *ngIf="formTestimonial.get('occupation').errors">
+              Jabatan Wajib Diisi
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Testimonial</label>
+          <div class="col-sm-8">
+            <textarea rows="5" class="form-control" formControlName="testimony" placeholder="Testimonial" [ngClass]="{'is-invalid': formTestimonial.get('testimony').errors && (formTestimonial.get('testimony').touched || formTestimonial.get('testimony').dirty)}"></textarea>
+            <div class="invalid-feedback" *ngIf="formTestimonial.get('testimony').errors">
+              Testimonial Wajib Diisi
+            </div>
+          </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+      <div class="container float-left">
+        <button type="button" class="btn btn-main px-5 mx-2" *ngIf="btnAct == 1 && action != false"
+          (click)="submitSaveTestimonial()">Simpan</button>
+        <button type="button" class="btn btn-main px-5 mx-2" *ngIf="btnAct == 2 && action != false"
+          (click)="submitSaveTestimonial()">Update</button>
+        <button type="button" class="btn btn-outline-second-main rounded px-5 mx-2"
+          (click)="modal.close('Save click')">Batalkan</button>
+      </div>
+    </div>
+  </form>
+</ng-template>

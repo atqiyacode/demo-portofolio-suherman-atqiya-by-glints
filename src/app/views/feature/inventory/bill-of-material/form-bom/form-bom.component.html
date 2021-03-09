@@ -1,0 +1,207 @@
+<app-breadcrumb [data]="menuBreadcrumb"></app-breadcrumb>
+<form [formGroup]="formInform">
+    <div class="card" id="cardFormModule">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <img src="../../../../../../assets/img/form/profile-plus.svg" width="63" alt="">
+                </div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">No Referensi</label>
+                    <input type="text" class="form-control" formControlName="bom_reff_no"
+                        [ngClass]="{ 'is-invalid': formInform.get('bom_reff_no').invalid && formInform.get('bom_reff_no').touched }">
+                    <div *ngIf="formInform.get('bom_reff_no').invalid && formInform.get('bom_reff_no').touched"
+                        class="invalid-feedback">
+                        <div>No Referensi harus diisi</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Tanggal</label>
+                    <input class="form-control" formControlName="production_date" type="date" value="2020-11-14"
+                        id="example-date-input">
+                </div>
+                <div class="form-group col-sm-2"></div>
+                <div class="form-group col-md-3">
+                    <label id="lab-form">Dari Gudang</label>
+                    <ng-select [items]="dataWarehouse.data" bindValue="id" bindLabel="name"
+                        formControlName="master_warehouse_id" (change)="stockProduct($event)"
+                        [ngClass]="{ 'is-invalid': formInform.get('master_warehouse_id').invalid && formInform.get('master_warehouse_id').touched }">
+                    </ng-select>
+                    <div *ngIf="formInform.get('master_warehouse_id').invalid && formInform.get('master_warehouse_id').touched"
+                        class="invalid-feedback">
+                        <div>Gudang harus diisi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</form>
+<form [formGroup]="formFinishMaterial">
+    <div class="card" id="cardFormModule">
+        <div class="card-body" >
+            <div class="form-row">
+                <label #finishMaterial id="finishMaterial" class="menu-bom" style="width: 100px;" (click)="clickMenuBom(1)">Barang Jadi</label>
+                <label #rawMaterial id="rawMaterial" class="menu-bom" (click)="clickMenuBom(2)">Bahan Baku</label>
+            </div>
+            <br>
+            <!-- FINISH MATERIAL -->
+            <div *ngIf="cardActive == 1">
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label id="lab-form" class="wrap-text" style="width: 10em;">Kode Produk</label>
+                        <input type="text" class="form-control" formControlName="code" readonly>
+                        <div *ngIf="formFinishMaterial.get('code').invalid && formFinishMaterial.get('code').touched"
+                            class="invalid-feedback">
+                            <div>Kode harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label id="lab-form">Nama Produk</label>
+                        <ng-select class="custom" [items]="dataProduct.data" bindValue="id" bindLabel="product_name"
+                            formControlName="name" (change)="selectProduct($event)"
+                            [ngClass]="{ 'is-invalid': formFinishMaterial.get('name').invalid && formFinishMaterial.get('name').touched }">
+                        </ng-select>
+                        <div *ngIf="formFinishMaterial.get('name').invalid && formFinishMaterial.get('name').touched"
+                            class="invalid-feedback">
+                            <div>Produk harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label id="lab-form">Varian 1</label>
+                        <ng-select class="custom" [items]="dataVariant1.data" bindValue="value" bindLabel="value"
+                            formControlName="variant1" (change)="selectVariant1($event)"
+                            [ngClass]="{ 'is-invalid': formFinishMaterial.get('variant1').invalid && formFinishMaterial.get('variant1').touched }">
+                        </ng-select>
+                        <div *ngIf="formFinishMaterial.get('variant1').invalid && formFinishMaterial.get('variant1').touched"
+                            class="invalid-feedback">
+                            <div>Variant 1 harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label id="lab-form">Varian 2</label>
+                        <ng-select class="custom" [items]="dataVariant2.data" bindValue="value" bindLabel="value"
+                            formControlName="variant2" (change)="selectVariant2($event)"
+                            [ngClass]="{ 'is-invalid': formFinishMaterial.get('variant2').invalid && formFinishMaterial.get('variant2').touched }">
+                        </ng-select>
+                        <div *ngIf="formFinishMaterial.get('variant2').invalid && formFinishMaterial.get('variant2').touched"
+                            class="invalid-feedback">
+                            <div>Variant 2 harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-1">
+                        <label id="lab-form">Kuantitas</label>
+                        <input type="text" class="form-control" formControlName="qty" (keyup)="keyupQty($event)" (keyup)="orderTotal()"
+                        [ngClass]="{ 'is-invalid': formFinishMaterial.get('qty').invalid && formFinishMaterial.get('qty').touched }">
+                        <div *ngIf="formFinishMaterial.get('qty').invalid && formFinishMaterial.get('qty').touched"
+                            class="invalid-feedback">
+                            <div>Kuantitas harus diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label id="lab-form">Harga Pokok Penjualan</label>
+                        <div>{{sellPriceFinish | currency:'Rp ':'symbol':'1.0'}}</div>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label id="lab-form">Total</label>
+                        <div>{{totalProductFinish | currency:'Rp ':'symbol':'1.0'}}</div>
+                    </div>
+                </div><br><br>
+                <div class="d-flex justify-content-end">
+                    <button id="btn-core" (click)="clickMenuBom(2)">Selanjutnya</button>
+                </div>
+            </div>
+            <!-- RAW MATERIAL -->
+            <div *ngIf="cardActive == 2">
+                <table class="table" id="table-module">
+                    <thead>
+                        <tr>
+                            <th id="head-table">Kode Produk</th>
+                            <th id="head-table">Nama Produk</th>
+                            <th id="head-table">Varian 1</th>
+                            <th id="head-table">Varian 2</th>
+                            <th id="head-table">Kuantitas</th>
+                            <th id="head-table">Harga Pokok Penjualan</th>
+                            <th id="head-table">Total</th>
+                        </tr>
+                    </thead>
+                    <div *ngIf="tableRawMaterial">
+                        <tbody >
+                            <tr *ngFor="let arrayRaw of formArrayRaw.controls">
+                                <ng-container [formGroup]="arrayRaw">
+                                    <td>
+                                        <input type="text" class="form-control" formControlName="code" readonly>
+                                        <div *ngIf="arrayRaw.get('code').invalid && arrayRaw.get('code').touched"
+                                            class="invalid-feedback">
+                                            <div>Kode harus diisi</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <ng-select class="custom" [items]="dataProduct.data" bindValue="id" bindLabel="product_name"
+                                            formControlName="name" (change)="selectProduct($event)"
+                                            [ngClass]="{ 'is-invalid': arrayRaw.get('name').invalid && arrayRaw.get('name').touched }">
+                                        </ng-select>
+                                        <div *ngIf="arrayRaw.get('name').invalid && arrayRaw.get('name').touched"
+                                            class="invalid-feedback">
+                                            <div>Produk harus diisi</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <ng-select class="custom" [items]="dataVariant1.data" bindValue="value" bindLabel="value"
+                                            formControlName="variant1" (change)="selectVariant1($event)"
+                                            [ngClass]="{ 'is-invalid': arrayRaw.get('variant1').invalid && arrayRaw.get('variant1').touched }">
+                                        </ng-select>
+                                        <div *ngIf="arrayRaw.get('variant1').invalid && arrayRaw.get('variant1').touched"
+                                            class="invalid-feedback">
+                                            <div>Variant 1 harus diisi</div>
+                                        </div>
+                                    </td>
+                                    <td>    
+                                        <ng-select class="custom" [items]="dataVariant2.data" bindValue="value" bindLabel="value"
+                                            formControlName="variant2" (change)="selectVariant2($event)"
+                                            [ngClass]="{ 'is-invalid': arrayRaw.get('variant2').invalid && arrayRaw.get('variant2').touched }">
+                                        </ng-select>
+                                        <div *ngIf="arrayRaw.get('variant2').invalid && arrayRaw.get('variant2').touched"
+                                            class="invalid-feedback">
+                                            <div>Variant 2 harus diisi</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" formControlName="qty" (keyup)="keyupQty($event)" (keyup)="orderTotal()"
+                                        [ngClass]="{ 'is-invalid': arrayRaw.get('qty').invalid && arrayRaw.get('qty').touched }">
+                                        <div *ngIf="arrayRaw.get('qty').invalid && arrayRaw.get('qty').touched"
+                                            class="invalid-feedback">
+                                            <div>Kuantitas harus diisi</div>
+                                        </div>
+                                    </td>
+                                    <td>{{arrayRaw.get('price').value | currency:'Rp ':'symbol':'1.0'}}</td>
+                                    <td>{{arrayRaw.get('total').value | currency:'Rp ':'symbol':'1.0'}} </td>
+                                </ng-container>
+                                
+                            </tr>
+                        </tbody>
+                    </div>
+                   
+                </table>
+                
+                <div class="d-flex justify-content-center">
+                    <button type="button" id="btn-cancel" (click)="createProduct()">
+                        <img src="../../../../../../assets/img/form/plus.svg" width="17" alt="">
+                        Tambah Baris
+                    </button>
+                </div>
+                <br>
+                <div class="d-flex justify-content-end">
+                    <div class="btn-group" role="group">
+                        <button id="btn-cancel" (click)="clickCancel()">Batal</button>
+                        <button id="btn-core" (click)="clickMenuBom(2)">Simpan</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</form>

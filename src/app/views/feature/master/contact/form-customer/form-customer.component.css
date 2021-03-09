@@ -1,0 +1,33 @@
+.nav {
+    margin-left: 70px;
+    height: 50px;
+}
+.nav a{
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    color: #828282;
+    letter-spacing: 0.04em;
+    display: flex;
+    flex-direction: column;
+}
+.nav .nav-link.active {
+    color: #000000;
+    border-bottom: 3px solid #FFC35B;
+}
+
+/*CUSTOMER*/
+#border {
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid #DBDBDB;
+    width: 80%;
+}
+#txt-pagination {
+    font-size: 13px;
+}
+
+::placeholder {
+    /* color: #9ea3a1; */
+    color: #9b9e9d;
+}

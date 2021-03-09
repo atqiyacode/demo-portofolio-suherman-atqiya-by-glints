@@ -1,0 +1,142 @@
+#btnAddProduct {
+    color: #FF785B;
+}
+#btn-save {
+    float: right;
+}
+#btn-cancel {
+    float: right;
+    width: 140px;
+}
+#btn-draft {
+    width: 140px;
+    height: 40px;
+    margin-left: 5px;
+    border: 1px solid #6B6B81;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: #6B6B81;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+h6, #courier, #postal-fee, .txt-inv, #total-order, #txt-total {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+#courier {
+    height: 70px;
+}
+#radio-form {
+    width: 24px;
+    height: 24px;
+    background: #FAFAFA;
+    border: 1px solid #8F8FAC;
+}
+#txt-radio1{
+    padding-top: 4px;
+    margin-left: 15px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+#txt-not-available {
+    padding-top: 4px;
+    margin-left: 15px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FF0000;
+}
+#txt-tenant {
+    margin-left: 25px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+#img-courier{
+    margin-left: 25px;
+    /* width: 70px; */
+    margin-bottom: 40px;
+}
+#btn-core {
+    margin-bottom: 10px;
+}
+.row p{
+    margin-left: auto;
+    margin-right: auto;
+}
+#title-end {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 21px;
+    line-height: 26px;
+    margin-left: 100px;
+    color: #000000;    
+}
+#date-end {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #000000;
+}
+.box-row {
+    width: 100%;
+    height: 371px;
+    background: #FCFCFF;
+    border: 1px solid #E7E7E7;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+#txt-total {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FF785B;
+}
+
+.option-pay {
+    margin-left: 45px;
+}
+#pay-title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+}
+#bank-title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+#bank-option {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: #8F8FAC;
+}
+
+#selectTenant {
+    width: 90%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#qty-product {
+    width: 80px;
+}
+#total-price {
+    width: 100px;
+}
